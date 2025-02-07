@@ -1,7 +1,7 @@
 package src;
 
 public class Task {
-    public int Id;
+    public int id;
     public int priority;
     public String taskName;
     public String description;
@@ -9,13 +9,13 @@ public class Task {
 
     //Constructor with all attributes included....
     public Task(int id, int priority, String taskName, String description, boolean completed) {
-        this.Id = id;
+        this.id = id;
         this.priority = priority;
         this.taskName = taskName;
         this.description = description;
         this.completed = completed; 
     }
-    //Constructor with only taskName and description included.... will have to have Id set itself and increment ?
+    //Constructor with only taskName and description included.... will have to have id set itself and increment ?
     public Task(String taskName, String description){
         this.taskName = taskName;
         this.description = description;
@@ -23,10 +23,10 @@ public class Task {
 
     //setters and getters for all attributes
     public int getId(){
-        return Id;
+        return id;
     }
     public void setId(int id){
-        this.Id = id;
+        this.id = id;
     }
     public String getTaskName(){
         return taskName;
