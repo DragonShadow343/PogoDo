@@ -1,7 +1,8 @@
 import JUnit;
 import org.junit.Test.*;
+import static org.junit.Assert.*;
 
-public class Test {
+public class TaskTest {
     @Test
     public void test() {
         Task task = new Task(1, 1, "Task 1", "Description 1", false);

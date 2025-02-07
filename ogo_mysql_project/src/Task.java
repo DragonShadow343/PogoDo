@@ -2,18 +2,21 @@ package src;
 
 public class Task {
     public int id; //primary key
-    public int priority; //1-5 ? (** starring for looking at later)
+    public int priorityStatus; //1-5 ? (** starring for looking at later)
+    public String dueDate;
     public String taskName; //name of task
     public String description; //description of task
-    public boolean completed; //true or false if task is completed
+    public boolean completionStatus; //true or false if task is completed
+
 
     //Constructor with all attributes included....
-    public Task(int id, int priority, String taskName, String description, boolean completed) {
+    public Task(int id, int priority, String dueDate, String taskName, String description, boolean completed) {
         this.id = id; 
-        this.priority = priority;
+        this.dueDate = dueDate;
+        this.priorityStatus = priority;
         this.taskName = taskName;
         this.description = description;
-        this.completed = completed; 
+        this.completionStatus = completed; 
     }
     //Constructor with only taskName and description included.... will have to have id set itself and increment ?
     public Task(String taskName, String description){
@@ -28,6 +31,12 @@ public class Task {
     public void setId(int id){
         this.id = id;
     }
+    public String getDueDate(){
+        return dueDate;
+    }
+    public void setDueDate(String dueDate){
+        this.dueDate = dueDate;
+    }
     public String getTaskName(){
         return taskName;
     }
@@ -41,16 +50,16 @@ public class Task {
         this.description = description;
     }
     public int getPriority(){
-        return priority;
+        return priorityStatus;
     }
     public void setPriority(int priority){
-        this.priority = priority;
+        this.priorityStatus = priority;
     }
     public boolean getCompleted(){
-        return completed;
+        return completionStatus;
     }
     public void setCompleted(boolean completed){
-        this.completed = completed;
+        this.completionStatus = completed;
     }
 
 }
