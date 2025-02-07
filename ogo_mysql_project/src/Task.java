@@ -7,13 +7,21 @@ public class Task {
     public String description;
     public boolean completed;
 
+    //Constructor with all attributes included....
     public Task(int id, int priority, String taskName, String description, boolean completed) {
         this.Id = id;
         this.priority = priority;
         this.taskName = taskName;
         this.description = description;
-        this.completed = completed;
+        this.completed = completed; 
     }
+    //Constructor with only taskName and description included.... will have to have Id set itself and increment ?
+    public Task(String taskName, String description){
+        this.taskName = taskName;
+        this.description = description;
+    }
+
+    //setters and getters for all attributes
     public int getId(){
         return Id;
     }
