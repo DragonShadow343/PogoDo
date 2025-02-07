@@ -10,5 +10,6 @@ public class Test {
         assertEquals("Task 1", task.getTaskName());
         assertEquals("Description 1", task.getDescription());
         assertEquals(false, task.getCompleted());
+        
     }
 }
