@@ -59,6 +59,8 @@ const Register = () => {
             setErrMsg('Invalid username or password.');
             return;
         }
+
+        // Add code to send user and password to server here
         setSuccess(true);
         console.log('User:', user);
         console.log('Password:', pwd);
