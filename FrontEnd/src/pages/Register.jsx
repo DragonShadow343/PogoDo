@@ -3,6 +3,7 @@ import './Register.css';
 import { useRef, useState, useEffect } from 'react';
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 
 // Regex for username and password validation with [a-zA-Z] meaning the first character must be a letter (case-insensitive) and [a-zA-Z0-9-_] means the rest of the characters can be letters, numbers, hyphens, or underscores and must be of length 4-24 in total.
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
@@ -30,15 +31,18 @@ const Register = () => {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
+    // Focus on user input
     useEffect(() => {
         userRef.current.focus();
     }, []);
 
+    // Check if username is valid
     useEffect(() => {
         const result = USER_REGEX.test(user);
         setValidName(result);
     }, [user]);
 
+    // Check if password is valid
     useEffect(() => {
         const result = PWD_REGEX.test(pwd);
         setValidPwd(result);
@@ -47,10 +51,12 @@ const Register = () => {
         setValidMatch(match);
     }, [pwd, matchPwd]);
 
+    // Clear error message when user or password changes
     useEffect(() => {
         setErrMsg('');
     }, [user, pwd, matchPwd]);
 
+    // Handles data submission from form
     const handleSubmit = async (e) => {
         e.preventDefault();
         const v1 = USER_REGEX.test(user);
@@ -60,11 +66,11 @@ const Register = () => {
             return;
         }
 
+        // 
         // Add code to send user and password to server here
+        // 
+
         setSuccess(true);
-        console.log('User:', user);
-        console.log('Password:', pwd);
-        console.log('Registration successful? ', success);
     }
 
     return (
@@ -160,11 +166,11 @@ const Register = () => {
                 <button disabled={!validMatch || !validName || !validPwd ? true: false}>Sign up</button>
             </form>
 
+            {/* Link to Login page */}
             <p>
                 Already registered? <br />
                 <span className='line'>
-                    {/* Put router link here */}
-                    <a href='/login'>Login</a>
+                    <Link to='/login'>Sign in</Link>
                 </span>
             </p>
         </section>
