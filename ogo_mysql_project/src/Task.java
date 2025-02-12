@@ -1,4 +1,3 @@
-package src;
 
 public class Task {
     private int id; //primary key
