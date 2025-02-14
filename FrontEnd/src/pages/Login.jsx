@@ -1,9 +1,13 @@
+// Desc: Login page for the application. Uses saved details in local storage to authenticate user. 
+// Admin and user roles are redirected to their respective pages. Admin is default role.
+
 import React from 'react'
 import { useRef, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import './Register.css';
 
 const Login = () => {
+    const navigate = useNavigate();
     const userRef = useRef();
     const errRef = useRef();
 
@@ -12,10 +16,6 @@ const Login = () => {
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
-
-    // sample username and password
-    const sampleUser = 'user';
-    const samplePwd = 'password';
 
     // Focus on user input
     useEffect(() => {
@@ -32,20 +32,42 @@ const Login = () => {
 
     }, [success]);
 
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         // 
         // Add code to send user and password to server here
         // 
+
+
+        // Retrieve user and password from local storage
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const foundUser = users.find((u) => u.username === user && u.password === pwd);
     
-        if (user === sampleUser && pwd === samplePwd) {
+        if (foundUser) {
+            // Save user to session storage
+            sessionStorage.removeItem('loggedInUser');
+            sessionStorage.setItem('loggedInUser', JSON.stringify(foundUser));
+            
+            // Redirect based on role
+            if (foundUser.role === 'admin') {
+                navigate('/admin');
+            } else if (foundUser.role === 'user') {
+                navigate('/user');
+            } else {
+                console.log('Invalid role');
+                navigate('/login');
+            }
+            
             setSuccess(true);
         } else {
             console.log('Invalid username or password.');
             setErrMsg('Invalid username or password.');
+
+            // Keep the error message visible for 5 seconds
+            setTimeout(() => {
+                setErrMsg('');
+            }, 5000);
     
             // Clear input fields immediately
             setTimeout(() => {
@@ -53,12 +75,33 @@ const Login = () => {
                 setUser('');
             }, 100);
     
-            // Keep the error message visible for 5 seconds
-            setTimeout(() => {
-                setErrMsg('');
-            }, 5000);
         }
     };
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     // 
+    //     // Add code to send user and password to server here
+    //     // 
+    
+    //     if (user === sampleUser && pwd === samplePwd) {
+    //         setSuccess(true);
+    //     } else {
+    //         console.log('Invalid username or password.');
+    //         setErrMsg('Invalid username or password.');
+    
+    //         // Clear input fields immediately
+    //         setTimeout(() => {
+    //             setPwd('');
+    //             setUser('');
+    //         }, 100);
+    
+    //         // Keep the error message visible for 5 seconds
+    //         setTimeout(() => {
+    //             setErrMsg('');
+    //         }, 5000);
+    //     }
+    // };
     
 
     return ( 
@@ -101,7 +144,8 @@ const Login = () => {
                 <p>
                     Need an account? <br />
                     <span className='line'>
-                        <Link to="/register">Sign up</Link>
+                        <Link to="/register">Sign up</Link><br />
+                        <Link to="/home">Go to the link page</Link>
                     </span>
                 </p>
             </section>
