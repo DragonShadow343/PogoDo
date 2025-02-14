@@ -41,9 +41,9 @@ public class UserRegistration {
 
             int rowsInserted = pstmt.executeUpdate();
             if (rowsInserted > 0) {
-                System.out.println("✅ User credentials stored successfully!");
+                System.out.println(" User credentials stored successfully!");
             } else {
-                System.out.println("❌ Failed to store user credentials.");
+                System.out.println(" Failed to store user credentials.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,6 +52,6 @@ public class UserRegistration {
 
     public static void main(String[] args) {
         // Example: Storing new user for fun
-        storeUser("mike123", "mike@example.com", "mypassword");
+        storeUser("jim123", "mike@example.com", "mypassword");
     }
 }
