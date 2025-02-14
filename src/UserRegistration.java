@@ -14,12 +14,12 @@ public class UserRegistration {
     public static String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hash = md.digest(password.getBytes());
+            byte[] hash = md.digest(password.getBytes()); // hashes the password,result is stored in byte array
             StringBuilder hexString = new StringBuilder();
-            for (byte b : hash) {
+            for (byte b : hash) { //loop converts each byte of hash to two digit hexadecimal representation
                 hexString.append(String.format("%02x", b));
             }
-            return hexString.toString();
+            return hexString.toString();   // converts stringbuilder to string and returns which is the hash password
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("Error: Hashing algorithm not found", e);
         }
@@ -51,7 +51,7 @@ public class UserRegistration {
     }
 
     public static void main(String[] args) {
-        // Example: Storing a new user
+        // Example: Storing new user for fun
         storeUser("mike123", "mike@example.com", "mypassword");
     }
 }
