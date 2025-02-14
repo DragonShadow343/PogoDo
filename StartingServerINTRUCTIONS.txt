@@ -1,0 +1,20 @@
+It is pretty simple to set up your own locally hosted site:
+
+1. You need to make sure you have the pathway to the directory on your local computer.
+To find this you need click File->Open Folder then copy the pathway of the folder
+Ex. C:\Users\""USER""\OneDrive\Documents\GitHub\COSC310-Team-2
+
+2. Open command prompt or terminal
+3. Type : cd GITHUB-FOLDER-pathway
+4. cd BackEnd
+5. npm run dev
+
+6. Open a new command prompt or terminal
+7. Type : cd GITHUB-FOLDER-pathway
+9. cd FrontEnd
+8. npm run dev
+
+***YOU SHOULD NOT GET ANY ERRORS FROM THE ABOVE COMMANDS :)******
+
+9. Now open your browser and go to http://localhost:5173
+10.BOOM
