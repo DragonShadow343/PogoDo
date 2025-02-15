@@ -1,15 +1,19 @@
+// Desc: Register page for the application. Saves details in local storage for user authentication until databse is connected. 
+// Admin and user roles are redirected to their respective pages. Admin is default role.
+
 import React from 'react'
 import './Register.css';
 import { useRef, useState, useEffect } from 'react';
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Regex for username and password validation with [a-zA-Z] meaning the first character must be a letter (case-insensitive) and [a-zA-Z0-9-_] means the rest of the characters can be letters, numbers, hyphens, or underscores and must be of length 4-24 in total.
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%]).{8,24}$/;
 
 const Register = () => {
+    const navigate = useNavigate();
     const userRef = useRef();
     const errRef = useRef();
 
@@ -70,6 +74,13 @@ const Register = () => {
         // Add code to send user and password to server here
         // 
 
+        // Mock storage of user and password
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        // Default role is admin
+        users.push({ username: user, password: pwd, role: 'admin' });
+        localStorage.setItem('users', JSON.stringify(users));
+
+        navigate('/login');
         setSuccess(true);
     }
 
@@ -170,7 +181,8 @@ const Register = () => {
             <p>
                 Already registered? <br />
                 <span className='line'>
-                    <Link to='/login'>Sign in</Link>
+                    <Link to='/login'>Sign in</Link><br/>
+                    <Link to="/home">Go to the link page</Link>
                 </span>
             </p>
         </section>
