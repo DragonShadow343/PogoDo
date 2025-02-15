@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
-@import "tailwindcss";
+@import 'tailwindcss';
 
 
 * {
@@ -42,7 +42,7 @@ section {
 form {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content:start;
     flex-grow: 1;
     padding-bottom: 1rem;
 }
@@ -59,6 +59,8 @@ textarea {
   font-size: 22px;
   padding: 0.25rem;
   border-radius: 0.5rem;
+  background-color: #fff;
+  color: #000;
 }
 
 label,
@@ -68,6 +70,13 @@ button {
 
 button {
   padding: 0.5rem;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
 }
 
 .instructions {
@@ -113,11 +122,5 @@ button {
 
 .line {
     display: inline-block;
-}
-
-.flexGrow {
-    flex-grow: 1;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-end;
+    text-decoration: underline;
 }
