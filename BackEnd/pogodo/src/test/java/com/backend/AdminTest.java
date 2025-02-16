@@ -1,3 +1,5 @@
+package com.backend;
+
 import org.junit.*;
 
 public class AdminTest {

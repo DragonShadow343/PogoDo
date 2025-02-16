@@ -9,10 +9,6 @@ Currently, two official plugins are available:
 
 Packages installed:
 - React-router-Dom
-
-    `cd FrontEnd `\
-    `npm i React-router-dom`
-
 - TailwindCSS
 - FontAwesome
 - Axios

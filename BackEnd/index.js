@@ -10,4 +10,4 @@ app.get("/getData", (req, res) => {
 });
 
 // Start the server
-app.listen(5000, () => console.log("App is running on port 5000"));
+app.listen(3500, () => console.log("App is running on port 3500"));
