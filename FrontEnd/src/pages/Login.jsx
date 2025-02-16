@@ -2,11 +2,16 @@
 // Admin and user roles are redirected to their respective pages. Admin is default role.
 
 import React from 'react'
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthProvider';
 import './Register.css';
 
+import axios from '../api/axios';
+const LOGIN_URL = '/auth';
+
 const Login = () => {
+    const { setAuth } = useContext(AuthContext);
     const navigate = useNavigate();
     const userRef = useRef();
     const errRef = useRef();
@@ -38,71 +43,40 @@ const Login = () => {
         // 
         // Add code to send user and password to server here
         // 
+        
+        try {
+            const response = await axios.post(LOGIN_URL, 
+                JSON.stringify({ username: user, password: pwd }),
+                {
+                    headers: {'Content-Type': 'application/json'},
+                    withCredentials: true
+                }
+            );
+            console.log(JSON.stringify(response?.data));
+            const accessToken = response?.data?.accessToken;
+            const roles = response?.data?.roles;
+            setAuth({ user, pwd, roles, accessToken });
 
-
-        // Retrieve user and password from local storage
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        const foundUser = users.find((u) => u.username === user && u.password === pwd);
-    
-        if (foundUser) {
-            // Save user to session storage
-            sessionStorage.removeItem('loggedInUser');
-            sessionStorage.setItem('loggedInUser', JSON.stringify(foundUser));
-            
-            // Redirect based on role
-            if (foundUser.role === 'admin') {
-                navigate('/admin');
-            } else if (foundUser.role === 'user') {
-                navigate('/user');
-            } else {
-                console.log('Invalid role');
-                navigate('/login');
-            }
-            
-            setSuccess(true);
-        } else {
-            console.log('Invalid username or password.');
-            setErrMsg('Invalid username or password.');
-
-            // Keep the error message visible for 5 seconds
-            setTimeout(() => {
-                setErrMsg('');
-            }, 5000);
-    
             // Clear input fields immediately
             setTimeout(() => {
                 setPwd('');
                 setUser('');
             }, 100);
-    
+            setSuccess(true);
+        } catch (err) {
+            if (!err?.response?.data) {
+                setErrMsg('No Server Response');
+            } else if (err.response.status === 401) {
+                setErrMsg('Unauthorized');
+            } else if (err.response.status === 402) {
+                setErrMsg('Username or Password is empty');
+            } else {
+                setErrMsg('Login Failed');
+            }
+            errRef.current.focus();
         }
+    
     };
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-
-    //     // 
-    //     // Add code to send user and password to server here
-    //     // 
-    
-    //     if (user === sampleUser && pwd === samplePwd) {
-    //         setSuccess(true);
-    //     } else {
-    //         console.log('Invalid username or password.');
-    //         setErrMsg('Invalid username or password.');
-    
-    //         // Clear input fields immediately
-    //         setTimeout(() => {
-    //             setPwd('');
-    //             setUser('');
-    //         }, 100);
-    
-    //         // Keep the error message visible for 5 seconds
-    //         setTimeout(() => {
-    //             setErrMsg('');
-    //         }, 5000);
-    //     }
-    // };
-    
 
     return ( 
         <>

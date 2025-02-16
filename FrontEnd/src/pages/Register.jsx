@@ -7,10 +7,12 @@ import { useRef, useState, useEffect } from 'react';
 import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from '../api/axios';
 
 // Regex for username and password validation with [a-zA-Z] meaning the first character must be a letter (case-insensitive) and [a-zA-Z0-9-_] means the rest of the characters can be letters, numbers, hyphens, or underscores and must be of length 4-24 in total.
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%]).{8,24}$/;
+const REGISTER_URL = '/register';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -74,14 +76,31 @@ const Register = () => {
         // Add code to send user and password to server here
         // 
 
-        // Mock storage of user and password
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        // Default role is admin
-        users.push({ username: user, password: pwd, role: 'admin' });
-        localStorage.setItem('users', JSON.stringify(users));
+        try {
+            const response = await axios.post(REGISTER_URL, 
+                JSON.stringify({ username: user, password: pwd, role: 'admin' }),
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        withCredentials: true
+                    }
+                }
+            );
+            console.log(response.data);
+            setSuccess(true);
+        } catch (err) {
+            if (!err?.response?.data) {
+                setErrMsg('No server response.');
+            } else if (err.response?.status === 409) {
+                setErrMsg('Username already exists.');
+            } else {
+                setErrMsg('An error occurred. Please try again later.');
+            }
+            errRef.current.focus();
+        }
 
-        navigate('/login');
-        setSuccess(true);
+        // navigate('/login');
+        // setSuccess(true);
     }
 
     return (

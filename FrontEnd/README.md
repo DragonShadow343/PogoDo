@@ -8,5 +8,11 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 Packages installed:
+- React-router-Dom
+
+    `cd FrontEnd `\
+    `npm i React-router-dom`
+
 - TailwindCSS
 - FontAwesome
+- Axios
