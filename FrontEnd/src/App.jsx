@@ -16,23 +16,22 @@ function App() {
   const [data, setData] = useState('')
   
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3500/getData');
-        setData(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
+    axios.get("http://localhost:3500/getData", {withCredentials: true}) // Call backend API
+      .then((response) => {
+        console.log("Response Data: ", response.data);
+        setData(response.data.message);
+      })
+      .catch((error) => {
+        console.error("Axios error:", error);
+      });
   }, []);
 
   
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/home' data={data} element={<Home />} />
+        <Route path='/' element={<Home data={data} />} />
+        <Route path='/home' element={<Home data={data} />} />
         {/* public routes */}
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
