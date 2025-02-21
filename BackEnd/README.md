@@ -1,4 +1,7 @@
 # Backend Instructions
+Ensure you are in the **`BACKEND FOLDER`** for all of these unless specified
+
+<br>
 
 ## Encountering issues with java code
 Chance are that you might not have a java build tool installed in your computer
@@ -13,8 +16,6 @@ You can install maven by opening terminal (on Mac) and typing `brew install mave
 <br>
 
 ## Testing connection to Databse
-Ensure you are in the Backend Folder for all of these unless specified
-
 
 ### Nodemon
 - Ensure that you have permission to access n
@@ -43,6 +44,12 @@ If you decide to change the port number in these two files, remember to change t
 
 ### Testing out the connection
 Open a new terminal and copy this into the terminal:
+
+`./run.sh`
+
+This will compile the java code and run it, which will produce an output in the terminal you run that lists the tables in the database.
+
+If you want to test out the output again, copy the following line into the terminal:
 
 `java -cp "lib/mysql-connector-j-9.2.0.jar:pogodo/target/classes" com.backend.JDBCConnector`
 
