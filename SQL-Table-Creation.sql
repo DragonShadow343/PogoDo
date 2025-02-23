@@ -10,7 +10,7 @@ passcode varchar(25) NOT NULL,
 userRole varchar(5) NOT NULL,
 CHECK(userRole = 'Admin' OR userRole = 'User'),
 PRIMARY KEY (userId)
-);
+); 
 
 INSERT INTO Users(firstName,lastName, email, username, passcode, userRole)
  VALUES ('Cat', 'Robert', 'cat@gmail.com', 'cat', '1234', 'Admin'); 
@@ -65,7 +65,10 @@ INSERT INTO Users(firstName,lastName, email, username, passcode, userRole)
 		ON UPDATE RESTRICT ON DELETE CASCADE );
     
    
+ALTER TABLE Users
+ADD CONSTRAINT uniqueEmail UNIQUE (email),
+ADD CONSTRAINT uniqueUserName UNIQUE (username);
 
- 
+   
  
 
