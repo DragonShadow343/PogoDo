@@ -38,9 +38,9 @@ function App() {
 
         {/* protected routes */}
         <Route path='/admin' element={
-          <RequireAuth allowedRoles={['admin']}>
+          // <RequireAuth allowedRoles={['admin']}>
             <Admin />
-          </RequireAuth>
+          // </RequireAuth>
         } />
         <Route path='/user' element={
           <RequireAuth allowedRoles={['user', 'admin']}>

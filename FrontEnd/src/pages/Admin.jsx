@@ -1,17 +1,12 @@
 import { Link } from "react-router-dom"
-import LogoutBtn from "../components/LogoutBtn"
+import Sidebar from "../components/Sidebar"
+import HomeRightBar from "../components/HomeRightBar/HomeRightBar"
 
 const Admin = () => {
     return (
-        <section>
-            <h1>Admins Page</h1>
-            <br />
-            <p>Welcome to the Admin page</p>
-            <br />
-            < LogoutBtn />
-            <div className="flexGrow">
-                <Link to="/">Home</Link>
-            </div>
+        <section className="flex">
+            <Sidebar />
+            <HomeRightBar />
         </section>
     )
 }

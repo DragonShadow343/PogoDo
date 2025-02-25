@@ -8,22 +8,16 @@ const Home = ( {data} ) => {
     }
 
     return (
-        <>
-            <section>
-                <h1>Home</h1>
-                <br />
-                <Link to="/login">Login</Link>
-                <br />
-                <Link to="/register">Sign up</Link>
-                <br />
-                <div className="flexGrow">
-                    <button onClick={logout}>Sign Out</button>
-                </div>
+        <div className="h-screen bg-blue-400">
+            <section className="bg-blue-900 text-white flex w-screen p-8 box-content">
+                <h1 className="flex-[0.8]">Home</h1>
+                <Link className="mx-8" to="/login">Login</Link>
+                <Link className="mx-8" to="/register">Sign up</Link>
             </section>
-            <div>
+            {/* <div>
                 Backend data: <pre>{data}</pre>
-            </div>
-        </>
+            </div> */}
+        </div>
     )
 }
 

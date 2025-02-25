@@ -79,7 +79,7 @@ const Login = () => {
     };
 
     return ( 
-        <>
+        <div className="bg-blue-400 h-screen flex justify-center items-center">
             {success ? (
                 // Show this if login is successful
                     <section>
@@ -91,12 +91,13 @@ const Login = () => {
                     </section>
                 ) : (
                     // Show this if login is not successful
-            <section>
-                <p ref={errRef} className={errMsg ? "errMsg": "offscreen"} aria-live='assertive'>{errMsg}</p>
-                <h1>Sign In</h1>
-                <form onSubmit={handleSubmit}>
+            <section className='bg-blue-900 text-white w-96 p-8 box-border rounded-2xl'>
+                <p ref={errRef} className={errMsg ? "text-red-700 bg-red-300 border border-red-500 p-2": "offscreen"} aria-live='assertive'>{errMsg}</p>
+                <h1 className='text-4xl my-4'>Sign In</h1>
+                <form onSubmit={handleSubmit} className='flex flex-col space-y-2'>
                     <label htmlFor="username">Username:</label>
                     <input
+                        className='bg-white text-black rounded p-2'
                         type="text"
                         id="username"
                         ref={userRef}
@@ -107,24 +108,25 @@ const Login = () => {
                     />
                     <label htmlFor="password">Password:</label>
                     <input
+                        className='bg-white text-black rounded p-2'
                         type="password"
                         id="password"
                         onChange={(e) => setPwd(e.target.value)} 
                         value={pwd}
                         required
                     />
-                    <button>Sign In</button>
+                    <button className='border border-white rounded p-2 my-4'>Sign In</button>
                 </form>
                 <p>
                     Need an account? <br />
-                    <span className='line'>
-                        <Link to="/register">Sign up</Link><br />
-                        <Link to="/home">Go to the link page</Link>
+                    <span className='flex justify-between'>
+                        <Link to="/register" className='underline underline-offset-1'>Sign up</Link><br />
+                        <Link to="/home" className='underline underline-offset-1'>Go back to Home</Link>
                     </span>
                 </p>
             </section>
             )}
-        </>
+        </div>
     )
 }
 
