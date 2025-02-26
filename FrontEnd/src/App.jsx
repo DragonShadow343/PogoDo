@@ -1,53 +1,58 @@
+// Desc: Main App component
+import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { use } from 'react'
+import Login from './pages/Login';
+import Register from './pages/Register'
+import Home from './pages/Home';
+import User from './pages/User';
+import Admin from './pages/Admin';
+import Missing from './pages/Missing';
+import RequireAuth from './RequireAuth';
 
 function App() {
-  const [count, setCount] = useState(0)
+
   const [data, setData] = useState('')
   
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/getData');
-        setData(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
+    axios.get("http://localhost:3500/getData", {withCredentials: true}) // Call backend API
+      .then((response) => {
+        console.log("Response Data: ", response.data);
+        setData(response.data.message);
+      })
+      .catch((error) => {
+        console.error("Axios error:", error);
+      });
   }, []);
 
   
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-        {/* Display data from the backend */}
-        <p>Data from backend: {data}</p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  );
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home data={data} />} />
+        <Route path='/home' element={<Home data={data} />} />
+        {/* public routes */}
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+
+        {/* protected routes */}
+        <Route path='/admin' element={
+          <RequireAuth allowedRoles={['admin']}>
+            <Admin />
+          </RequireAuth>
+        } />
+        <Route path='/user' element={
+          <RequireAuth allowedRoles={['user', 'admin']}>
+            <User/>
+          </RequireAuth>
+        } />
+
+        {/* catch all */}
+        <Route path='/*' element={<Missing />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
-export default App
+export default App;
