@@ -15,6 +15,8 @@ public class Admin {
         setEmail(email);
         setPassword(password);
     }
+    public Admin(){
+    }
 
     //setters and getters, with validation for all setters, can (and should) be further modified later with other validation rules
     //such as id being unique, password being in correct format, etc.
