@@ -1,11 +1,12 @@
-package com.backend;
+package com.TestClasses;
 
+import com.backend.Admin;
 import org.junit.*;
 
 public class AdminTest {
 
     @Test
-    public void test() {
+    public void testAdmin() {
         Admin admin = new Admin(1, "username", "first", "last", "email", "password");
 
         //tests that should pass
