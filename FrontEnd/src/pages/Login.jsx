@@ -63,13 +63,17 @@ const Login = () => {
                 setUser('');
             }, 100);
             setSuccess(true);
+            console.log("Navigate to admin...")
+            navigate("/admin")
         } catch (err) {
-            if (!err?.response?.data) {
-                setErrMsg('No Server Response');
-            } else if (err.response.status === 401) {
+            console.log("Login failed:", err);
+            console.log("Error details:", err.response?.status, err.response?.data);
+            if (err?.response?.status === 401) {
                 setErrMsg('Unauthorized');
-            } else if (err.response.status === 402) {
+            } else if (err?.response?.status === 402) {
                 setErrMsg('Username or Password is empty');
+            } else if (!err?.response?.data) {
+                setErrMsg('No Server Response');
             } else {
                 setErrMsg('Login Failed');
             }
@@ -92,7 +96,7 @@ const Login = () => {
                 ) : (
                     // Show this if login is not successful
             <section className='bg-blue-900 text-white w-96 p-8 box-border rounded-2xl'>
-                <p ref={errRef} className={errMsg ? "text-red-700 bg-red-300 border border-red-500 p-2": "offscreen"} aria-live='assertive'>{errMsg}</p>
+                <p ref={errRef} className={errMsg ? "text-red-700 bg-red-300 border border-red-500 p-2": "hidden"} aria-live='assertive'>{errMsg}</p>
                 <h1 className='text-4xl my-4'>Sign In</h1>
                 <form onSubmit={handleSubmit} className='flex flex-col space-y-2'>
                     <label htmlFor="username">Username:</label>
