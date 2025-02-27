@@ -12,34 +12,34 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>11</maven.compiler.source> <!-- Updated to Java 11 -->
-    <maven.compiler.target>11</maven.compiler.target> <!-- Updated to Java 11 -->
+    <maven.compiler.source>11</maven.compiler.source> 
+    <maven.compiler.target>11</maven.compiler.target> 
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.2</version> <!-- Updated to a newer version of JUnit 4 -->
+      <version>4.13.2</version> 
       <scope>test</scope>
     </dependency>
   </dependencies>
 
   <build>
     <plugins>
-      <!-- Maven Compiler Plugin -->
+     
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.0</version>
       </plugin>
 
-      <!-- Maven Surefire Plugin -->
+      
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M7</version> <!-- Updated to a newer version -->
+        <version>3.0.0-M7</version> 
         <configuration>
           <includes>
-            <include>**/*Test.java</include> <!-- Ensure all test files are included -->
+            <include>**/*Test.java</include> 
           </includes>
         </configuration>
       </plugin>
