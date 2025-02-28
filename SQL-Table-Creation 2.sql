@@ -22,6 +22,34 @@ INSERT INTO Users(firstName,lastName, email, username, passcode, userRole)
 INSERT INTO Users(firstName,lastName, email, username, passcode, userRole)
  VALUES ('Cat', 'Robert', 'cat@gmail.com', 'cat', '1234', 'User'); 
 
+
+
+ CREATE TABLE TestUsers (
+userId int AUTO_INCREMENT,
+firstName varchar(50),
+lastName varchar(50),
+email varchar(60),
+username varchar(25) NOT NULL,
+passcode varchar(25) NOT NULL,
+userRole varchar(5) NOT NULL,
+CHECK(userRole = 'Admin' OR userRole = 'User'),
+PRIMARY KEY (userId)
+); 
+
+ALTER TABLE TestUsers
+ADD CONSTRAINT uniqueEmail UNIQUE (email),
+ADD CONSTRAINT uniqueUserName UNIQUE (username);
+
+INSERT INTO TestUsers(firstName,lastName, email, username, passcode, userRole)
+ VALUES ('Cat', 'Robert', 'cat@gmail.com', 'cat', '1234', 'Admin'); 
+
+ INSERT INTO TestUsers(firstName,lastName, email, username, passcode, userRole)
+  VALUES ('Branden', 'Kennedy', 'branden@gmail.com', 'branden6', '1234', 'Admin');
+ 
+
+INSERT INTO TestUsers(firstName,lastName, email, username, passcode, userRole)
+ VALUES ('Cat', 'Robert', 'catUser@gmail.com', 'catUser', '1234', 'User');
+
  
  CREATE TABLE Tasks(
  taskId int AUTO_INCREMENT,
@@ -71,6 +99,7 @@ INSERT INTO Users(firstName,lastName, email, username, passcode, userRole)
 ALTER TABLE Users
 ADD CONSTRAINT uniqueEmail UNIQUE (email),
 ADD CONSTRAINT uniqueUserName UNIQUE (username);
+
 
    
  

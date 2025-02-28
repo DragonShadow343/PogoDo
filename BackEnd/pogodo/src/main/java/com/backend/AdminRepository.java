@@ -7,7 +7,7 @@ public class AdminRepository {
     
     public static List<Admin> getAllAdmins() throws SQLException{
         List<Admin> admins= new ArrayList<>();
-        String sql = "SELECT * from Users WHERE userRole = 'Admin'"; //selecting all admins from Admins table
+        String sql = "SELECT * from TestUsers WHERE userRole = 'Admin'"; //selecting all admins from Admins table
 
         try(
             Connection con = JDBCConnector.getConnection(); //Create JDBC connection

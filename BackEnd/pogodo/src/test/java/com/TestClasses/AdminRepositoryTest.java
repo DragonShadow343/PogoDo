@@ -27,15 +27,15 @@ public void setUp() throws SQLException {
     // Clear the Users table AND reset AUTO_INCREMENT !!! if auto increment not reset, userId keeps incrementing and the tests fail....
     try (Statement statement = connection.createStatement()) {
         // Delete all rows from the Users table
-        statement.execute("DELETE FROM Users");
+        statement.execute("DELETE FROM TestUsers");
 
         // Reset the AUTO_INCREMENT counter
-        statement.execute("ALTER TABLE Users AUTO_INCREMENT = 1");
+        statement.execute("ALTER TABLE TestUsers AUTO_INCREMENT = 1");
 
         // Insert test data
-        statement.execute("INSERT INTO Users (firstName, lastName, email, username, passcode, userRole) " +
+        statement.execute("INSERT INTO TestUsers (firstName, lastName, email, username, passcode, userRole) " +
                 "VALUES ('Cat', 'Robert', 'cat@gmail.com', 'cat', '1234', 'Admin')");
-        statement.execute("INSERT INTO Users (firstName, lastName, email, username, passcode, userRole) " +
+        statement.execute("INSERT INTO TestUsers (firstName, lastName, email, username, passcode, userRole) " +
                 "VALUES ('Branden', 'Kennedy', 'branden@gmail.com', 'branden6', '1234', 'Admin')");
     }
 }
@@ -91,7 +91,7 @@ public void setUp() throws SQLException {
         public void testGetAllAdminsWithAnEmptyTable() throws SQLException { //testing for an empty table, no admins
     // Clear the Users table
         try (Statement statement = connection.createStatement()) {
-            statement.execute("DELETE FROM Users");
+            statement.execute("DELETE FROM TestUsers");
         }
 
         List<Admin> admins = AdminRepository.getAllAdmins();
