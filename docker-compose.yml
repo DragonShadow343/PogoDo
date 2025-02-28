@@ -3,21 +3,21 @@ services:
   backend:
     build: ./BackEnd
     ports:
-      - "3500:3500" # Map host port 3500 to container port 3500
+      - "3500:3500"
     environment:
       - NODE_ENV=development
     volumes:
-      - ./BackEnd:/app # Mount the backend code for live reloading
-      - /app/node_modules # Avoid overwriting node_modules in the container
+      - ./BackEnd:/app
+      - /app/node_modules
 
   frontend:
     build: ./frontend
     ports:
-      - "5173:5173" # Map host port 5173 to container port 5173
+      - "5173:5173"
     environment:
-      - VITE_BACKEND_URL=http://backend:3500 # Use the backend service name
+      - VITE_BACKEND_URL=http://backend:3500
     volumes:
-      - ./frontend:/app # Mount the frontend code for live reloading
-      - /app/node_modules # Avoid overwriting node_modules in the container
+      - ./frontend:/app
+      - /app/node_modules
     depends_on:
       - backend
