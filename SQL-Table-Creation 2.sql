@@ -14,6 +14,9 @@ PRIMARY KEY (userId)
 
 INSERT INTO Users(firstName,lastName, email, username, passcode, userRole)
  VALUES ('Cat', 'Robert', 'cat@gmail.com', 'cat', '1234', 'Admin'); 
+
+ INSERT INTO Users(firstName,lastName, email, username, passcode, userRole)
+  VALUES ('Branden', 'Kennedy', "branden@gmail.com", 'branden6', '1234', 'Admin');
  
 
 INSERT INTO Users(firstName,lastName, email, username, passcode, userRole)
