@@ -3,11 +3,15 @@ public class Task {
     private int id; //primary key
     private int priorityStatus; //1-5 ? (** starring for looking at later)
     private String dueDate;
-    private String taskName; //name of task
+    private String taskName; //task name
     private String description; //description of task
     private boolean completionStatus; //true or false if task is completed
     private boolean lockStatus;
 
+
+    //Constructor with no attributes 
+
+    public Task(){};
 
     //Constructor with all attributes included....
     public Task(int id, int priority, String dueDate, String taskName, String description, boolean completed, boolean lockStatus){ {
@@ -54,7 +58,7 @@ public class Task {
 
     public void setTaskName(String taskName){
         if (taskName == null || taskName.isEmpty()){
-            throw new IllegalArgumentException("Task name cannot be null");
+            throw new IllegalArgumentException("Task Name cannot be null");
         }
         this.taskName = taskName;
     }

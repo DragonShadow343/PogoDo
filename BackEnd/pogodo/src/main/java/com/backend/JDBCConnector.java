@@ -6,24 +6,39 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class JDBCConnector {
+   
+    private static final String URL = "jdbc:mysql://mysql-ogo-pogo-ogo-pogo.h.aivencloud.com:16239/defaultdb";
+    private static final String user = "avnadmin";
+    private static final String password = "AVNS_fr4fLxnT_9BoiTMNc-6";
+
+    public static Connection getConnection(){
+        Connection connection = null;
+
+      try{
+        connection = DriverManager.getConnection(URL,user, password);  
+      }  
+         catch (SQLException e){
+        System.out.println("Connection to database failed.");
+        e.printStackTrace();
+      }      
+          return connection;    
+    
+    }
+
+   
     public static void main(String[] args){
-        //Database connection details
-
-        String url = "jdbc:mysql://mysql-ogo-pogo-ogo-pogo.h.aivencloud.com:16239/defaultdb";
-        String user = "avnadmin";
-        String password = "AVNS_fr4fLxnT_9BoiTMNc-6";
-
+        
         try{
             //Establish Connection
 
-            Connection con = DriverManager.getConnection(url, user, password);
-            System.out.println("Connected to database!");
+            Connection connection = getConnection();
 
-            //Execute Simple Query
-            Statement stmt = con.createStatement();
+
+            //Test Connection by executing simple query
+            Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery("SHOW TABLES;");
 
-            //Print table names
+            //Print out tables from query
             System.out.println("Tables in the database: ");
                 while(rs.next()){
                     System.out.println(rs.getString(1));
@@ -32,8 +47,9 @@ public class JDBCConnector {
             //Close resources
             rs.close();
             stmt.close();
-            con.close();
-            System.out.println("Connection closed.");    
+            connection.close();
+                System.out.println("Connection Closed.");
+
 
         } catch(SQLException e){
             e.printStackTrace();
