@@ -7,7 +7,8 @@ public class AdminRepository {
     
     public static List<Admin> getAllAdmins() throws SQLException{
         List<Admin> admins= new ArrayList<>();
-        String sql = "SELECT * from Admins"; //selecting all admins from Admins table
+        String sql = "SELECT * from TestUsers WHERE userRole = 'Admin'"; //selecting all admins from Admins table
+        //MUST CHANGE to Users if you want to access User table!!! right now, it accessses TestUser table 
 
         try(
             Connection con = JDBCConnector.getConnection(); //Create JDBC connection
@@ -16,12 +17,12 @@ public class AdminRepository {
 
                 while (rs.next()){
                     Admin admin = new Admin();
-                    admin.setId(rs.getInt("adminId"));
+                    admin.setId(rs.getInt("userId"));
                     admin.setUserName(rs.getString("userName"));
                     admin.setFirstName(rs.getString("firstName"));
                     admin.setLastName(rs.getString("lastName"));
                     admin.setEmail(rs.getString("email"));
-                    admin.setPassword(rs.getString("password"));
+                    admin.setPassword(rs.getString("passcode"));
                     admins.add(admin);
                 }
     }
