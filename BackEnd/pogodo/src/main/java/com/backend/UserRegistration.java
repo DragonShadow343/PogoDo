@@ -1,3 +1,4 @@
+package com.backend;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -6,11 +7,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class UserRegistration {
     private static final String URL = "jdbc:mysql://mysql-ogo-pogo-ogo-pogo.h.aivencloud.com:16239/defaultdb";
     private static final String USER = "avnadmin";
     private static final String PASSWORD = "AVNS_fr4fLxnT_9BoiTMNc-6";
-
+    
     // Method to hash passwords using SHA-256
     public static String hashPassword(String password) {
         try {
@@ -28,7 +30,7 @@ public class UserRegistration {
 
     // Method that stores user credentials and returns a boolean result
     public static boolean storeUser(String username, String email, String password, String firstName, String lastName, String userRole) {
-       // This  checks if the userRole is neither "Admin" or "User" and if so, it will print an error message and return false 
+        // This  checks if the userRole is neither "Admin" or "User" and if so, it will print an error message and return false 
         if (!userRole.equals("Admin") && !userRole.equals("User")) {
             System.out.println("Invalid userRole, please specify 'Admin' or 'User'.");
             return false; // And return false if the userRole is invalid
@@ -89,7 +91,7 @@ public class UserRegistration {
 
     public static void main(String[] args) {
         // This is Example: Storing  new user with additional information
-        boolean result = storeUser("steph23", "steph@example.com", "mypassword", "Steph", "Curry", "Admin");
+        boolean result = storeUser("hey23", "steph@example.com", "mypassword", "Steph", "Curry", "Admin");
         if (!result) {
             System.out.println("User registration failed,please check the input and try again.");
         }
