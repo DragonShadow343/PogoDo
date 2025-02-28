@@ -8,6 +8,7 @@ public class AdminRepository {
     public static List<Admin> getAllAdmins() throws SQLException{
         List<Admin> admins= new ArrayList<>();
         String sql = "SELECT * from TestUsers WHERE userRole = 'Admin'"; //selecting all admins from Admins table
+        //MUST CHANGE to Users if you want to access User table!!! right now, it accessses TestUser table 
 
         try(
             Connection con = JDBCConnector.getConnection(); //Create JDBC connection

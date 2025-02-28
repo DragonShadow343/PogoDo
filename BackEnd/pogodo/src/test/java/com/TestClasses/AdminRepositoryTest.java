@@ -76,7 +76,7 @@ public void setUp() throws SQLException {
     public void testGetAllAdminsWithNonAdminUsers() throws SQLException {
     // Inserting a non-admin user
     try (Statement statement = connection.createStatement()) {
-        statement.execute("INSERT INTO Users (firstName, lastName, email, username, passcode, userRole) " +
+        statement.execute("INSERT INTO TestUsers (firstName, lastName, email, username, passcode, userRole) " +
                 "VALUES ('John', 'Doe', 'john@gmail.com', 'john', '1234', 'User')");
     }
 
@@ -103,9 +103,13 @@ public void setUp() throws SQLException {
     
         @After
         public void tearDown() throws SQLException {
-            //this method Clears the Users table after each test ! if not included, tests fail 
+            //this method Clears the TestUsers table after each test ! if not included, tests fail 
             try (Statement statement = connection.createStatement()) {
-            statement.execute("DELETE FROM Users");
+            statement.execute("DELETE FROM TestUsers");
+            statement.execute("INSERT INTO TestUsers (firstName, lastName, email, username, passcode, userRole) " +
+                "VALUES ('Cat', 'Robert', 'cat@gmail.com', 'cat', '1234', 'Admin')");
+            statement.execute("INSERT INTO TestUsers (firstName, lastName, email, username, passcode, userRole) " +
+                "VALUES ('Branden', 'Kennedy', 'branden@gmail.com', 'branden6', '1234', 'Admin')");
             }
 
             // Close the database connection
