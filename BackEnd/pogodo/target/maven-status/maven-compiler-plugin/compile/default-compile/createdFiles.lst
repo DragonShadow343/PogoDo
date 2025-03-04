@@ -1,4 +1,7 @@
-com/backend/App.class
 com/backend/Task.class
 com/backend/Admin.class
+com/backend/AdminRepository.class
+com/backend/App.class
+com/backend/UserRegistration.class
 com/backend/JDBCConnector.class
+com/backend/TaskRepository.class
