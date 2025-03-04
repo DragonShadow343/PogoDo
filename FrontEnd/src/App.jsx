@@ -1,7 +1,8 @@
 // Desc: Main App component
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import AuthContext from './context/AuthProvider'
 import axios from 'axios'
 import Login from './pages/Login';
 import Register from './pages/Register'
