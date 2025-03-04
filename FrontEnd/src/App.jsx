@@ -5,15 +5,13 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Login from './pages/Login';
 import Register from './pages/Register'
-import Home from './pages/Home';
-import User from './pages/User';
-import Admin from './pages/Admin';
-import Missing from './pages/Missing';
-import RequireAuth from './RequireAuth';
+import AdminRoutes from './routes/AdminRoutes'
+import UserRoutes from './routes/UserRoutes'
 
 function App() {
 
-  const [data, setData] = useState('')
+  const [data, setData] = useState('');
+  const { auth } = useContext(AuthContext);
   
   useEffect(() => {
     axios.get("http://localhost:3500/getData", {withCredentials: true}) // Call backend API
@@ -30,26 +28,19 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home data={data} />} />
-        <Route path='/home' element={<Home data={data} />} />
-        {/* public routes */}
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
+          {/* Public routes */}
+          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/*" element={<AdminRoutes />} />
 
-        {/* protected routes */}
-        <Route path='/admin' element={
-          // <RequireAuth allowedRoles={['admin']}>
-            <Admin />
-          // </RequireAuth>
-        } />
-        <Route path='/user' element={
-          <RequireAuth allowedRoles={['user', 'admin']}>
-            <User/>
-          </RequireAuth>
-        } />
+          {/* Conditional routing based on user role */}
 
-        {/* catch all */}
-        <Route path='/*' element={<Missing />} />
+          {/* {auth?.role === 'admin' ? (
+              <Route path="/*" element={<AdminRoutes />} />
+          ) : (
+              <Route path="/*" element={<UserRoutes />} />
+          )} */}
       </Routes>
     </BrowserRouter>
   )

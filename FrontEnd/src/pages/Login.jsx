@@ -39,11 +39,7 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // 
-        // Add code to send user and password to server here
-        // 
-        
+    
         try {
             const response = await axios.post(LOGIN_URL, 
                 JSON.stringify({ username: user, password: pwd }),
@@ -52,19 +48,24 @@ const Login = () => {
                     withCredentials: true
                 }
             );
+    
             console.log(JSON.stringify(response?.data));
-            const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ user, pwd, roles, accessToken });
-
+            const { username, role, accessToken } = response?.data;
+    
+            // Store user data in sessionStorage
+            sessionStorage.setItem("loggedInUser", JSON.stringify({ username, role, accessToken }));
+    
+            // Update AuthContext
+            setAuth({ username, role, accessToken });
+    
             // Clear input fields immediately
-            setTimeout(() => {
-                setPwd('');
-                setUser('');
-            }, 100);
+            setUser('');
+            setPwd('');
             setSuccess(true);
-            console.log("Navigate to admin...")
-            navigate("/admin")
+    
+            // Redirect based on role
+            navigate(role === "admin" ? "/admin/home" : "/user/home");
+    
         } catch (err) {
             console.log("Login failed:", err);
             console.log("Error details:", err.response?.status, err.response?.data);
@@ -79,8 +80,8 @@ const Login = () => {
             }
             errRef.current.focus();
         }
-    
     };
+    
 
     return ( 
         <div className="bg-blue-400 h-screen flex justify-center items-center">
