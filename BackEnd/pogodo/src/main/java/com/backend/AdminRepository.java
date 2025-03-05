@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.backend.api.Model.Admin;
+
 public class AdminRepository {
 
     public static List<Admin> getAllAdmins(Connection connection) throws SQLException {

@@ -2,7 +2,8 @@ package com.TestClasses;
 
 import com.backend.AdminRepository;
 import com.backend.JDBCConnector;
-import com.backend.Admin;
+import com.backend.api.Model.Admin;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;

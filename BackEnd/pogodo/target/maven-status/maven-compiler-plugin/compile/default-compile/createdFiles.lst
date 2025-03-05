@@ -1,7 +1,14 @@
+com/backend/service/AdminService.class
+com/backend/api/Controller/AdminController.class
+com/backend/UserRegistration.class
+com/backend/UserRepository.class
+com/backend/api/Controller/UserController.class
+com/backend/JDBCConnector.class
+com/backend/api/Model/Admin.class
+com/backend/api/Model/User.class
+com/backend/SpringApiApplication.class
 com/backend/Task.class
-com/backend/Admin.class
 com/backend/AdminRepository.class
 com/backend/App.class
-com/backend/UserRegistration.class
-com/backend/JDBCConnector.class
+com/backend/service/UserService.class
 com/backend/TaskRepository.class

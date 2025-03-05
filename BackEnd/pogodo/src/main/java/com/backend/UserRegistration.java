@@ -1,6 +1,5 @@
 package com.backend;
 
-import com.backend.JDBCConnector; // Import the JDBCConnector class
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;

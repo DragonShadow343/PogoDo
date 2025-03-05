@@ -1,7 +1,8 @@
 package com.TestClasses;
 
-import com.backend.Admin;
 import org.junit.*;
+
+import com.backend.api.Model.Admin;
 
 public class AdminTest {
 
