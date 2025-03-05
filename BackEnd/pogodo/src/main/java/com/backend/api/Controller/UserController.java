@@ -3,6 +3,7 @@ package com.backend.api.Controller;
 import com.backend.api.Model.User;
 import com.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,9 +35,9 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        User savedUser = userService.saveUser(user);
-        return ResponseEntity.ok(savedUser);
-    }
+    User savedUser = userService.saveUser(user);
+    return ResponseEntity.status(HttpStatus.CREATED).body(savedUser); // Return 201 Created
+}
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {

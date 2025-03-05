@@ -6,7 +6,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
@@ -14,8 +16,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest
-@TestPropertySource(locations = "classpath:application-test.properties")
+
+
+// Spring Boot test for JPA repositories, tests the whole repository layer and the database
+// Use the DataJpaTest and test profile to use the test database
+//ONLY comment out one or the other, dont delete
+
+// @SpringBootTest
+// @TestPropertySource(locations = "classpath:application-test.properties")
+@DataJpaTest
+@ActiveProfiles("h2") //SWITCH the profile to mysql if want to run on mySQL, use h2 if testing without database manipulation
 public class AdminRepositoryTest {
 
     @Autowired
