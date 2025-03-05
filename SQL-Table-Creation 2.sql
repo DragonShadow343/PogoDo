@@ -24,7 +24,7 @@ INSERT INTO Users(firstName,lastName, email, username, passcode, userRole)
 
 
 
- CREATE TABLE TestUsers (
+CREATE TABLE TestUsers (
 userId int AUTO_INCREMENT,
 firstName varchar(50),
 lastName varchar(50),
