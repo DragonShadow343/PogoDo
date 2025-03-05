@@ -1,5 +1,4 @@
-com/TestClasses/AppTest.class
-com/TestClasses/AdminTest.class
-com/TestClasses/UserRegistrationTest.class
-com/TestClasses/AdminRepositoryTest.class
-com/TestClasses/TaskTest.class
+com/backend/TestClasses/TaskTest.class
+com/backend/TestClasses/AdminRepositoryTest.class
+com/backend/TestClasses/AdminTest.class
+com/backend/TestClasses/UserRepositoryTest.class

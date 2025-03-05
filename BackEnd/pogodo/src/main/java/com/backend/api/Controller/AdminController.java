@@ -1,33 +1,41 @@
 package com.backend.api.Controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import com.backend.api.Model.Admin;
 import com.backend.service.AdminService;
 
 @RestController
+@RequestMapping("/Admins")
 public class AdminController {
 
-    // private field declaration or remove if not needed
-    private AdminService adminService;
+    private final AdminService adminService;
 
     @Autowired
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
     }
 
-    @GetMapping("/admin")
-    public Admin getAdmin(@RequestParam Integer id){
-        Optional admin = adminService.getAdmin(id);
-        if(admin.isPresent()){
-            return (Admin) admin.get();
-        }
-        return null;
+    @GetMapping("/{id}")
+    public ResponseEntity<Admin> getAdmin(@PathVariable Integer id) {
+        return adminService.getAdmin(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
-    
+
+    @PostMapping
+    public ResponseEntity<Admin> createAdmin(@RequestBody Admin admin) {
+        Admin savedAdmin = adminService.saveAdmin(admin);
+        return ResponseEntity.ok(savedAdmin);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAdmin(@PathVariable Integer id) {
+        if (adminService.getAdmin(id).isPresent()) {
+            adminService.deleteAdmin(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

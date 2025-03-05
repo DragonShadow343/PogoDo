@@ -1,38 +1,46 @@
 package com.backend.service;
 
-import java.util.ArrayList;
+import com.backend.api.Model.Admin;
+import com.backend.repo.AdminRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-import com.backend.api.Model.Admin;
 
 @Service
 public class AdminService {
 
-    private List<Admin> adminList;
+    @Autowired
+    private AdminRepository adminRepository;
 
-    public AdminService() {
-        adminList = new ArrayList<>();
-
-        Admin admin = new Admin(1, "admin", "John", "Doe", "john@gmail.com", "password");
-        Admin admin2 = new Admin(2, "admin2", "Jane", "Doe", "jane@gmai.com", "password2");
-        
-        adminList.add(admin);
-        adminList.add(admin2);
-    }
-
-    @SuppressWarnings("unchecked")
+    // Get an admin by ID
     public Optional<Admin> getAdmin(Integer id) {
-        @SuppressWarnings("rawtypes")
-        Optional optional = Optional.empty();
-        for (Admin admin : adminList) {
-            if (admin.getId() == id) {
-                optional = Optional.of(admin);
-                return optional; 
-            }
-        }
-        return optional;
+        return adminRepository.findById(id);
     }
-    
+
+    // Get all admins by role
+    public List<Admin> getAdminsByRole(String userRole) {
+        return adminRepository.findByRole(userRole);
+    }
+
+    // Get an admin by username
+    public Optional<Admin> getAdminByUsername(String userName) {
+        return adminRepository.findByUserName(userName);
+    }
+
+    // Get an admin by email
+    public Optional<Admin> getAdminByEmail(String email) {
+        return adminRepository.findByEmail(email);
+    }
+
+    // Save an admin
+    public Admin saveAdmin(Admin admin) {
+        return adminRepository.save(admin);
+    }
+
+    // Delete an admin by ID
+    public void deleteAdmin(Integer id) {
+        adminRepository.deleteById(id);
+    }
 }

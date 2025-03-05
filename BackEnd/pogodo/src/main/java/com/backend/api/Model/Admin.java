@@ -1,99 +1,99 @@
-// Source code is decompiled from a .class file using FernFlower decompiler.
 package com.backend.api.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "Admins")
 public class Admin {
     @Id
-   private int id;
-   private String userName;
-   private String firstName;
-   private String lastName;
-   private String email;
-   private String password;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-   public Admin(int var1, String var2, String var3, String var4, String var5, String var6) {
-      this.setId(var1);
-      this.setUserName(var2);
-      this.setFirstName(var3);
-      this.setLastName(var4);
-      this.setEmail(var5);
-      this.setPassword(var6);
-   }
-   public Admin() {
-   }
+    @Column(nullable = false)
+    private String firstName;
 
-   public void setId(int var1) {
-      if (var1 < 0) {
-         throw new IllegalArgumentException("ID cannot be negative");
-      } else {
-         this.id = var1;
-      }
-   }
+    @Column(nullable = false)
+    private String lastName;
 
-   public int getId() {
-      return this.id;
-   }
+    @Column(nullable = false, unique = true)
+    private String email;
 
-   public void setUserName(String var1) {
-      if (var1 != null && !var1.isEmpty()) {
-         this.userName = var1;
-      } else {
-         throw new IllegalArgumentException("Username cannot be empty");
-      }
-   }
+    @Column(nullable = false, unique = true)
+    private String userName;
 
-   public String getUserName() {
-      return this.userName;
-   }
+    @Column(nullable = false)
+    private String password;
 
-   public void setFirstName(String var1) {
-      if (var1 != null && !var1.isEmpty()) {
-         this.firstName = var1;
-      } else {
-         throw new IllegalArgumentException("First name cannot be empty");
-      }
-   }
+    @Column(nullable = false)
+    private String role;  // This is the field for the role
 
-   public String getFirstName() {
-      return this.firstName;
-   }
+    // Constructors, Getters, and Setters
+    public Admin() {}
 
-   public void setLastName(String var1) {
-      if (var1 != null && !var1.isEmpty()) {
-         this.lastName = var1;
-      } else {
-         throw new IllegalArgumentException("Last name cannot be empty");
-      }
-   }
+    public Admin(Integer id, String firstName, String lastName, String email, String userName, String password, String role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.userName = userName;
+        this.password = password;
+        this.role = role;
+    }
 
-   public String getLastName() {
-      return this.lastName;
-   }
+    // Getters and Setters
+    public Integer getId() {
+        return id;
+    }
 
-   public void setEmail(String var1) {
-      if (var1 != null && !var1.isEmpty()) {
-         this.email = var1;
-      } else {
-         throw new IllegalArgumentException("Email cannot be empty");
-      }
-   }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-   public String getEmail() {
-      return this.email;
-   }
+    public String getFirstName() {
+        return firstName;
+    }
 
-   public void setPassword(String var1) {
-      if (var1 != null && !var1.isEmpty()) {
-         this.password = var1;
-      } else {
-         throw new IllegalArgumentException("Password cannot be empty");
-      }
-   }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-   public String getPassword() {
-      return this.password;
-   }
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }
