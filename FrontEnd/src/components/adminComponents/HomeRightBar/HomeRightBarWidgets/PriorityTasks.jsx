@@ -1,21 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
+import TaskContext from "../../../../context/TaskProvider";
 
 const PriorityTasks = () => {
-  const priorityTasks = [
-    { id: 1, title: "Fix security vulnerabilities", dueDate: "Mar 5" },
-    { id: 2, title: "Prepare weekly team report", dueDate: "Mar 7" },
-  ];
+  const { tasks, toggleTaskCompletion } = useContext(TaskContext);
 
   return (
-    <div className="border-2 p-4 rounded-lg shadow-md bg-white">
-      <h2 className="font-bold text-lg">Priority Tasks</h2>
+    <div className="p-4 border rounded-lg shadow-[0px_5px_15px_rgba(197,25,25,0.3)] bg-red-100">
+      <h2 className="text-xl font-bold mb-2">Priority Tasks</h2>
       <ul>
-        {priorityTasks.map((task) => (
-          <li key={task.id} className="mb-2 p-2 border-b">
-            <p><strong>{task.title}</strong></p>
-            <p className="text-sm text-red-600">Due: {task.dueDate}</p>
-          </li>
-        ))}
+        {tasks
+          .filter(task => task.priority === 3)
+          .map(task => (
+            <li key={task.id} className="flex justify-between items-center p-2 bg-white my-2 rounded shadow">
+              <span className={task.completed ? "line-through text-gray-500" : ""}>{task.title}</span>
+              <button
+                  onClick={() => toggleTaskCompletion(task.id)}
+                  className={`px-3 py-1 rounded text-white ${task.completed ? "bg-[#06D6A0]" : "bg-[#EF476F]"}`}>
+                  {task.completed ? "Completed" : "Mark Done"}
+              </button>
+            </li>
+          ))}
       </ul>
     </div>
   );
