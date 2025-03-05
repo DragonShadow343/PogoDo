@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.backend.TestClasses.UserRepositoryTest" time="0.018" tests="3" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.backend.TestClasses.TaskControllerIntegrationTest" time="4.038" tests="5" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -65,18 +65,33 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="testUpdateUser" classname="com.backend.TestClasses.UserRepositoryTest" time="0.004">
-    <system-out><![CDATA[&amp#27;[2m2025-03-05T15:27:59.529-08:00&amp#27;[0;39m &amp#27;[32m INFO&amp#27;[0;39m &amp#27;[35m5351&amp#27;[0;39m &amp#27;[2m---&amp#27;[0;39m &amp#27;[2m[           main]&amp#27;[0;39m &amp#27;[36mt.c.s.AnnotationConfigContextLoaderUtils&amp#27;[0;39m &amp#27;[2m:&amp#27;[0;39m Could not detect default configuration classes for test class [com.backend.TestClasses.UserRepositoryTest]: UserRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-&amp#27;[2m2025-03-05T15:27:59.532-08:00&amp#27;[0;39m &amp#27;[32m INFO&amp#27;[0;39m &amp#27;[35m5351&amp#27;[0;39m &amp#27;[2m---&amp#27;[0;39m &amp#27;[2m[           main]&amp#27;[0;39m &amp#27;[36m.b.t.c.SpringBootTestContextBootstrapper&amp#27;[0;39m &amp#27;[2m:&amp#27;[0;39m Found @SpringBootConfiguration com.backend.SpringApiApplication for test class com.backend.TestClasses.UserRepositoryTest
-Hibernate: insert into users (email,first_name,last_name,passcode,user_role,username,user_id) values (?,?,?,?,?,?,default)
+  <testcase name="testDatabaseConnection" classname="com.backend.TestClasses.TaskControllerIntegrationTest" time="0.456">
+    <system-out><![CDATA[&amp#27;[2m2025-03-05T15:27:55.489-08:00&amp#27;[0;39m &amp#27;[32m INFO&amp#27;[0;39m &amp#27;[35m5351&amp#27;[0;39m &amp#27;[2m---&amp#27;[0;39m &amp#27;[2m[           main]&amp#27;[0;39m &amp#27;[36mt.c.s.AnnotationConfigContextLoaderUtils&amp#27;[0;39m &amp#27;[2m:&amp#27;[0;39m Could not detect default configuration classes for test class [com.backend.TestClasses.TaskControllerIntegrationTest]: TaskControllerIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+&amp#27;[2m2025-03-05T15:27:55.493-08:00&amp#27;[0;39m &amp#27;[32m INFO&amp#27;[0;39m &amp#27;[35m5351&amp#27;[0;39m &amp#27;[2m---&amp#27;[0;39m &amp#27;[2m[           main]&amp#27;[0;39m &amp#27;[36m.b.t.c.SpringBootTestContextBootstrapper&amp#27;[0;39m &amp#27;[2m:&amp#27;[0;39m Found @SpringBootConfiguration com.backend.SpringApiApplication for test class com.backend.TestClasses.TaskControllerIntegrationTest
+Hibernate: select count(*) from tasks t1_0
+Number of tasks before test: 3
 ]]></system-out>
   </testcase>
-  <testcase name="testDeleteUser" classname="com.backend.TestClasses.UserRepositoryTest" time="0.003">
-    <system-out><![CDATA[Hibernate: insert into users (email,first_name,last_name,passcode,user_role,username,user_id) values (?,?,?,?,?,?,default)
+  <testcase name="testUpdateTask" classname="com.backend.TestClasses.TaskControllerIntegrationTest" time="1.055">
+    <system-out><![CDATA[Hibernate: insert into tasks (completion_status,description,due_date,lock_status,priority_status,task_name) values (?,?,?,?,?,?)
+Hibernate: select t1_0.id,t1_0.completion_status,t1_0.description,t1_0.due_date,t1_0.lock_status,t1_0.priority_status,t1_0.task_name from tasks t1_0 where t1_0.id=?
+Hibernate: update tasks set completion_status=?,description=?,due_date=?,lock_status=?,priority_status=?,task_name=? where id=?
 ]]></system-out>
   </testcase>
-  <testcase name="testSaveAndFindUser" classname="com.backend.TestClasses.UserRepositoryTest" time="0.003">
-    <system-out><![CDATA[Hibernate: insert into users (email,first_name,last_name,passcode,user_role,username,user_id) values (?,?,?,?,?,?,default)
+  <testcase name="testCreateTask" classname="com.backend.TestClasses.TaskControllerIntegrationTest" time="0.293">
+    <system-out><![CDATA[Hibernate: insert into tasks (completion_status,description,due_date,lock_status,priority_status,task_name) values (?,?,?,?,?,?)
+]]></system-out>
+  </testcase>
+  <testcase name="testGetTaskById" classname="com.backend.TestClasses.TaskControllerIntegrationTest" time="0.746">
+    <system-out><![CDATA[Hibernate: insert into tasks (completion_status,description,due_date,lock_status,priority_status,task_name) values (?,?,?,?,?,?)
+Hibernate: select t1_0.id,t1_0.completion_status,t1_0.description,t1_0.due_date,t1_0.lock_status,t1_0.priority_status,t1_0.task_name from tasks t1_0 where t1_0.id=?
+]]></system-out>
+  </testcase>
+  <testcase name="testDeleteTask" classname="com.backend.TestClasses.TaskControllerIntegrationTest" time="1.475">
+    <system-out><![CDATA[Hibernate: insert into tasks (completion_status,description,due_date,lock_status,priority_status,task_name) values (?,?,?,?,?,?)
+Hibernate: select t1_0.id,t1_0.completion_status,t1_0.description,t1_0.due_date,t1_0.lock_status,t1_0.priority_status,t1_0.task_name from tasks t1_0 where t1_0.id=?
+Hibernate: delete from tasks where id=?
+Hibernate: select t1_0.id,t1_0.completion_status,t1_0.description,t1_0.due_date,t1_0.lock_status,t1_0.priority_status,t1_0.task_name from tasks t1_0 where t1_0.id=?
 ]]></system-out>
   </testcase>
 </testsuite>

@@ -24,15 +24,13 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    // Method to get a task by ID
     public Optional<Task> getTaskById(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTaskById'");
+        return taskRepository.findById(id);
     }
 
+    // Method to delete a task by ID
     public void deleteTask(Integer id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteTask'");
+        taskRepository.deleteById(id);
     }
-
-    // You can add other methods to interact with the tasks as needed
 }
