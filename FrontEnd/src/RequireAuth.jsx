@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Navigate } from 'react-router-dom';
+import AuthContext from './context/AuthProvider';
 
 const RequireAuth = ({children, allowedRoles}) => {
-    const loggedInUser = JSON.parse(sessionStorage.getItem('loggedInUser'));
+    const { auth } = useContext(AuthContext);
 
-    if (!loggedInUser) {
-        return <Navigate to='/login' />
+    if (!auth) {
+        return <Navigate to='/login' replace/>
     }
 
     if (!allowedRoles.includes(loggedInUser.role)){
-        return <Navigate to='/home' />
+        return <Navigate to='/home' replace/>
     }
 
     return children;
