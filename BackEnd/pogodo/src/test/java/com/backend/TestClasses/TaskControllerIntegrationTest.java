@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("mysql") //SWITCH the profile to mysql if want to run on mySQL, use h2 if testing without database manipulation
+@ActiveProfiles("h2") //SWITCH the profile to mysql if want to run on mySQL, use h2 if testing without database manipulation
 @Transactional(propagation = Propagation.NOT_SUPPORTED) // Disable rollback for all tests
 public class TaskControllerIntegrationTest {
 
