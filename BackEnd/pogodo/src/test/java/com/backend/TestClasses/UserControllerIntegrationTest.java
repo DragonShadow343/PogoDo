@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("mysql") // Activate the "mysql" profile
+@ActiveProfiles("mysql") //SWITCH the profile to mysql if want to run on mySQL, use h2 if testing without database manipulation
 @Transactional(propagation = Propagation.NOT_SUPPORTED) // Disable rollback for all tests
 public class UserControllerIntegrationTest {
 
@@ -57,7 +57,7 @@ public class UserControllerIntegrationTest {
         user.setLastName("Doe");
         user.setEmail(uniqueEmail); // Use a unique email
         user.setUsername(uniqueUsername); // Use a unique username
-        user.setPassword("password123");
+        user.setPasscode("password123");
         user.setUserRole("USER");
 
         // Convert the user object to JSON

@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generate ID
-    private int userId;
+    private Integer userId;
 
     @Column(name = "firstName", nullable = false)
     private String firstName;
@@ -28,8 +28,8 @@ public class User {
     private String userRole;
 
     // Constructors
-    public User(int userId, String firstName, String lastName, String email, String username, String passcode, String userRole) {
-        this.userId = userId;
+    public User(String firstName, String lastName, String email, String username, String passcode, String userRole) {
+        
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -42,7 +42,7 @@ public class User {
     }
 
     // Getters and Setters
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -97,11 +97,11 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
+    public String getPasscode() { 
         return passcode;
     }
-
-    public void setPassword(String passcode) {
+    
+    public void setPasscode(String passcode) { 
         if (passcode == null || passcode.isEmpty()) {
             throw new IllegalArgumentException("Passcode cannot be empty");
         }

@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("mysql") // Activate the "mysql" profile
+@ActiveProfiles("mysql") //SWITCH the profile to mysql if want to run on mySQL, use h2 if testing without database manipulation
 @Transactional(propagation = Propagation.NOT_SUPPORTED) // Disable rollback for all tests
 public class TaskControllerIntegrationTest {
 
@@ -33,10 +33,10 @@ public class TaskControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper; // For converting objects to JSON
 
-    // @AfterEach
-    // public void tearDown() {
-    //     taskRepository.deleteAll();
-    // }
+    @AfterEach
+    public void tearDown() {
+        taskRepository.deleteAll();
+    }
 
     @Test
     public void testDatabaseConnection() {

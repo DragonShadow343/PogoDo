@@ -35,7 +35,7 @@ public class UserRepositoryTest {
         user.setLastName("Doe");
         user.setEmail("testuser@example.com");
         user.setUsername("testuser");
-        user.setPassword("password123"); // Set the passcode
+        user.setPasscode("password123"); // Set the passcode
         user.setUserRole("USER"); // Set the user role
 
         // Save the user to the database
@@ -58,7 +58,7 @@ public class UserRepositoryTest {
         user.setLastName("Smith");
         user.setEmail("olduser@example.com");
         user.setUsername("olduser");
-        user.setPassword("password123");
+        user.setPasscode("password123");
         user.setUserRole("USER");
         userRepository.save(user);
 
@@ -82,7 +82,7 @@ public class UserRepositoryTest {
         user.setLastName("Johnson");
         user.setEmail("deleteuser@example.com");
         user.setUsername("deleteuser");
-        user.setPassword("password123");
+        user.setPasscode("password123");
         user.setUserRole("USER");
         userRepository.save(user);
 
