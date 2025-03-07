@@ -33,4 +33,13 @@ public class TaskService {
     public void deleteTask(Integer id) {
         taskRepository.deleteById(id);
     }
+
+ // Method to get tasks filtered by date and priority
+ public List<Task> getTasksByDateAndPriority(String date, Integer priority) {
+    List<Task> tasks = taskRepository.findTasksByDateAndPriority(date, priority);
+    System.out.println("Tasks Retrieved: " + tasks); // Debugging line
+    return tasks;
+}
+
+
 }
