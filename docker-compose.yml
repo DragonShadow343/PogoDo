@@ -1,14 +1,16 @@
 version: "3.8"
 services:
   backend:
-    build: ./BackEnd
+    build:
+      context: ./BackEnd/pogodo
+      dockerfile: Dockerfile
     ports:
       - "3500:3500"
     environment:
       - NODE_ENV=development
     volumes:
-      - ./BackEnd:/app
-      - /app/node_modules
+      - ./BackEnd/pogodo:/BackEnd/pogodo  # Mount the correct directory
+      - /BackEnd/pogodo/node_modules  # Preserve node_modules in the container
 
   frontend:
     build: ./frontend

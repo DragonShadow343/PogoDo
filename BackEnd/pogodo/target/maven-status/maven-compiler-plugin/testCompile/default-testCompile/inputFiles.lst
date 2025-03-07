@@ -1,5 +1,6 @@
-/Users/admin/Desktop/School/2nd year/COSC 310/COSC310-Team-2/BackEnd/pogodo/src/test/java/com/TestClasses/AdminRepositoryTest.java
-/Users/admin/Desktop/School/2nd year/COSC 310/COSC310-Team-2/BackEnd/pogodo/src/test/java/com/TestClasses/AdminTest.java
-/Users/admin/Desktop/School/2nd year/COSC 310/COSC310-Team-2/BackEnd/pogodo/src/test/java/com/TestClasses/TaskTest.java
-/Users/admin/Desktop/School/2nd year/COSC 310/COSC310-Team-2/BackEnd/pogodo/src/test/java/com/TestClasses/UserRegistrationTest.java
-/Users/admin/Desktop/School/2nd year/COSC 310/COSC310-Team-2/BackEnd/pogodo/src/test/java/com/TestClasses/AppTest.java
+/Users/admin/Desktop/School/2nd year/COSC 310/COSC310-Team-2/BackEnd/pogodo/src/test/java/com/backend/TestClasses/AdminRepositoryTest.java
+/Users/admin/Desktop/School/2nd year/COSC 310/COSC310-Team-2/BackEnd/pogodo/src/test/java/com/backend/TestClasses/UserControllerIntegrationTest.java
+/Users/admin/Desktop/School/2nd year/COSC 310/COSC310-Team-2/BackEnd/pogodo/src/test/java/com/backend/TestClasses/UserRepositoryTest.java
+/Users/admin/Desktop/School/2nd year/COSC 310/COSC310-Team-2/BackEnd/pogodo/src/test/java/com/backend/TestClasses/AdminTest.java
+/Users/admin/Desktop/School/2nd year/COSC 310/COSC310-Team-2/BackEnd/pogodo/src/test/java/com/backend/TestClasses/TaskTest.java
+/Users/admin/Desktop/School/2nd year/COSC 310/COSC310-Team-2/BackEnd/pogodo/src/test/java/com/backend/TestClasses/TaskControllerIntegrationTest.java

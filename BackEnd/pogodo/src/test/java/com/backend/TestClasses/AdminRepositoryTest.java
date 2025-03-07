@@ -1,0 +1,63 @@
+package com.backend.TestClasses;
+
+import com.backend.api.Model.Admin;
+import com.backend.repo.AdminRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+
+
+// Spring Boot test for JPA repositories, tests the whole repository layer and the database
+// Use the DataJpaTest and test profile to use the test database
+//ONLY comment out one or the other, dont delete
+
+// @SpringBootTest
+// @TestPropertySource(locations = "classpath:application-test.properties")
+@DataJpaTest
+@ActiveProfiles("h2") //SWITCH the profile to mysql if want to run on mySQL, use h2 if testing without database manipulation
+public class AdminRepositoryTest {
+
+    @Autowired
+    private AdminRepository adminRepository;
+
+    private Admin admin1;
+    private Admin admin2;
+
+    @BeforeEach
+    public void setUp() {
+        // Initialize Admin instances
+        admin1 = new Admin(null, "Robert", "Cat", "cat@gmail.com", "cat", "1234", "Admin");
+        admin2 = new Admin(null, "Kennedy", "Branden", "branden@gmail.com", "branden6", "1234", "Admin");
+
+        // Save the admins to the database
+        adminRepository.save(admin1);
+        adminRepository.save(admin2);
+    }
+
+    @Test
+    public void testGetAllAdmins() {
+        // Call the method to test
+        List<Admin> admins = adminRepository.findAll();
+
+        // Verify the results
+        assertNotNull(admins);
+        assertEquals(2, admins.size());
+    }
+
+    @AfterEach
+    public void tearDown() {
+        // Clear the table after each test
+        adminRepository.deleteAll();
+    }
+}
