@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import TaskContext from "../../../../context/TaskProvider";
+import CompletedButton from "../../UIComponents/CompletedButton";
 
 const AllTasks = () => {
   const { tasks, toggleTaskCompletion } = useContext(TaskContext);
@@ -11,11 +12,7 @@ const AllTasks = () => {
         {tasks.map(task => (
             <li key={task.id} className="flex justify-between items-center p-2 bg-white my-2 rounded border-b-1 border-[#ebe8e5]">
                 <span className={task.completed ? "line-through text-gray-500" : ""}>{task.title}</span>
-                <button
-                    onClick={() => toggleTaskCompletion(task.id)}
-                    className={`px-3 py-1 w-28 rounded text-white ${task.completed ? "bg-[#06D6A0]" : "bg-[#26547C]"}`}>
-                    {task.completed ? "Completed" : "Mark done"}
-                </button>
+                <CompletedButton taskID={task.id} taskCompleted={task.completed}/>
             </li>
         ))}
       </ul>

@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import CompletedButton from "../../UIComponents/CompletedButton";
 import TaskContext from "../../../../context/TaskProvider";
 
 const PriorityTasks = () => {
@@ -13,11 +14,7 @@ const PriorityTasks = () => {
           .map(task => (
             <li key={task.id} className="flex justify-between items-center p-2 bg-white my-2 rounded shadow">
               <span className={task.completed ? "line-through text-gray-500" : ""}>{task.title}</span>
-              <button
-                  onClick={() => toggleTaskCompletion(task.id)}
-                  className={`px-3 py-1 rounded text-white ${task.completed ? "bg-[#06D6A0]" : "bg-[#EF476F]"}`}>
-                  {task.completed ? "Completed" : "Mark Done"}
-              </button>
+              <CompletedButton taskID={task.id} taskCompleted={task.completed} taskPriority={task.priority} />
             </li>
           ))}
       </ul>

@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import RequireAuth from '../RequireAuth';
 import Home from '../pages/adminPages/Home';
 import Missing from '../pages/Missing';
-import DailyTasks from '../pages/adminPages/DailyTask';
+import TaskBoard from '../pages/adminPages/TaskBoard';
 import TeamMembers from '../pages/adminPages/TeamMember';
 import Settings from '../pages/adminPages/Settings';
 
@@ -12,7 +12,7 @@ const AdminRoutes = () => {
             <Routes>
                 <Route path="/admin/" element={<Home />} />
                 <Route path="/admin/home" element={<Home />} />
-                <Route path="/admin/daily-tasks" element={<DailyTasks />} />
+                <Route path="/admin/tasks" element={<TaskBoard />} />
                 <Route path="/admin/team-members" element={<TeamMembers />} />
                 <Route path="/admin/settings" element={<Settings />} />
                 {/* Add more admin-specific routes here */}

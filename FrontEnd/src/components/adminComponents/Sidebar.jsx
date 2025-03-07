@@ -5,7 +5,7 @@ import "./Sidebar.css";
 
 const Sidebar = () => {
   return (
-    <div className="flex-[0.8] h-screen bg-gray-800 text-white p-4">
+    <div className="flex-[0.8] fixed min-w-64 max-w-64 h-screen bg-gray-800 text-white p-4">
       <div>
         <div className="flex justify-start">
           <p className="adminText text-xl font-bold">Admin</p>
@@ -20,7 +20,7 @@ const Sidebar = () => {
 
           <li className="liContainer flex items-center gap-2 p-2 hover:bg-gray-700 rounded-md">
             <FaTasks className="text-lg" />
-            <Link to="/admin/daily-tasks">Daily Task</Link>
+            <Link to="/admin/tasks">Daily Task</Link>
           </li>
 
           <li className="liContainer flex items-center gap-2 p-2 hover:bg-gray-700 rounded-md">
