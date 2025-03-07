@@ -72,7 +72,7 @@ public class TaskController {
 
 
 
-    // endpoint for filtering tasks by date and priority
+    //  filtering tasks by date and priority
 @GetMapping("/filter")
 public ResponseEntity<List<Task>> getTasksByDateAndPriority(
        @RequestParam String date,
