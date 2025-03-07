@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.backend.TestClasses.AdminRepositoryTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.576 s - in com.backend.TestClasses.AdminRepositoryTest
