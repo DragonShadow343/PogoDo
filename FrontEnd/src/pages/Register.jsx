@@ -13,7 +13,7 @@ const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const NAME_REGEX = /^[a-zA-Z]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%]).{8,24}$/;
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const REGISTER_URL = '/register';
+const REGISTER_URL = '/Users/register';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -97,7 +97,7 @@ const Register = () => {
         }
         try {
             const response = await axios.post(REGISTER_URL, 
-                JSON.stringify({ firstName, lastName, email, username: user, password: pwd, role }),
+                { firstName: firstName, lastName: lastName, username: user, email: email, passcode: pwd, userRole: role },
                 { headers: { 'Content-Type': 'application/json', withCredentials: true } }
             );
             console.log(response.data);
