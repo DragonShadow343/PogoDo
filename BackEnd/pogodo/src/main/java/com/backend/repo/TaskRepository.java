@@ -13,7 +13,6 @@ import com.backend.api.Model.Task;
 public interface TaskRepository extends JpaRepository<Task, Integer> {
 
     Optional<Task> findByTaskName(String string);
-    // You can add custom query methods here if necessary (e.g., find by priority, task name, etc.)
 
     @Query("SELECT t FROM Task t WHERE t.dueDate = :date AND t.priorityStatus = :priority")
 List<Task> findTasksByDateAndPriority(@Param("date") String date, @Param("priority") Integer priority);
