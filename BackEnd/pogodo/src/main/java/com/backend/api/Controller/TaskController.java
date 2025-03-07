@@ -69,4 +69,16 @@ public class TaskController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+
+
+    // endpoint for filtering tasks by date and priority
+@GetMapping("/filter")
+public ResponseEntity<List<Task>> getTasksByDateAndPriority(
+       @RequestParam String date,
+       @RequestParam int priority) {
+   List<Task> tasks = taskService.getTasksByDateAndPriority(date, priority);
+   return ResponseEntity.ok(tasks);
+}
+
 }

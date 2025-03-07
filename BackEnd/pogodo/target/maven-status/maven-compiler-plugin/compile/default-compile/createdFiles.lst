@@ -1,12 +1,14 @@
 com/backend/service/AdminService.class
 com/backend/api/Controller/AdminController.class
 com/backend/api/Controller/TaskController.class
+com/backend/config/CorsConfig$1.class
 com/backend/api/Model/Task.class
 com/backend/repo/TaskRepository.class
 com/backend/api/Controller/UserController.class
 com/backend/api/Model/Admin.class
 com/backend/api/Model/User.class
 com/backend/SpringApiApplication.class
+com/backend/config/CorsConfig.class
 com/backend/App.class
 com/backend/service/UserService.class
 com/backend/service/TaskService.class
