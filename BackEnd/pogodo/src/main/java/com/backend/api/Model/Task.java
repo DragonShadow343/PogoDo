@@ -1,5 +1,7 @@
 package com.backend.api.Model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,70 +15,71 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int taskId;
     private int priorityStatus;
-    private String dueDate;
-    private String taskName;
-    private String description;
+    private LocalDate dueDate;
+    private String taskTitle;
+    private String taskDescription;
     private boolean completionStatus;
     private boolean lockStatus;
 
     public Task() {}
 
-    public Task(int id, int priority, String dueDate, String taskName, String description, boolean completed, boolean lockStatus) {
-        this.id = id;
+    public Task(int taskId, int priority, LocalDate dueDate, String taskTitle, String description, boolean completed, boolean lockStatus) {
+        this.taskId = taskId;
         this.priorityStatus = priority;
         this.dueDate = dueDate;
-        this.taskName = taskName;
-        this.description = description;
+        this.taskTitle = taskTitle;
+        this.taskDescription = description;
         this.completionStatus = completed;
         this.lockStatus = lockStatus;
     }
 
-    public Task(String taskName, String description) {
-        this.taskName = taskName;
-        this.description = description;
+    public Task(String taskTitle, String taskDescription) {
+        this.taskTitle = taskTitle;
+        this.taskDescription = taskDescription;
     }
 
     public int getId() {
-        return id;
+        return taskId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int taskId) {
+        this.taskId = taskId;
     }
 
-    public String getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
-        if (dueDate == null || dueDate.isEmpty()) {
+    public void setDueDate(LocalDate dueDate) {
+        String dateString = dueDate.toString();
+        if (dateString == null || dateString.isEmpty()) {
             throw new IllegalArgumentException("Due date cannot be null");
         }
         this.dueDate = dueDate;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public String getTaskTitle() {
+        return taskTitle;
     }
 
-    public void setTaskName(String taskName) {
-        if (taskName == null || taskName.isEmpty()) {
-            throw new IllegalArgumentException("Task Name cannot be null");
+    public void setTaskTitle(String taskTitle) {
+        if (taskTitle == null || taskTitle.isEmpty()) {
+            throw new IllegalArgumentException("Task Title cannot be null");
         }
-        this.taskName = taskName;
+        this.taskTitle = taskTitle;
     }
 
-    public String getDescription() {
-        return description;
+    public String getTaskDescription() {
+        return taskDescription;
     }
 
-    public void setDescription(String description) {
-        if (description == null || description.isEmpty()) {
+    public void setTaskDescription(String taskDescription) {
+        if (taskDescription == null || taskDescription.isEmpty()) {
             throw new IllegalArgumentException("Description cannot be null");
         }
-        this.description = description;
+        this.taskDescription = taskDescription;
     }
 
     public int getPriority() {
@@ -109,11 +112,11 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-               "id=" + id +
+               "id=" + taskId +
                ", priority=" + priorityStatus +
                ", dueDate='" + dueDate + '\'' +
-               ", taskName='" + taskName + '\'' +
-               ", description='" + description + '\'' +
+               ", taskName='" + taskTitle + '\'' +
+               ", description='" + taskDescription + '\'' +
                ", completionStatus=" + completionStatus +
                ", lockStatus=" + lockStatus +
                '}';

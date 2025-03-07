@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -47,11 +50,11 @@ public class TaskControllerIntegrationTest {
 
     @Test
 public void testCreateTask() throws Exception {
-    String uniqueTaskName = "Test Task " + System.currentTimeMillis(); // Unique task name
+    String uniqueTaskTitle = "Test Task " + System.currentTimeMillis(); // Unique task name
 
     Task task = new Task();
-    task.setTaskName(uniqueTaskName);
-    task.setDescription("This is a test task");
+    task.setTaskTitle(uniqueTaskTitle);
+    task.setTaskDescription("This is a test task");
     task.setPriority(1);
     task.setDueDate("2023-12-31");
     task.setCompleted(false);
@@ -63,16 +66,16 @@ public void testCreateTask() throws Exception {
             .contentType(MediaType.APPLICATION_JSON)
             .content(taskJson))
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.taskName").value(uniqueTaskName))
-            .andExpect(jsonPath("$.description").value("This is a test task"));
+            .andExpect(jsonPath("$.taskTitle").value(uniqueTaskTitle))
+            .andExpect(jsonPath("$.taskDescription").value("This is a test task"));
 }
 
     @Test
     public void testGetTaskById() throws Exception {
         // Create and save a task
         Task task = new Task();
-        task.setTaskName("Test Task");
-        task.setDescription("This is a test task");
+        task.setTaskTitle("Test Task");
+        task.setTaskDescription("This is a test task");
         task.setPriority(1);
         task.setDueDate("2023-12-31");
         task.setCompleted(false);
@@ -90,8 +93,8 @@ public void testCreateTask() throws Exception {
     public void testUpdateTask() throws Exception {
         // Create and save a task
         Task task = new Task();
-        task.setTaskName("Test Task");
-        task.setDescription("This is a test task");
+        task.setTaskTitle("Test Task");
+        task.setTaskDescription("This is a test task");
         task.setPriority(1);
         task.setDueDate("2023-12-31");
         task.setCompleted(false);
@@ -99,7 +102,7 @@ public void testCreateTask() throws Exception {
         taskRepository.save(task);
 
         // Update the task
-        task.setDescription("Updated description");
+        task.setTaskDescription("Updated description");
 
         // Convert the updated task object to JSON
         String taskJson = objectMapper.writeValueAsString(task);
@@ -116,10 +119,10 @@ public void testCreateTask() throws Exception {
     public void testDeleteTask() throws Exception {
         // Create and save a task
         Task task = new Task();
-        task.setTaskName("Test Task");
-        task.setDescription("This is a test task");
+        task.setTaskTitle("Test Task");
+        task.setTaskDescription("This is a test task");
         task.setPriority(1);
-        task.setDueDate("2023-12-31");
+        task.setDueDate(LocalDate.of(2023, 12, 13));
         task.setCompleted(false);
         task.setLockStatus(false);
         taskRepository.save(task);
@@ -136,10 +139,10 @@ public void testCreateTask() throws Exception {
     public void testFilterTasksByDateAndPriority() throws Exception {
         // Create and save  task
         Task task = new Task();
-        task.setTaskName("Test Task");
-        task.setDescription("This is a test task");
+        task.setTaskTitle("Test Task");
+        task.setTaskDescription("This is a test task");
         task.setPriority(3);
-        task.setDueDate("2025-05-05");
+        task.setDueDate(LocalDate.of(2025, 05, 05));
         task.setCompleted(false);
         task.setLockStatus(false);
         taskRepository.save(task);
@@ -149,8 +152,8 @@ mockMvc.perform(get("/tasks/filter")
 .param("date", "2025-05-05")
 .param("priority", "3"))
 .andExpect(status().isOk()) // Expect HTTP 200 OK
-.andExpect(jsonPath("$[0].taskName").value("Test Task")) // Validate the task name
-.andExpect(jsonPath("$[0].description").value("This is a test task")) // Validate the description
+.andExpect(jsonPath("$[0].taskTitle").value("Test Task")) // Validate the task name
+.andExpect(jsonPath("$[0].taskDescription").value("This is a test task")) // Validate the description
 .andExpect(jsonPath("$[0].priority").value(3)); // Validate the priority field (not priorityStatus)
 
 
