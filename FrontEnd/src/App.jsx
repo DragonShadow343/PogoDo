@@ -3,7 +3,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useState, useEffect, useContext } from 'react'
 import AuthContext from './context/AuthProvider'
-import axios from 'axios'
+// import axios from 'axios'
 import Login from './pages/Login';
 import Register from './pages/Register'
 import AdminRoutes from './routes/AdminRoutes'
@@ -14,16 +14,16 @@ function App() {
   const [data, setData] = useState('');
   const { auth } = useContext(AuthContext);
   
-  useEffect(() => {
-    axios.get("http://localhost:3500/getData", {withCredentials: true}) // Call backend API
-      .then((response) => {
-        console.log("Response Data: ", response.data);
-        setData(response.data.message);
-      })
-      .catch((error) => {
-        console.error("Axios error:", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios.get("http://localhost:3500/getData", {withCredentials: true}) // Call backend API
+  //     .then((response) => {
+  //       console.log("Response Data: ", response.data);
+  //       setData(response.data.message);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Axios error:", error);
+  //     });
+  // }, []);
 
   
   return (
@@ -37,11 +37,11 @@ function App() {
 
           {/* Conditional routing based on user role */}
 
-          {/* {auth?.role === 'admin' ? (
+          {auth?.role === 'admin' ? (
               <Route path="/*" element={<AdminRoutes />} />
           ) : (
               <Route path="/*" element={<UserRoutes />} />
-          )} */}
+          )}
       </Routes>
     </BrowserRouter>
   )

@@ -8,7 +8,7 @@ import Settings from '../pages/adminPages/Settings';
 
 const AdminRoutes = () => {
     return (
-        // <RequireAuth allowedRoles={['admin']}>
+        <RequireAuth allowedRoles={['admin']}>
             <Routes>
                 <Route path="/admin/" element={<Home />} />
                 <Route path="/admin/home" element={<Home />} />
@@ -18,7 +18,7 @@ const AdminRoutes = () => {
                 {/* Add more admin-specific routes here */}
                 <Route path="*" element={<Missing />} />
             </Routes>
-        // </RequireAuth>
+        </RequireAuth>
     );
 };
 
