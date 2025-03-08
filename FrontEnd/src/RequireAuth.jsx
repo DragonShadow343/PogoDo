@@ -5,16 +5,19 @@ import AuthContext from './context/AuthProvider';
 const RequireAuth = ({ children, allowedRoles }) => {
     const { auth } = useContext(AuthContext);
 
-    console.log("RequireAuth - Auth Context:", auth); // Debugging
-
     if (!auth) {
         console.log("Redirecting to login - No auth found.");
         return <Navigate to='/login' replace />;
     }
 
     if (!auth.role || !allowedRoles.includes(auth.role)) {
-        console.log("Redirecting to home - Unauthorized role:", auth.role);
-        return <Navigate to='/home' replace />;
+        if (auth.role === 'admin') {
+            return <Navigate to='/admin' replace />;
+        } else if (auth.role === 'user') {
+            return <Navigate to='/user' replace />;
+        } else {
+            return <Navigate to='/home' replace />;
+        }
     }
 
     return children;
