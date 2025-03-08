@@ -10,11 +10,11 @@ const AdminRoutes = () => {
     return (
         <RequireAuth allowedRoles={['admin']}>
             <Routes>
-                <Route path="/admin/" element={<Home />} />
-                <Route path="/admin/home" element={<Home />} />
-                <Route path="/admin/tasks" element={<TaskBoard />} />
-                <Route path="/admin/team-members" element={<TeamMembers />} />
-                <Route path="/admin/settings" element={<Settings />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/tasks" element={<TaskBoard />} />
+                <Route path="/team-members" element={<TeamMembers />} />
+                <Route path="/settings" element={<Settings />} />
                 {/* Add more admin-specific routes here */}
                 <Route path="*" element={<Missing />} />
             </Routes>

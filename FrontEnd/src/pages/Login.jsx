@@ -8,7 +8,7 @@ import AuthContext from '../context/AuthProvider';
 import './Register.css';
 
 import axios from '../api/axios';
-const LOGIN_URL = '/auth';
+const LOGIN_URL = '/Users/login';
 
 const Login = () => {
     const { setAuth } = useContext(AuthContext);
@@ -42,29 +42,33 @@ const Login = () => {
     
         try {
             const response = await axios.post(LOGIN_URL, 
-                JSON.stringify({ username: user, password: pwd }),
+                { username: user, passcode: pwd },
                 {
                     headers: {'Content-Type': 'application/json'},
                     withCredentials: true
                 }
-            );
+            ).then( response => {
+
+                console.log("Full response from backend:", response);
+
+                const { username, role } = response?.data || {};
+
+                // Store user data in sessionStorage
+                sessionStorage.setItem("loggedInUser", JSON.stringify({ username, role }));
+        
+                // Update AuthContext
+                setAuth({ username, role });
+        
+                // Clear input fields immediately
+                setUser('');
+                setPwd('');
+                setSuccess(true);
+        
+                // Redirect based on role
+                navigate(role === "admin" ? "/admin/home" : "/user/home");
+
+            });
     
-            console.log(JSON.stringify(response?.data));
-            const { username, role, accessToken } = response?.data;
-    
-            // Store user data in sessionStorage
-            sessionStorage.setItem("loggedInUser", JSON.stringify({ username, role, accessToken }));
-    
-            // Update AuthContext
-            setAuth({ username, role, accessToken });
-    
-            // Clear input fields immediately
-            setUser('');
-            setPwd('');
-            setSuccess(true);
-    
-            // Redirect based on role
-            navigate(role === "admin" ? "/admin/home" : "/user/home");
     
         } catch (err) {
             console.log("Login failed:", err);

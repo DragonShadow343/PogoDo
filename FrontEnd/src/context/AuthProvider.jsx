@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
     });
     
     useEffect(() => {
+        console.log(auth)
         if (auth) {
             sessionStorage.setItem("loggedInUser", JSON.stringify(auth));
         } else {

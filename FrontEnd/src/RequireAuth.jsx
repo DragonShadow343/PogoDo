@@ -1,19 +1,23 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import AuthContext from './context/AuthProvider';
 
-const RequireAuth = ({children, allowedRoles}) => {
+const RequireAuth = ({ children, allowedRoles }) => {
     const { auth } = useContext(AuthContext);
 
+    console.log("RequireAuth - Auth Context:", auth); // Debugging
+
     if (!auth) {
-        return <Navigate to='/login' replace/>
+        console.log("Redirecting to login - No auth found.");
+        return <Navigate to='/login' replace />;
     }
 
-    if (!allowedRoles.includes(auth.role)){
-        return <Navigate to='/home' replace/>
+    if (!auth.role || !allowedRoles.includes(auth.role)) {
+        console.log("Redirecting to home - Unauthorized role:", auth.role);
+        return <Navigate to='/home' replace />;
     }
 
     return children;
-}
+};
 
-export default RequireAuth
+export default RequireAuth;
