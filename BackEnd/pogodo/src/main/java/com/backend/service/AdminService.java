@@ -20,9 +20,9 @@ public class AdminService {
     }
 
     // Get all admins by role
-    public List<Admin> getAdminsByRole(String userRole) {
-        return adminRepository.findByRole(userRole);
-    }
+   // public List<Admin> getAdminsByRole(String userRole) {
+    //    return adminRepository.findByRole(userRole);
+   // }
 
     // Get an admin by username
     public Optional<Admin> getAdminByUsername(String userName) {

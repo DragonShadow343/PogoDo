@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer userId;
 
     @Column(nullable = false)
     private String firstName;
@@ -25,28 +25,28 @@ public class Admin {
     private String passcode;
 
     @Column(nullable = false)
-    private String role;  // This is the field for the role
+    private String userRole;  // This is the field for the role
 
     // Constructors, Getters, and Setters
     public Admin() {}
 
-    public Admin(Integer id, String firstName, String lastName, String email, String userName, String passcode, String role) {
-        this.id = id;
+    public Admin(Integer userId, String firstName, String lastName, String email, String userName, String passcode, String userRole) {
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.userName = userName;
         this.passcode = passcode;
-        this.role = role;
+        this.userRole = userRole;
     }
 
     // Getters and Setters
     public Integer getId() {
-        return id;
+        return userId;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -90,10 +90,10 @@ public class Admin {
     }
 
     public String getRole() {
-        return role;
+        return userRole;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole(String userRole) {
+        this.userRole = userRole;
     }
 }

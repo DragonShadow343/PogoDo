@@ -115,7 +115,7 @@ public class Task {
                "id=" + taskId +
                ", priority=" + priorityStatus +
                ", dueDate='" + dueDate + '\'' +
-               ", taskName='" + taskTitle + '\'' +
+               ", taskTitle='" + taskTitle + '\'' +
                ", description='" + taskDescription + '\'' +
                ", completionStatus=" + completionStatus +
                ", lockStatus=" + lockStatus +

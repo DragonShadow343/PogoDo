@@ -56,7 +56,7 @@ public void testCreateTask() throws Exception {
     task.setTaskTitle(uniqueTaskTitle);
     task.setTaskDescription("This is a test task");
     task.setPriority(1);
-    task.setDueDate("2023-12-31");
+    task.setDueDate(LocalDate.of(2023,12,31));
     task.setCompleted(false);
     task.setLockStatus(false);
 
@@ -77,7 +77,7 @@ public void testCreateTask() throws Exception {
         task.setTaskTitle("Test Task");
         task.setTaskDescription("This is a test task");
         task.setPriority(1);
-        task.setDueDate("2023-12-31");
+        task.setDueDate(LocalDate.of(2023,12,31));
         task.setCompleted(false);
         task.setLockStatus(false);
         taskRepository.save(task);
@@ -85,8 +85,8 @@ public void testCreateTask() throws Exception {
         // Send a GET request to fetch the task by ID
         mockMvc.perform(get("/tasks/{id}", task.getId()))
                 .andExpect(status().isOk()) // Expect HTTP 200 OK
-                .andExpect(jsonPath("$.taskName").value("Test Task")) // Validate the response
-                .andExpect(jsonPath("$.description").value("This is a test task"));
+                .andExpect(jsonPath("$.taskTitle").value("Test Task")) // Validate the response
+                .andExpect(jsonPath("$.taskDescription").value("This is a test task"));
     }
 
     @Test
@@ -96,7 +96,7 @@ public void testCreateTask() throws Exception {
         task.setTaskTitle("Test Task");
         task.setTaskDescription("This is a test task");
         task.setPriority(1);
-        task.setDueDate("2023-12-31");
+        task.setDueDate(LocalDate.of(2023,12,31));
         task.setCompleted(false);
         task.setLockStatus(false);
         taskRepository.save(task);
@@ -112,7 +112,7 @@ public void testCreateTask() throws Exception {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(taskJson))
                 .andExpect(status().isOk()) // Expect HTTP 200 OK
-                .andExpect(jsonPath("$.description").value("Updated description")); // Validate the response
+                .andExpect(jsonPath("$.taskDescription").value("Updated description")); // Validate the response
     }
 
     @Test
