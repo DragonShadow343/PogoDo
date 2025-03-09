@@ -4,10 +4,10 @@ const TaskContext = createContext({});
 
 export const TaskProvider = ({ children }) => {
     const [tasks, setTasks] = useState([
-        { id: 1, title: "Complete report", priority: 3, completed: false, assignedTo: [] },
+        { id: 1, title: "Complete report", priority: 3, completed: false, assignedTo: ["User"] },
         { id: 2, title: "Update dashboard UI", priority: 2, completed: false, assignedTo: [] },
         { id: 3, title: "Code review for PR #34", priority: 3, completed: false, assignedTo: [] },
-        { id: 4, title: "Fix login bug", priority: 1, completed: true, assignedTo: [] }
+        { id: 4, title: "Fix login bug", priority: 1, completed: true, assignedTo: ["User"] }
     ]);
 
     // Toggle task completion
