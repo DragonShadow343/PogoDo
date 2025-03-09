@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import CompletedButton from "../../UIComponents/CompletedButton";
+import CompletedButton from "../../../universalComponents/UIComponents/CompletedButton";
 import TaskContext from "../../../../context/TaskProvider";
 
 const PriorityTasks = () => {

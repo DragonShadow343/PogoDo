@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import TaskContext from "../../../../context/TaskProvider";
-import CompletedButton from "../../UIComponents/CompletedButton";
+import CompletedButton from "../../../universalComponents/UIComponents/CompletedButton";
 
 const AllTasks = () => {
   const { tasks, toggleTaskCompletion } = useContext(TaskContext);
