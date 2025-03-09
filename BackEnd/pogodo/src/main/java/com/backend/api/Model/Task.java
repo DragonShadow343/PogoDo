@@ -16,6 +16,7 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int taskId;
+    @Column(nullable = false)
     private int priorityStatus;
     private LocalDate dueDate;
     private String taskTitle;
@@ -25,9 +26,9 @@ public class Task {
 
     public Task() {}
 
-    public Task(int taskId, int priority, LocalDate dueDate, String taskTitle, String description, boolean completed, boolean lockStatus) {
+    public Task(int taskId, int priorityStatus, LocalDate dueDate, String taskTitle, String description, boolean completed, boolean lockStatus) {
         this.taskId = taskId;
-        this.priorityStatus = priority;
+        this.priorityStatus = priorityStatus;
         this.dueDate = dueDate;
         this.taskTitle = taskTitle;
         this.taskDescription = description;
@@ -86,11 +87,11 @@ public class Task {
         return priorityStatus;
     }
 
-    public void setPriority(int priority) {
-        if (priority < 1 || priority > 5) {
+    public void setPriority(int priorityStatus) {
+        if (priorityStatus < 1 || priorityStatus > 5) {
             throw new IllegalArgumentException("Priority must be between 1 and 5");
         }
-        this.priorityStatus = priority;
+        this.priorityStatus = priorityStatus;
     }
 
     public boolean getCompleted() {

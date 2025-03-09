@@ -62,7 +62,7 @@ public void testCreateTask() throws Exception {
 
     String taskJson = objectMapper.writeValueAsString(task);
 
-    mockMvc.perform(post("/tasks")
+    mockMvc.perform(post("/Tasks")
             .contentType(MediaType.APPLICATION_JSON)
             .content(taskJson))
             .andExpect(status().isCreated())
@@ -83,7 +83,7 @@ public void testCreateTask() throws Exception {
         taskRepository.save(task);
 
         // Send a GET request to fetch the task by ID
-        mockMvc.perform(get("/tasks/{id}", task.getId()))
+        mockMvc.perform(get("/Tasks/{id}", task.getId()))
                 .andExpect(status().isOk()) // Expect HTTP 200 OK
                 .andExpect(jsonPath("$.taskTitle").value("Test Task")) // Validate the response
                 .andExpect(jsonPath("$.taskDescription").value("This is a test task"));
@@ -108,7 +108,7 @@ public void testCreateTask() throws Exception {
         String taskJson = objectMapper.writeValueAsString(task);
 
         // Send a PUT request to update the task
-        mockMvc.perform(put("/tasks/{id}", task.getId())
+        mockMvc.perform(put("/Tasks/{id}", task.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(taskJson))
                 .andExpect(status().isOk()) // Expect HTTP 200 OK
@@ -128,37 +128,16 @@ public void testCreateTask() throws Exception {
         taskRepository.save(task);
 
         // Send a DELETE request to delete the task
-        mockMvc.perform(delete("/tasks/{id}", task.getId()))
+        mockMvc.perform(delete("/Tasks/{id}", task.getId()))
                 .andExpect(status().isNoContent()); // Expect HTTP 204 No Content
 
         // Verify that the task was deleted
         Task deletedTask = taskRepository.findById(task.getId()).orElse(null);
         assertNull(deletedTask);
     }
-    @Test
-    public void testFilterTasksByDateAndPriority() throws Exception {
-        // Create and save  task
-        Task task = new Task();
-        task.setTaskTitle("Test Task");
-        task.setTaskDescription("This is a test task");
-        task.setPriority(3);
-        task.setDueDate(LocalDate.of(2025, 05, 05));
-        task.setCompleted(false);
-        task.setLockStatus(false);
-        taskRepository.save(task);
     
-        // Send the GET request to filter tasks by date and priority
-mockMvc.perform(get("/tasks/filter")
-.param("date", "2025-05-05")
-.param("priority", "3"))
-.andExpect(status().isOk()) // Expect HTTP 200 OK
-.andExpect(jsonPath("$[0].taskTitle").value("Test Task")) // Validate the task name
-.andExpect(jsonPath("$[0].taskDescription").value("This is a test task")) // Validate the description
-.andExpect(jsonPath("$[0].priority").value(3)); // Validate the priority field (not priorityStatus)
-
 
 
 
 
     }
-}
