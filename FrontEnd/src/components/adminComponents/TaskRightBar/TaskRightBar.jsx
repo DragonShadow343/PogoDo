@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import TaskContext from "../../../context/TaskProvider";
 import AssigneeDropdown from "./TaskRightBarComponents/AssigneeDropdown";
 import './TaskRightBar.css';
-import CompletedButton from "../UIComponents/CompletedButton";
+import CompletedButton from "../../universalComponents/UIComponents/CompletedButton";
 
 const TaskRightBar = () => {
     const { tasks, setTasks, toggleTaskCompletion } = useContext(TaskContext);
@@ -50,9 +50,9 @@ const TaskRightBar = () => {
                             </div>
                         </div>
                 ))}
-                <p className="text-xl font-bold m-4 mt-8">All Tasks</p>
+                <p className="text-xl font-bold m-4 mt-8">Remaining Tasks</p>
                 {tasks
-                    // .filter(task => task.priority != 3)
+                    .filter(task => task.priority != 3)
                     .map((task) => (
                         <div key={task.id} className="p-4 mb-2 space-y-4 rounded-lg shadow-[0px_5px_15px_#d9d6d4]">
 
