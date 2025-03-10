@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("/Tasks")
 public class TaskController {
 
     private final TaskService taskService;
@@ -70,15 +70,5 @@ public class TaskController {
         }
     }
 
-
-
-    //  filtering tasks by date and priority
-@GetMapping("/filter")
-public ResponseEntity<List<Task>> getTasksByDateAndPriority(
-       @RequestParam String date,
-       @RequestParam int priority) {
-   List<Task> tasks = taskService.getTasksByDateAndPriority(date, priority);
-   return ResponseEntity.ok(tasks);
-}
 
 }

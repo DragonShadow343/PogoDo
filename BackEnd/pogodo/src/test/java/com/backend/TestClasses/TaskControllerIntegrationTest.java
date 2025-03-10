@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -47,115 +50,94 @@ public class TaskControllerIntegrationTest {
 
     @Test
 public void testCreateTask() throws Exception {
-    String uniqueTaskName = "Test Task " + System.currentTimeMillis(); // Unique task name
+    String uniqueTaskTitle = "Test Task " + System.currentTimeMillis(); // Unique task name
 
     Task task = new Task();
-    task.setTaskName(uniqueTaskName);
-    task.setDescription("This is a test task");
+    task.setTaskTitle(uniqueTaskTitle);
+    task.setTaskDescription("This is a test task");
     task.setPriority(1);
-    task.setDueDate("2023-12-31");
+    task.setDueDate(LocalDate.of(2023,12,31));
     task.setCompleted(false);
     task.setLockStatus(false);
 
     String taskJson = objectMapper.writeValueAsString(task);
 
-    mockMvc.perform(post("/tasks")
+    mockMvc.perform(post("/Tasks")
             .contentType(MediaType.APPLICATION_JSON)
             .content(taskJson))
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("$.taskName").value(uniqueTaskName))
-            .andExpect(jsonPath("$.description").value("This is a test task"));
+            .andExpect(jsonPath("$.taskTitle").value(uniqueTaskTitle))
+            .andExpect(jsonPath("$.taskDescription").value("This is a test task"));
 }
 
     @Test
     public void testGetTaskById() throws Exception {
         // Create and save a task
         Task task = new Task();
-        task.setTaskName("Test Task");
-        task.setDescription("This is a test task");
+        task.setTaskTitle("Test Task");
+        task.setTaskDescription("This is a test task");
         task.setPriority(1);
-        task.setDueDate("2023-12-31");
+        task.setDueDate(LocalDate.of(2023,12,31));
         task.setCompleted(false);
         task.setLockStatus(false);
         taskRepository.save(task);
 
         // Send a GET request to fetch the task by ID
-        mockMvc.perform(get("/tasks/{id}", task.getId()))
+        mockMvc.perform(get("/Tasks/{id}", task.getId()))
                 .andExpect(status().isOk()) // Expect HTTP 200 OK
-                .andExpect(jsonPath("$.taskName").value("Test Task")) // Validate the response
-                .andExpect(jsonPath("$.description").value("This is a test task"));
+                .andExpect(jsonPath("$.taskTitle").value("Test Task")) // Validate the response
+                .andExpect(jsonPath("$.taskDescription").value("This is a test task"));
     }
 
     @Test
     public void testUpdateTask() throws Exception {
         // Create and save a task
         Task task = new Task();
-        task.setTaskName("Test Task");
-        task.setDescription("This is a test task");
+        task.setTaskTitle("Test Task");
+        task.setTaskDescription("This is a test task");
         task.setPriority(1);
-        task.setDueDate("2023-12-31");
+        task.setDueDate(LocalDate.of(2023,12,31));
         task.setCompleted(false);
         task.setLockStatus(false);
         taskRepository.save(task);
 
         // Update the task
-        task.setDescription("Updated description");
+        task.setTaskDescription("Updated description");
 
         // Convert the updated task object to JSON
         String taskJson = objectMapper.writeValueAsString(task);
 
         // Send a PUT request to update the task
-        mockMvc.perform(put("/tasks/{id}", task.getId())
+        mockMvc.perform(put("/Tasks/{id}", task.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(taskJson))
                 .andExpect(status().isOk()) // Expect HTTP 200 OK
-                .andExpect(jsonPath("$.description").value("Updated description")); // Validate the response
+                .andExpect(jsonPath("$.taskDescription").value("Updated description")); // Validate the response
     }
 
     @Test
     public void testDeleteTask() throws Exception {
         // Create and save a task
         Task task = new Task();
-        task.setTaskName("Test Task");
-        task.setDescription("This is a test task");
+        task.setTaskTitle("Test Task");
+        task.setTaskDescription("This is a test task");
         task.setPriority(1);
-        task.setDueDate("2023-12-31");
+        task.setDueDate(LocalDate.of(2023, 12, 13));
         task.setCompleted(false);
         task.setLockStatus(false);
         taskRepository.save(task);
 
         // Send a DELETE request to delete the task
-        mockMvc.perform(delete("/tasks/{id}", task.getId()))
+        mockMvc.perform(delete("/Tasks/{id}", task.getId()))
                 .andExpect(status().isNoContent()); // Expect HTTP 204 No Content
 
         // Verify that the task was deleted
         Task deletedTask = taskRepository.findById(task.getId()).orElse(null);
         assertNull(deletedTask);
     }
-    @Test
-    public void testFilterTasksByDateAndPriority() throws Exception {
-        // Create and save  task
-        Task task = new Task();
-        task.setTaskName("Test Task");
-        task.setDescription("This is a test task");
-        task.setPriority(3);
-        task.setDueDate("2025-05-05");
-        task.setCompleted(false);
-        task.setLockStatus(false);
-        taskRepository.save(task);
     
-        // Send the GET request to filter tasks by date and priority
-mockMvc.perform(get("/tasks/filter")
-.param("date", "2025-05-05")
-.param("priority", "3"))
-.andExpect(status().isOk()) // Expect HTTP 200 OK
-.andExpect(jsonPath("$[0].taskName").value("Test Task")) // Validate the task name
-.andExpect(jsonPath("$[0].description").value("This is a test task")) // Validate the description
-.andExpect(jsonPath("$[0].priority").value(3)); // Validate the priority field (not priorityStatus)
-
 
 
 
 
     }
-}
