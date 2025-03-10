@@ -53,10 +53,6 @@ public class UserController {
         try {
             System.out.println("Received User Data: " + user); // ✅ Debug received data
 
-            if (user == null || user.getUsername() == null || user.getEmail() == null || user.getFirstName() == null) {
-                return ResponseEntity.badRequest().body("Invalid user data: Missing fields");
-            }
-
             User savedUser = userService.saveUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
 
