@@ -1,6 +1,6 @@
 import React from 'react'
 import "./HomeRightBar.css"
-import PersonalInfo from './HomeRightBarWidgets/PersonalInfo'
+import PersonalInfo from './../../universalComponents/PersonalInfo'
 import AllTasks from './HomeRightBarWidgets/AllTasks'
 import PriorityTasks from './HomeRightBarWidgets/PriorityTasks'
 import TeamMembers from './HomeRightBarWidgets/TeamMembers'

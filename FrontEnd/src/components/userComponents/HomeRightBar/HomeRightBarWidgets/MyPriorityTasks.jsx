@@ -7,7 +7,7 @@ const PriorityTasks = () => {
 
   return (
     <div className="p-4 border rounded-lg shadow-[0px_5px_15px_rgba(197,25,25,0.3)] bg-red-100">
-      <h2 className="text-xl font-bold mb-2">Priority Tasks</h2>
+      <h2 className="text-xl font-bold mb-2">My Priority Tasks</h2>
       <ul>
         {tasks
           .filter(task => task.priority === 3)
