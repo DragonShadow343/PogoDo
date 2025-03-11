@@ -1,5 +1,7 @@
 package com.backend.api.Controller;
 
+import java.util.Optional;
+import java.util.Map;
 import com.backend.api.Model.User;
 import com.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,4 +63,30 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed: " + e.getMessage());
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody User loginRequest) {
+        String username = loginRequest.getUsername();
+        String password = loginRequest.getPasscode();
+
+        Optional<User> userOptional = userService.getUserByUsername(username);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            // String accessToken = jwtTokenProvider.generateToken(username);
+            if (user.getPasscode().equals(password)) { // ✅ Direct string comparison
+                return ResponseEntity.ok().body(Map.of(
+                    "message", "Login successful",
+                    "username", user.getUsername(),
+                    "role", user.getUserRole()
+                    // "accessToken", accessToken
+                ));
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid password"));
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "User not found"));
+        }
+    }
+
 }

@@ -8,8 +8,8 @@ const UserRoutes = () => {
     return (
         <RequireAuth allowedRoles={['user']}>
             <Routes>
-                <Route path="/user/" element={<Home/>} />
-                <Route path="/user/home" element={<Home/>} />
+                <Route path="/" element={<Home/>} />
+                <Route path="/home" element={<Home/>} />
                 <Route path="*" element={<Missing />} />
             </Routes>
         </RequireAuth>
