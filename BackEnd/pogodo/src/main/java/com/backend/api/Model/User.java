@@ -3,7 +3,7 @@ package com.backend.api.Model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Users") // Map to the "Users" table in the database
+@Table(name = "\"Users\"") // Map to the "Users" table in the database
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generate ID

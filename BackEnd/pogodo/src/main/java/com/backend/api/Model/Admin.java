@@ -3,7 +3,7 @@ package com.backend.api.Model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "\"Users\"")
 public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
