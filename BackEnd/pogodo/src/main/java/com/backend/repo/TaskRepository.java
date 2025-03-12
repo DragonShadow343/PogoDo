@@ -12,10 +12,7 @@ import com.backend.api.Model.Task;
 // This interface extends JpaRepository to automatically provide CRUD operations
 public interface TaskRepository extends JpaRepository<Task, Integer> {
 
-    Optional<Task> findByTaskName(String string);
-
-    @Query("SELECT t FROM Task t WHERE t.dueDate = :date AND t.priorityStatus = :priority")
-List<Task> findTasksByDateAndPriority(@Param("date") String date, @Param("priority") Integer priority);
+    Optional<Task> findByTaskTitle(String string);
 
 
 

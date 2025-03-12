@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generate ID
+    @Column(name = "userId", nullable = false)
     private Integer userId;
 
     @Column(name = "firstName", nullable = false)
