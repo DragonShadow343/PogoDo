@@ -46,7 +46,7 @@ public class Admin {
     }
 
     public void setId(Integer id) {
-        this.userId = userId;
+        this.userId = id;
     }
 
     public String getFirstName() {
@@ -81,11 +81,11 @@ public class Admin {
         this.userName = userName;
     }
 
-    public String getPassword() {
+    public String getPassCode() {
         return passcode;
     }
 
-    public void setPassword(String password) {
+    public void setPasscode(String passcode) {
         this.passcode = passcode;
     }
 

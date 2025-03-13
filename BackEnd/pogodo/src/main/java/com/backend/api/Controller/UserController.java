@@ -73,7 +73,7 @@ public class UserController {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             // String accessToken = jwtTokenProvider.generateToken(username);
-            if (user.getPasscode().equals(password)) { // ✅ Direct string comparison
+            if (user.getPasscode().equals(password)) { //  Direct string comparison
                 return ResponseEntity.ok().body(Map.of(
                     "message", "Login successful",
                     "username", user.getUsername(),
