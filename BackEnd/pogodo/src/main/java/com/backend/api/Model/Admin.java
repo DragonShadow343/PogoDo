@@ -1,51 +1,55 @@
 package com.backend.api.Model;
 
+import com.backend.api.Model.Interfaces.Account;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "\"Users\"")
-public class Admin {
+public class Admin implements Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "userId", nullable = false)
     private Integer userId;
 
-    @Column(nullable = false)
+    @Column(name = "firstName", nullable = false)
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(name = "lastName", nullable = false)
     private String lastName;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
-    private String userName;
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
 
-    @Column(nullable = false)
+    @Column(name = "passcode", nullable = false)
     private String passcode;
 
-    @Column(nullable = false)
-    private String userRole;  // This is the field for the role
+    @Column(name = "userRole", nullable = false)
+    private String userRole;
 
-    // Constructors, Getters, and Setters
+    // Constructors
     public Admin() {}
 
-    public Admin(Integer userId, String firstName, String lastName, String email, String userName, String passcode, String userRole) {
-        this.userId = userId;
+    public Admin(String firstName, String lastName, String email, String username, String passcode, String userRole) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.userName = userName;
+        this.username = username;
         this.passcode = passcode;
         this.userRole = userRole;
     }
 
     // Getters and Setters
-    public Integer getId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setId(Integer id) {
+    public void setUserId(int userId) {
+        if (userId < 0) {
+            throw new IllegalArgumentException("ID cannot be negative");
+        }
         this.userId = userId;
     }
 
@@ -54,6 +58,9 @@ public class Admin {
     }
 
     public void setFirstName(String firstName) {
+        if (firstName == null || firstName.isEmpty()) {
+            throw new IllegalArgumentException("First name cannot be empty");
+        }
         this.firstName = firstName;
     }
 
@@ -62,6 +69,9 @@ public class Admin {
     }
 
     public void setLastName(String lastName) {
+        if (lastName == null || lastName.isEmpty()) {
+            throw new IllegalArgumentException("Last name cannot be empty");
+        }
         this.lastName = lastName;
     }
 
@@ -70,30 +80,56 @@ public class Admin {
     }
 
     public void setEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be empty");
+        }
         this.email = email;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be empty");
+        }
+        this.username = username;
     }
 
-    public String getPassword() {
+    public String getPasscode() {
         return passcode;
     }
 
-    public void setPassword(String password) {
+    public void setPasscode(String passcode) {
+        if (passcode == null || passcode.isEmpty()) {
+            throw new IllegalArgumentException("Passcode cannot be empty");
+        }
         this.passcode = passcode;
     }
 
-    public String getRole() {
+    public String getUserRole() {
         return userRole;
     }
 
-    public void setRole(String userRole) {
+    public void setUserRole(String userRole) {
+        if (userRole == null || userRole.isEmpty()) {
+            throw new IllegalArgumentException("User role cannot be empty");
+        }
         this.userRole = userRole;
+    }
+
+    // toString Method
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "userId=" + userId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", passcode='" + passcode + '\'' +
+                ", userRole='" + userRole + '\'' +
+                '}';
     }
 }

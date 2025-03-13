@@ -26,7 +26,7 @@ public class AdminService {
 
     // Get an admin by username
     public Optional<Admin> getAdminByUsername(String userName) {
-        return adminRepository.findByUserName(userName);
+        return adminRepository.findByUsername(userName);
     }
 
     // Get an admin by email

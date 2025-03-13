@@ -14,7 +14,7 @@ public interface AdminRepository extends JpaRepository<Admin, Integer> {
   //  List<Admin> findByRole(String userRole);
 
     // Custom query to find an admin by username
-    Optional<Admin> findByUserName(String userName);
+    Optional<Admin> findByUsername(String userName);
 
     // Custom query to find an admin by email
     Optional<Admin> findByEmail(String email);
