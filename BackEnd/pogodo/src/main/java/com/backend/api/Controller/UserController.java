@@ -54,7 +54,6 @@ public class UserController {
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
             System.out.println("Received User Data: " + user); // ✅ Debug received data
-
             User savedUser = userService.saveUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
 
