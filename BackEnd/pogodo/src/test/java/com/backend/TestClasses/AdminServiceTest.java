@@ -38,11 +38,11 @@ public class AdminServiceTest {
         admin.setFirstName("AdminFirst");
         admin.setLastName("AdminLast");
         admin.setEmail("admin@example.com");
-        admin.setUserName("adminuser");
-        admin.setPasscode("plainText123");  // <-- Must match what you test later
+        admin.setUserName("adminUser");
+        admin.setPasscode("plainText123");  // Must match what you test later
         admin.setRole("ADMIN");
     
-        // Act
+      
         Admin savedAdmin = adminService.saveAdmin(admin);
     
         // Assert: ID is assigned

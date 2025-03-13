@@ -12,9 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Tests the password-hashing logic (and basic save) in UserService.
- */
+
 @SpringBootTest
 @ActiveProfiles("h2") // or "test" profile, whichever is set up for your in-memory DB
 class UserServiceTest {
@@ -36,7 +34,7 @@ class UserServiceTest {
 
     @Test
     void testSaveUser_withPlainTextPassword_hashesSuccessfully() {
-        // Arrange: create a new user with a plain-text passcode
+        //  create a new user with a plain-text passcode
         User user = new User();
         user.setFirstName("Alice");
         user.setLastName("Smith");
@@ -45,21 +43,21 @@ class UserServiceTest {
         user.setPasscode("myPlaintext123");
         user.setUserRole("USER");
 
-        // Act: save via the service (which encodes the password)
+       
         User savedUser = userService.saveUser(user);
 
-        // Assert: verify the DB passcode is hashed, not plain text
+        // verify the DB passcode is hashed, not plain text
         assertNotNull(savedUser.getUserId(), "User should have been assigned an ID");
         assertNotEquals("myPlaintext123", savedUser.getPasscode(),
                 "Expected passcode to be hashed, not stored in plain text!");
 
-        // Optionally, verify that the hashed password can be matched by the encoder:
+        //  verify that the hashed password can be matched by the encoder:
         assertTrue(
                 passwordEncoder.matches("myPlaintext123", savedUser.getPasscode()),
                 "Stored hash should match the original plain-text password when using PasswordEncoder.matches()"
         );
     }
 
-    // You can add other tests here if you want to check update logic, etc.
+  
 
 }

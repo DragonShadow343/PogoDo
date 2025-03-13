@@ -41,8 +41,7 @@ public class AdminService {
     // Save an admin
     public Admin saveAdmin(Admin admin) {
         
-        String rawPasscode = admin.getPassCode();  // must not be null or empty
-    
+        String rawPasscode = admin.getPassCode();  
       
         String hashed = passwordEncoder.encode(rawPasscode);
     

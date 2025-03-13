@@ -25,7 +25,7 @@ public class Admin {
     private String passcode;
 
     @Column(nullable = false)
-    private String userRole;  // This is the field for the role
+    private String userRole;  
 
     // Constructors, Getters, and Setters
     public Admin() {}
