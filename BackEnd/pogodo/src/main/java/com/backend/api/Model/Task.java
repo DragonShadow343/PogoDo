@@ -83,11 +83,11 @@ public class Task {
         this.taskDescription = taskDescription;
     }
 
-    public int getPriority() {
+    public int getPriorityStatus() {
         return priorityStatus;
     }
 
-    public void setPriority(int priorityStatus) {
+    public void setPriorityStatus(int priorityStatus) {
         if (priorityStatus < 1 || priorityStatus > 5) {
             throw new IllegalArgumentException("Priority must be between 1 and 5");
         }
@@ -114,7 +114,7 @@ public class Task {
     public String toString() {
         return "Task{" +
                "id=" + taskId +
-               ", priority=" + priorityStatus +
+               ", priorityStatus=" + priorityStatus +
                ", dueDate='" + dueDate + '\'' +
                ", taskTitle='" + taskTitle + '\'' +
                ", description='" + taskDescription + '\'' +
