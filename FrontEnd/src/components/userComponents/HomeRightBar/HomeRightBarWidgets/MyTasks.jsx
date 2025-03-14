@@ -11,7 +11,7 @@ const MyTasks = () => {
       <ul className="overflow-scroll max-h-[60vh] no-scrollbar">
         {tasks.map(task => (
             <li key={task.id} className="flex justify-between items-center p-2 bg-white my-2 rounded border-b-1 border-[#ebe8e5]">
-                <span className={task.completed ? "line-through text-gray-500" : ""}>{task.title}</span>
+                <span className={task.completed ? "line-through text-gray-500" : ""}>{task.taskTitle}</span>
                 <CompletedButton taskID={task.id} taskCompleted={task.completed}/>
             </li>
         ))}

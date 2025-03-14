@@ -10,11 +10,11 @@ const PriorityTasks = () => {
       <h2 className="text-xl font-bold mb-2">My Priority Tasks</h2>
       <ul>
         {tasks
-          .filter(task => task.priority === 3)
+          .filter(task => task.priorityStatus === 3)
           .map(task => (
             <li key={task.id} className="flex justify-between items-center p-2 bg-white my-2 rounded shadow">
               <span className={task.completed ? "line-through text-gray-500" : ""}>{task.taskTitle}</span>
-              <CompletedButton taskID={task.id} taskCompleted={task.completed} taskPriority={task.priority} />
+              <CompletedButton taskID={task.id} taskCompleted={task.completed} taskPriority={task.priorityStatus} />
             </li>
           ))}
       </ul>

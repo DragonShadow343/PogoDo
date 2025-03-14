@@ -39,11 +39,11 @@ const TaskRightBar = () => {
 
             <div className="p-4 overflow-hidden gap-4">
                 <p className="text-xl text-red-400 font-bold m-4">High Priority</p>
-                {tasks.filter(task => task.priority === 3).map((task) => (
+                {tasks.filter(task => task.priorityStatus === 3).map((task) => (
                     <div key={task.id} className="p-4 mb-2 space-y-4 rounded-lg bg-red-50 shadow-md">
                         <div className="flex justify-between">
                             <h3 className="font-bold text-lg">{task.taskTitle}</h3>
-                            <CompletedButton taskID={task.id} taskCompleted={task.completed} taskPriority={task.priority} />
+                            <CompletedButton taskID={task.id} taskCompleted={task.completed} taskPriority={task.priorityStatus} />
                         </div>
                         <div className="flex flex-row-reverse justify-between">
                             <AssigneeDropdown
@@ -59,11 +59,11 @@ const TaskRightBar = () => {
                 ))}
 
                 <p className="text-xl font-bold m-4 mt-8">Remaining Tasks</p>
-                {tasks.filter(task => task.priority !== 3).map((task) => (
+                {tasks.filter(task => task.priorityStatus !== 3).map((task) => (
                     <div key={task.id} className="p-4 mb-2 space-y-4 rounded-lg shadow-md">
                         <div className="flex justify-between">
                             <h3 className="font-bold text-lg">{task.taskTitle}</h3>
-                            <CompletedButton taskID={task.id} taskCompleted={task.completed} taskPriority={task.priority} />
+                            <CompletedButton taskID={task.id} taskCompleted={task.completed} taskPriority={task.priorityStatus} />
                         </div>
                         <div className="flex flex-row-reverse justify-between">
                             <AssigneeDropdown
