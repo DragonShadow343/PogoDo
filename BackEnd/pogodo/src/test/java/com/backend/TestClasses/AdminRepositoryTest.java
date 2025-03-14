@@ -35,8 +35,8 @@ public class AdminRepositoryTest {
     @BeforeEach
     public void setUp() {
         // Initialize Admin instances
-        admin1 = new Admin(null, "Robert", "Cat", "cat@gmail.com", "cat", "1234", "Admin");
-        admin2 = new Admin(null, "Kennedy", "Branden", "branden@gmail.com", "branden6", "1234", "Admin");
+        admin1 = new Admin("Cat", "Robert", "cat@gmail.com", "cat", "1234", "Admin");
+        admin2 = new Admin("Branden", "Kennedy", "branden@gmail.com", "branden6", "1234", "Admin");
 
         // Save the admins to the database
         adminRepository.save(admin1);

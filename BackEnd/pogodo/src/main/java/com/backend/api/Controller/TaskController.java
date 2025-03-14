@@ -2,7 +2,6 @@ package com.backend.api.Controller;
 
 import com.backend.api.Model.Task;
 import com.backend.service.TaskService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    @Autowired
+    
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
@@ -41,6 +40,7 @@ public class TaskController {
     // Create a new task
     @PostMapping("/createtask")
     public ResponseEntity<Task> createTask(@RequestBody Task task) {
+        System.out.println("Received with Priority Status: " + task.toString());
         Task createdTask = taskService.saveTask(task);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
     }

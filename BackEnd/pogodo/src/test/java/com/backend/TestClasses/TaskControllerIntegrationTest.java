@@ -55,7 +55,7 @@ public void testCreateTask() throws Exception {
     Task task = new Task();
     task.setTaskTitle(uniqueTaskTitle);
     task.setTaskDescription("This is a test task");
-    task.setPriority(1);
+    task.setPriorityStatus(1);
     task.setDueDate(LocalDate.of(2023,12,31));
     task.setCompleted(false);
     task.setLockStatus(false);
@@ -63,11 +63,13 @@ public void testCreateTask() throws Exception {
     String taskJson = objectMapper.writeValueAsString(task);
 
     mockMvc.perform(post("/Tasks/createtask")
-    .contentType(MediaType.APPLICATION_JSON)
-    .content(taskJson))
-    .andExpect(status().isCreated())
-    .andExpect(jsonPath("$.taskTitle").value(uniqueTaskTitle))
-    .andExpect(jsonPath("$.taskDescription").value("This is a test task"));
+
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(taskJson))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.taskTitle").value(uniqueTaskTitle))
+            .andExpect(jsonPath("$.taskDescription").value("This is a test task"))
+            .andExpect(jsonPath("$.priorityStatus").value(1));
 
 }
 
@@ -77,7 +79,7 @@ public void testCreateTask() throws Exception {
         Task task = new Task();
         task.setTaskTitle("Test Task");
         task.setTaskDescription("This is a test task");
-        task.setPriority(1);
+        task.setPriorityStatus(1);
         task.setDueDate(LocalDate.of(2023,12,31));
         task.setCompleted(false);
         task.setLockStatus(false);
@@ -96,7 +98,7 @@ public void testCreateTask() throws Exception {
         Task task = new Task();
         task.setTaskTitle("Test Task");
         task.setTaskDescription("This is a test task");
-        task.setPriority(1);
+        task.setPriorityStatus(1);
         task.setDueDate(LocalDate.of(2023,12,31));
         task.setCompleted(false);
         task.setLockStatus(false);
@@ -122,7 +124,7 @@ public void testCreateTask() throws Exception {
         Task task = new Task();
         task.setTaskTitle("Test Task");
         task.setTaskDescription("This is a test task");
-        task.setPriority(1);
+        task.setPriorityStatus(1);
         task.setDueDate(LocalDate.of(2023, 12, 13));
         task.setCompleted(false);
         task.setLockStatus(false);

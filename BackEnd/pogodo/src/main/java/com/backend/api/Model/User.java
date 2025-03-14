@@ -1,10 +1,12 @@
 package com.backend.api.Model;
 
+import com.backend.api.Model.Interfaces.Account;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "\"Users\"") // Map to the "Users" table in the database
-public class User {
+public class User implements Account{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generate ID
     @Column(name = "userId", nullable = false)

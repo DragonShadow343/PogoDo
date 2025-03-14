@@ -15,7 +15,7 @@ public class TaskTest {
 
         // Tests that should pass
         Assertions.assertEquals(1, task.getId());
-        Assertions.assertEquals(1, task.getPriority());
+        Assertions.assertEquals(1, task.getPriorityStatus());
         Assertions.assertEquals(LocalDate.of(2021,12,31), task.getDueDate());
         Assertions.assertEquals("taskTitle", task.getTaskTitle());
         Assertions.assertEquals("taskDescription", task.getTaskDescription());

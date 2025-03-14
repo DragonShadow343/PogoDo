@@ -1,6 +1,5 @@
 package com.backend.api.Controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.backend.api.Model.Admin;
@@ -12,7 +11,7 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    @Autowired
+
     public AdminController(AdminService adminService) {
         this.adminService = adminService;
     }

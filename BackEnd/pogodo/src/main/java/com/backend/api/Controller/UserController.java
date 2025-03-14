@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.Map;
 import com.backend.api.Model.User;
 import com.backend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @Autowired
+    
     public UserController(UserService userService) {
         this.userService = userService;
     }

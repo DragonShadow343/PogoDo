@@ -1,14 +1,24 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
+import axios from "./../api/axios"
 
 const TaskContext = createContext({});
 
 export const TaskProvider = ({ children }) => {
-    const [tasks, setTasks] = useState([
-        { id: 1, title: "Complete report", priority: 3, completed: false, assignedTo: ["User"] },
-        { id: 2, title: "Update dashboard UI", priority: 2, completed: false, assignedTo: [] },
-        { id: 3, title: "Code review for PR #34", priority: 3, completed: false, assignedTo: [] },
-        { id: 4, title: "Fix login bug", priority: 1, completed: true, assignedTo: ["User"] }
-    ]);
+    const [tasks, setTasks] = useState([]);
+
+    // Fetch tasks from backend
+    useEffect(() => {
+        const fetchTasks = async () => {
+            try {
+                const response = await axios.get("/Tasks"); // Fetch all tasks
+                setTasks(response.data); // Update state with fetched tasks
+            } catch (error) {
+                console.error("Error fetching tasks:", error);
+            }
+        };
+
+        fetchTasks();
+    }, []);
 
     // Toggle task completion
     const toggleTaskCompletion = (taskId) => {

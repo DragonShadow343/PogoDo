@@ -7,7 +7,7 @@ const ProgressBar = () => {
   const taskLength = tasks.length;
   const completedTasks = tasks.filter(task => task.completed).length;
 
-  const progress = completedTasks/taskLength*100;
+  const progress = parseInt(completedTasks/taskLength*100);
 
   return (
     <div className="p-4 rounded-lg shadow-[0px_5px_15px_#d9d6d4] bg-[#FFFCF9]">
