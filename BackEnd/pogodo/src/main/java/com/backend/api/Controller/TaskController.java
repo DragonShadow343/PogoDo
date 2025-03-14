@@ -47,16 +47,24 @@ public class TaskController {
 
     // Update an existing task
     @PutMapping("/{id}")
-    public ResponseEntity<Task> updateTask(@PathVariable Integer id, @RequestBody Task task) {
-        Optional<Task> existingTask = taskService.getTaskById(id);
-        if (existingTask.isPresent()) {
-            task.setId(id); // Ensure the ID is set correctly
-            Task updatedTask = taskService.saveTask(task);
-            return ResponseEntity.ok(updatedTask);
+        public ResponseEntity<Task> updateTask(@PathVariable Integer id, @RequestBody Task updatedTask) {
+        Optional<Task> existingTaskOptional = taskService.getTaskById(id);
+        
+        if (existingTaskOptional.isPresent()) {
+            Task existingTask = existingTaskOptional.get();
+            
+            // ✅ Preserve other fields, only update completed
+            if (Boolean.TRUE.equals(updatedTask.getCompleted())) {
+                existingTask.setCompleted(updatedTask.getCompleted());
+            }
+            
+            Task savedTask = taskService.saveTask(existingTask);
+            return ResponseEntity.ok(savedTask);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
 
     // Delete a task
     @DeleteMapping("/{id}")
