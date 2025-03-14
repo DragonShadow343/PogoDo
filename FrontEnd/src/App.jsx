@@ -13,21 +13,7 @@ import Chat from './components/universalComponents/WebSocket(CHAT)/Chat'
 
 
 function App() {
-
-  const [data, setData] = useState('');
   const { auth } = useContext(AuthContext);
-  
-  // useEffect(() => {
-  //   axios.get("http://localhost:3500/getData", {withCredentials: true}) // Call backend API
-  //     .then((response) => {
-  //       console.log("Response Data: ", response.data);
-  //       setData(response.data.message);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Axios error:", error);
-  //     });
-  // }, []);
-
   
   return (
     <BrowserRouter>

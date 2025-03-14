@@ -109,8 +109,8 @@ const Register = () => {
     };
 
     return (
-        <div className='bg-blue-400 h-screen flex justify-center items-center'>
-            <section className='bg-blue-900 text-white w-96 box-border rounded-2xl p-8'>
+        <div className='bg-[#FFFCF9] h-screen flex justify-center items-center'>
+            <section className='bg-gray-800 text-white w-96 box-border rounded-2xl p-8'>
                 <p ref={errRef} className={errMsg ? "text-red-700 bg-red-300 border border-red-500 p-2" : "offscreen"} aria-live='assertive'>{errMsg}</p>
                 <h1 className='my-4 text-4xl'>Register</h1>
                 <form onSubmit={handleSubmit} className='space-y-2 flex flex-col'>
@@ -131,6 +131,7 @@ const Register = () => {
                         id='firstName'
                         autoComplete='off'
                         onChange={(e) => setFirstName(e.target.value)}
+                        ref={userRef}
                         required
                         aria-invalid={validFirstName ? 'false' : 'true'}
                         aria-describedby='firstNameNote'
@@ -187,7 +188,6 @@ const Register = () => {
                         className='bg-white text-black rounded p-2'
                         type="text"
                         id='username'
-                        ref={userRef}
                         autoComplete='off'
                         onChange={(e) => setUser(e.target.value)}
                         required
@@ -295,11 +295,8 @@ const Register = () => {
                         <label><input type="radio" value="user" checked={role === 'user'} onChange={() => setRole('user')} /> User</label>
                     </div>
 
-                    <button className={!validMatch || !validName || !validPwd?'border border-gray-400 bg-[rgba(255,255,255,0.2)] text-gray-400 rounded p-2 my-4 cursor-not-allowed':"border border-white rounded p-2 my-4 cursor-pointer"} disabled={!validMatch || !validName || !validPwd ? true: false}>Sign up</button>
-
-
+                    <button className={!validMatch || !validName || !validPwd?'border border-[#FFFCF9] bg-[rgba(255,255,255,0.2)] text-gray-400 rounded p-2 my-4 cursor-not-allowed':"border border-[#FFFCF9] text-[#FFFCF9] rounded p-2 my-4 cursor-pointer hover:bg-[#FFFCF9] hover:text-gray-800 transition duration-100"} disabled={!validMatch || !validName || !validPwd ? true: false}>Sign up</button>
                 </form>
-
                 {/* Link to Login page */}
                 <p>
                     Already registered? <br />
