@@ -38,23 +38,23 @@ public class AdminServiceTest {
         admin.setFirstName("AdminFirst");
         admin.setLastName("AdminLast");
         admin.setEmail("admin@example.com");
-        admin.setUserName("adminUser");
+        admin.setUsername("adminUser");
         admin.setPasscode("plainText123");  // Must match what you test later
-        admin.setRole("ADMIN");
+        admin.setUserRole("ADMIN");
     
       
         Admin savedAdmin = adminService.saveAdmin(admin);
     
         // Assert: ID is assigned
-        assertNotNull(savedAdmin.getId(), "Admin should have been assigned an ID");
+        assertNotNull(savedAdmin.getUserId(), "Admin should have been assigned an ID");
     
         // Assert that DB password is not the same plain text
-        assertNotEquals("plainText123", savedAdmin.getPassCode(),
+        assertNotEquals("plainText123", savedAdmin.getPasscode(),
             "Expected the password to be hashed, not stored as plain text!");
     
         // Verify that the hashed password still matches the original plain text
         assertTrue(
-            passwordEncoder.matches("plainText123", savedAdmin.getPassCode()),
+            passwordEncoder.matches("plainText123", savedAdmin.getPasscode()),
             "Stored hash should match the original password when checked with PasswordEncoder.matches()"
         );
     }
