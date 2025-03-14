@@ -26,6 +26,10 @@ const TaskRightBar = () => {
         setIsModalOpen(false); // Close modal after adding task
     };
 
+    const handleTaskDelete = (taskID) => {
+        setTasks(tasks.filter(task => task.id !== taskID));
+    };
+
     return (
         <section className="flex-[4] ml-64 bg-[#FFFCF9] h-screen p-4 relative">
             <div className="flex justify-between items-center">
@@ -41,12 +45,12 @@ const TaskRightBar = () => {
             <div className="p-4 overflow-hidden gap-4">
                 <p className="text-xl text-red-400 font-bold m-4">High Priority</p>
                 {tasks.filter(task => task.priorityStatus === 3).map((task) => (
-                    <TaskUI key={task.id} task={task} />
+                    <TaskUI key={task.id} task={task} onTaskDelete={handleTaskDelete} />
                 ))}
 
                 <p className="text-xl font-bold m-4 mt-8">Remaining Tasks</p>
                 {tasks.filter(task => task.priorityStatus !== 3).map((task) => (
-                    <TaskUI key={task.id} task={task} />
+                    <TaskUI key={task.id} task={task} onTaskDelete={handleTaskDelete} />
                 ))}
             </div>
 
