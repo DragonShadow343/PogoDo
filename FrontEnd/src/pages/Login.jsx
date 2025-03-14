@@ -88,7 +88,7 @@ const Login = () => {
     
 
     return ( 
-        <div className="bg-blue-400 h-screen flex justify-center items-center">
+        <div className="bg-[#FFFCF9] h-screen flex justify-center items-center">
             {success ? (
                 // Show this if login is successful
                     <section>
@@ -100,7 +100,7 @@ const Login = () => {
                     </section>
                 ) : (
                     // Show this if login is not successful
-            <section className='bg-blue-900 text-white w-96 p-8 box-border rounded-2xl'>
+            <section className='bg-gray-800 text-white w-96 p-8 box-border rounded-2xl'>
                 <p ref={errRef} className={errMsg ? "text-red-700 bg-red-300 border border-red-500 p-2": "hidden"} aria-live='assertive'>{errMsg}</p>
                 <h1 className='text-4xl my-4'>Sign In</h1>
                 <form onSubmit={handleSubmit} className='flex flex-col space-y-2'>
@@ -124,7 +124,7 @@ const Login = () => {
                         value={pwd}
                         required
                     />
-                    <button className='border border-white rounded p-2 my-4'>Sign In</button>
+                    <button className='border border-[#FFFCF9] text-[#FFFCF9] rounded p-2 my-4 hover:cursor-pointer hover:bg-[#FFFCF9] hover:text-gray-800 transition duration-100'>Sign In</button>
                 </form>
                 <p>
                     Need an account? <br />
