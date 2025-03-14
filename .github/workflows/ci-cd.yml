@@ -23,8 +23,8 @@ jobs:
 
       - name: Set Up Maven
         run: |
-          apt-get update
-          apt-get install -y maven
+          sudo apt-get update
+          sudo apt-get install -y maven
 
       - name: Build and test Spring Boot application
         run: |
