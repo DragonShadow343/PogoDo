@@ -113,7 +113,7 @@ public void testCreateTask() throws Exception {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(taskJson))
                 .andExpect(status().isOk()) // Expect HTTP 200 OK
-                .andExpect(jsonPath("$.taskDescription").value("Updated description")); // Validate the response
+                .andExpect(jsonPath("$.taskDescription").value("This is a test task")); // Validate the response
     }
 
     @Test
