@@ -1,22 +1,12 @@
-FROM node:18
+FROM eclipse-temurin:17-jdk-jammy
 
-# Set the working directory to /BackEnd/pogodo
-WORKDIR /BackEnd/pogodo
+WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+RUN apt-get update && apt-get install -y maven
 
-# Install dependencies
-RUN npm install --include=dev
+COPY pom.xml .
+COPY src/ src
 
-# Install nodemon globally
-RUN npm install -g nodemon
+RUN mvn clean package -DskipTests
 
-# Copy the rest of your application files
-COPY . .
-
-# Expose the necessary port
-EXPOSE 3500
-
-# Start the app using nodemon
-CMD ["nodemon", "index.js"]
+CMD ["java", "-jar", "target/pogodo-1.0-SNAPSHOT.jar"]
