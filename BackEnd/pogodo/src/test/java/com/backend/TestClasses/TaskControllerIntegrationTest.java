@@ -62,7 +62,7 @@ public void testCreateTask() throws Exception {
 
     String taskJson = objectMapper.writeValueAsString(task);
 
-    mockMvc.perform(post("/Tasks/createtask")
+    mockMvc.perform(post("/Tasks/createtask?username=CatAdmin")
             .contentType(MediaType.APPLICATION_JSON)
             .content(taskJson))
             .andExpect(status().isCreated())

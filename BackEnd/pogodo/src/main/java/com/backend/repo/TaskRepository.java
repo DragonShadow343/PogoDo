@@ -14,6 +14,6 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
 
     Optional<Task> findByTaskTitle(String string);
 
-
+    //TO DO: create method to add user id and taskId to UserTasks table
 
 }

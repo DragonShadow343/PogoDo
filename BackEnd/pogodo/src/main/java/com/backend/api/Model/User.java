@@ -1,5 +1,8 @@
 package com.backend.api.Model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.backend.api.Model.Interfaces.Account;
 
 import jakarta.persistence.*;
@@ -29,6 +32,15 @@ public class User implements Account{
 
     @Column(name = "userRole", nullable = false)
     private String userRole;
+
+    //Join Table for the Many to Many Relationship between Users and Tasks: allows for task assignment
+        @ManyToMany
+        @JoinTable(
+            name = "\"UserTasks\"",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "taskId")
+        )
+        private Set<Task> tasks = new HashSet<>();        // this Set holds the tasks associated with the user
 
     // Constructors
     public User(String firstName, String lastName, String email, String username, String passcode, String userRole) {

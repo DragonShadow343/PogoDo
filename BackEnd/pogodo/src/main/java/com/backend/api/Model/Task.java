@@ -1,12 +1,15 @@
 package com.backend.api.Model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,6 +26,10 @@ public class Task {
     private String taskDescription;
     private boolean completionStatus;
     private boolean lockStatus;
+
+
+    @ManyToMany(mappedBy = "tasks") //this references the set declared in User.java
+    private Set<User> users = new HashSet<>();    //holds the references to the user
 
     public Task() {}
 
