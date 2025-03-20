@@ -1,7 +1,9 @@
 package com.backend.TestClasses;
 
 import com.backend.api.Model.Task;
+import com.backend.api.Model.User;
 import com.backend.repo.TaskRepository;
+import com.backend.repo.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,6 +35,9 @@ public class TaskControllerIntegrationTest {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private ObjectMapper objectMapper; // For converting objects to JSON
@@ -62,7 +68,7 @@ public void testCreateTask() throws Exception {
 
     String taskJson = objectMapper.writeValueAsString(task);
 
-    mockMvc.perform(post("/Tasks/createtask?username=CatAdmin")
+    mockMvc.perform(post("/Tasks/createtask")
             .contentType(MediaType.APPLICATION_JSON)
             .content(taskJson))
             .andExpect(status().isCreated())
@@ -137,7 +143,6 @@ public void testCreateTask() throws Exception {
         assertNull(deletedTask);
     }
     
-
 
 
 
