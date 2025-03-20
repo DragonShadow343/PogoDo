@@ -129,4 +129,8 @@ public class Task {
                ", lockStatus=" + lockStatus +
                '}';
     }
+
+    public Set<User> getUsers() {
+        return users;
+    }
 }

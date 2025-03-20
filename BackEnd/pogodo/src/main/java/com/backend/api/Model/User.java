@@ -1,6 +1,7 @@
 package com.backend.api.Model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.backend.api.Model.Interfaces.Account;
@@ -147,4 +148,16 @@ public class User implements Account{
                 ", userRole='" + userRole + '\'' +
                 '}';
     }
+
+
+    //methods to handle user/task assignment
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void addTask(Task task){
+        this.tasks.add(task);
+    }
+
 }

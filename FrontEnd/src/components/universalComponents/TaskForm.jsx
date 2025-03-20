@@ -13,6 +13,7 @@ const TaskForm = ({ updateTasks }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!taskTitle.trim()) return;
+        console.log(auth.username);
         if (!auth || !auth.username) {
             console.error("User is not authenticated or does not have a username.");
             return; 
@@ -25,14 +26,36 @@ const TaskForm = ({ updateTasks }) => {
             dueDate,
             completionStatus: false, // Default to false
             lockStatus,
-            username: auth.username
         };
 
 
         try {
-            const response = await axios.post("/Tasks/createtask", { newTask },{ withCredentials: true }); //passes username from AuthContext so we can retrieve userId in backend
+            const response = await axios.post("/Tasks/createtask", newTask ,{ withCredentials: true }); //passes username from AuthContext so we can retrieve userId in backend
+
+            const createdTask = response.data;
+
+            console.log("Assigning task with username: ", auth.username);
+            console.log("Assigning task with taskTitle: ", createdTask.taskTitle);
+
+            //pushes username and created task Id to backend to store assignment in UserTasks
+            try {
+              await axios.post("/Tasks/addAssignment", null, {
+                params:{
+                    username: auth.username,
+                    taskTitle: createdTask.taskTitle
+                },
+                withCredentials:true
+            });
+            } catch (error) {
+                console.error("Error assigning task.")
+           } 
+            
+
 
             updateTasks(response.data); // Update parent component
+
+
+
             resetForm(); // Clear input fields
         } catch (error) {
             console.error("Error creating task:", error);
