@@ -71,12 +71,14 @@ public void testCreateTask() throws Exception {
     String taskJson = objectMapper.writeValueAsString(task);
 
     mockMvc.perform(post("/Tasks/createtask")
+
             .contentType(MediaType.APPLICATION_JSON)
             .content(taskJson))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.taskTitle").value(uniqueTaskTitle))
             .andExpect(jsonPath("$.taskDescription").value("This is a test task"))
             .andExpect(jsonPath("$.priorityStatus").value(1));
+
 }
 
     @Test

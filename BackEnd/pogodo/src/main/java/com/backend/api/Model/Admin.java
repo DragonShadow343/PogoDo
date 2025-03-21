@@ -26,6 +26,7 @@ public class Admin implements Account {
     @Column(name = "passcode", nullable = false)
     private String passcode;
 
+
     @Column(name = "userRole", nullable = false)
     private String userRole;
 
@@ -45,6 +46,7 @@ public class Admin implements Account {
     public Integer getUserId() {
         return userId;
     }
+
 
     public void setUserId(int userId) {
         if (userId < 0) {
@@ -97,14 +99,17 @@ public class Admin implements Account {
         this.username = username;
     }
 
+
     public String getPasscode() {
         return passcode;
     }
 
     public void setPasscode(String passcode) {
+
         if (passcode == null || passcode.isEmpty()) {
             throw new IllegalArgumentException("Passcode cannot be empty");
         }
+
         this.passcode = passcode;
     }
 

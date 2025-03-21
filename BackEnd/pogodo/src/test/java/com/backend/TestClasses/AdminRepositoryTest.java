@@ -18,9 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 
-// Spring Boot test for JPA repositories, tests the whole repository layer and the database
-// Use the DataJpaTest and test profile to use the test database
-//ONLY comment out one or the other, dont delete
+
 
 // @SpringBootTest
 // @TestPropertySource(locations = "classpath:application-test.properties")
@@ -47,17 +45,17 @@ public class AdminRepositoryTest {
 
     @Test
     public void testGetAllAdmins() {
-        // Call the method to test
+      
         List<Admin> admins = adminRepository.findAll();
 
-        // Verify the results
+     
         assertNotNull(admins);
         assertEquals(2, admins.size());
     }
 
     @AfterEach
     public void tearDown() {
-        // Clear the table after each test
+       
         adminRepository.deleteAll();
     }
 }

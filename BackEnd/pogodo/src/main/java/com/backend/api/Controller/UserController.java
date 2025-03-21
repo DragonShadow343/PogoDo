@@ -6,20 +6,22 @@ import com.backend.api.Model.User;
 import com.backend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/Users") // Base path for consistency
+@RequestMapping("/Users") 
 public class UserController {
 
     private final UserService userService;
-
+ private final PasswordEncoder passwordEncoder;
     
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+ public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+    this.userService = userService;
+    this.passwordEncoder = passwordEncoder;
+}
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Integer id) {
@@ -53,7 +55,6 @@ public class UserController {
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
             System.out.println("Received User Data: " + user); // ✅ Debug received data
-
             User savedUser = userService.saveUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
 
@@ -72,13 +73,12 @@ public class UserController {
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            // String accessToken = jwtTokenProvider.generateToken(username);
-            if (user.getPasscode().equals(password)) { // ✅ Direct string comparison
+
+            if (passwordEncoder.matches(password, user.getPasscode())) { 
                 return ResponseEntity.ok().body(Map.of(
                     "message", "Login successful",
                     "username", user.getUsername(),
                     "role", user.getUserRole()
-                    // "accessToken", accessToken
                 ));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid password"));
@@ -87,5 +87,4 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "User not found"));
         }
     }
-
 }

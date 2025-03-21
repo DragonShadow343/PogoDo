@@ -15,7 +15,9 @@ public class AdminTest {
         Assertions.assertEquals("anAdmin", admin.getFirstName());
         Assertions.assertEquals("James", admin.getLastName());
         Assertions.assertEquals("admin@gmail.com", admin.getEmail());
+
         Assertions.assertEquals("LeBron", admin.getUsername());
         Assertions.assertEquals("password", admin.getPasscode());
+
     }
 }
