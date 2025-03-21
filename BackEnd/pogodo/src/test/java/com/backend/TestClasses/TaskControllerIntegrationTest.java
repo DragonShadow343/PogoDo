@@ -1,7 +1,9 @@
 package com.backend.TestClasses;
 
 import com.backend.api.Model.Task;
+import com.backend.api.Model.User;
 import com.backend.repo.TaskRepository;
+import com.backend.repo.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,6 +37,9 @@ public class TaskControllerIntegrationTest {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private ObjectMapper objectMapper; // For converting objects to JSON
@@ -138,6 +146,60 @@ public void testCreateTask() throws Exception {
     }
     
 
+    @Test
+    public void testAddAssignment() throws Exception {
+       
+        String username = "testUser";
+        String taskTitle = "Test Task";
+       
+        //Create and save user
+        User user = new User();
+        user.setUserId(99);
+        user.setFirstName("testFirstName");
+        user.setLastName("testLastName");
+        user.setEmail("test@email.com");
+        user.setUsername("testUser");
+        user.setPasscode("Test@1234");
+        user.setUserRole("User");
+        userRepository.save(user);
+
+        //Create and save task
+        Task task = new Task();
+        task.setId(100);
+        task.setTaskTitle("Test Task");
+        task.setTaskDescription("This is a test task");
+        task.setPriorityStatus(1);
+        task.setDueDate(LocalDate.of(2023, 12, 13));
+        task.setCompleted(false);
+        task.setLockStatus(false);
+        taskRepository.save(task);
+
+
+        
+        //Add the userId and taskId relationship
+        mockMvc.perform(post("/Tasks/addAssignment")
+            .param("username", username)
+            .param("taskTitle", taskTitle)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk()) //Expect HTTP 200 OK
+            .andExpect(content().string("Task assigned successfully to user."));
+
+        //Verify the task has been correctly assigned to the user
+
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        assertNotNull(optionalUser);
+        User userUpdate = optionalUser.get();
+        userUpdate.getTasks().size();
+
+        assertEquals(1, userUpdate.getTasks().size()); //Ensures the user has one task assigned
+        assertTrue(userUpdate.getTasks().stream().anyMatch(t -> t.getTaskTitle().equals(taskTitle)));
+
+        //remove associations: otherwise the other tests will fail due to violation of referential integrity
+        
+        userUpdate.getTasks().clear();
+        userRepository.save(userUpdate);
+        
+    }
 
 
 
