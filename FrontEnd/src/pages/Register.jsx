@@ -379,7 +379,7 @@ const Register = () => {
                         className={`border border-[#FFFCF9] text-[#FFFCF9] rounded p-2 my-4 transition duration-100 ${
                             !validMatch || !validName || !validPwd
                                 ? 'bg-[rgba(255,255,255,0.2)] text-gray-400 cursor-not-allowed'
-                                : 'hover:bg-[#FFFCF9] hover:text-gray-800 cursor-pointer'
+                                : 'hover:bg-[#3BB4AC] hover:text-white cursor-pointer'
                         }`}
                         disabled={!validMatch || !validName || !validPwd}
                     >
