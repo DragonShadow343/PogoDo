@@ -35,7 +35,7 @@ public class User implements Account{
     private String userRole;
 
     //Join Table for the Many to Many Relationship between Users and Tasks: allows for task assignment
-        @ManyToMany
+        @ManyToMany(fetch = FetchType.EAGER)
         @JoinTable(
             name = "\"UserTasks\"",
             joinColumns = @JoinColumn(name = "userId"),
@@ -158,6 +158,10 @@ public class User implements Account{
 
     public void addTask(Task task){
         this.tasks.add(task);
+    }
+
+    public void removeTask(Task task){
+        this.tasks.remove(task);
     }
 
 }

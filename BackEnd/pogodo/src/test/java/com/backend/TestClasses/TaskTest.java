@@ -1,17 +1,31 @@
 package com.backend.TestClasses;
 
 import com.backend.api.Model.Task;
+import com.backend.api.Model.User;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class TaskTest {
 
+   Task task; 
+   User user; 
+
+   @BeforeEach
+   public void setUp(){
+    user = new User();
+    task = new Task(1, 1, LocalDate.of(2021,12,31), "taskTitle", "taskDescription", false, false);
+    user.setUsername("testUser");
+   }
+   
     @Test
     public void testTask() {
-        Task task = new Task(1, 1, LocalDate.of(2021,12,31), "taskTitle", "taskDescription", false, false);
 
         // Tests that should pass
         Assertions.assertEquals(1, task.getId());
@@ -22,4 +36,21 @@ public class TaskTest {
         Assertions.assertFalse(task.getCompleted());
         Assertions.assertFalse(task.getLockStatus());
     }
+
+    @Test
+    public void testAddUser(){
+        task.getUsers().add(user);
+        assertEquals(1, task.getUsers().size());
+        assertTrue(task.getUsers().contains(user));
+    }
+
+    @Test
+    public void testRemoveUser(){
+        task.getUsers().add(user);
+        assertEquals(1, task.getUsers().size()); //ensures the user was added before removing
+        task.getUsers().remove(user);
+        assertEquals(0, task.getUsers().size());
+    }
+
+
 }
