@@ -21,16 +21,77 @@ export const TaskProvider = ({ children }) => {
     }, []);
 
     // Toggle task completion
-    const toggleTaskCompletion = (taskId) => {
+    const toggleTaskCompletion = async (taskId, currentStatus) => {
+        // Find the full task object
+        const taskToUpdate = tasks.find(task => task.id === taskId);
+        if (!taskToUpdate) return console.error("Task not found in state");
+    
+        // Optimistically update UI
         setTasks(prevTasks =>
             prevTasks.map(task =>
-                task.id === taskId ? { ...task, completed: !task.completed } : task
+                task.id === taskId ? { ...task, completed: !currentStatus } : task
             )
         );
+    
+        try {
+            // ✅ Send the full task object
+            await axios.put(`/Tasks/${taskId}`, {
+                ...taskToUpdate, // Keep all fields
+                completed: !currentStatus, // Only toggle completed
+            });
+    
+            console.log("Task updated successfully!");
+        } catch (error) {
+            console.error("Error updating task:", error);
+    
+            // ❌ Rollback UI update if request fails
+            setTasks(prevTasks =>
+                prevTasks.map(task =>
+                    task.id === taskId ? { ...task, completed: currentStatus } : task
+                )
+            );
+    
+            alert("Error updating task. Please try again.");
+        }
     };
 
+    const toggleLockCompletion = async (taskId, currentStatus) => {
+        // Find the full task object
+        const taskToUpdate = tasks.find(task => task.id === taskId);
+        if (!taskToUpdate) return console.error("Task not found in state");
+    
+        // Optimistically update UI
+        setTasks(prevTasks =>
+            prevTasks.map(task =>
+                task.id === taskId ? { ...task, lockStatus: !currentStatus } : task
+            )
+        );
+    
+        try {
+            // ✅ Send the full task object
+            await axios.put(`/Tasks/${taskId}`, {
+                ...taskToUpdate, // Keep all fields
+                lockStatus: !currentStatus, // Only toggle lock
+            });
+    
+            console.log("Task updated successfully!");
+        } catch (error) {
+            console.error("Error updating task:", error);
+    
+            // ❌ Rollback UI update if request fails
+            setTasks(prevTasks =>
+                prevTasks.map(task =>
+                    task.id === taskId ? { ...task, lockStatus: currentStatus } : task
+                )
+            );
+    
+            alert("Error updating task. Please try again.");
+        }
+    };
+
+
     return (
-        <TaskContext.Provider value={{ tasks, setTasks, toggleTaskCompletion }}>
+        <TaskContext.Provider value={{ tasks, setTasks, toggleTaskCompletion, toggleLockCompletion }}>
             {children}
         </TaskContext.Provider>
     );

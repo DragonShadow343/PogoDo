@@ -5,6 +5,7 @@ import AssigneeDropdown from "./TaskRightBarComponents/AssigneeDropdown";
 import "./TaskRightBar.css";
 import TaskForm from "../../universalComponents/TaskForm";
 import CompletedButton from "../../universalComponents/UIComponents/CompletedButton";
+import TaskUI from "./../../universalComponents/UIComponents/TaskUI"
 
 const TaskRightBar = () => {
     const { tasks, setTasks, toggleTaskCompletion } = useContext(TaskContext);
@@ -25,6 +26,10 @@ const TaskRightBar = () => {
         setIsModalOpen(false); // Close modal after adding task
     };
 
+    const handleTaskDelete = (taskID) => {
+        setTasks(tasks.filter(task => task.id !== taskID));
+    };
+
     return (
         <section className="flex-[4] ml-64 bg-[#FFFCF9] h-screen p-4 relative">
             <div className="flex justify-between items-center">
@@ -40,42 +45,12 @@ const TaskRightBar = () => {
             <div className="p-4 overflow-hidden gap-4">
                 <p className="text-xl text-red-400 font-bold m-4">High Priority</p>
                 {tasks.filter(task => task.priorityStatus === 3).map((task) => (
-                    <div key={task.id} className="p-4 mb-2 space-y-4 rounded-lg bg-red-50 shadow-md">
-                        <div className="flex justify-between">
-                            <h3 className="font-bold text-lg">{task.taskTitle}</h3>
-                            <CompletedButton taskID={task.id} taskCompleted={task.completed} taskPriority={task.priorityStatus} />
-                        </div>
-                        <div className="flex flex-row-reverse justify-between">
-                            <AssigneeDropdown
-                                availableMembers={availableMembers}
-                                assignedMembers={task.assignedTo}
-                                onAssign={(newAssignees) => updateTaskAssignees(task.id, newAssignees)}
-                                isOpen={openDropdown === task.id}
-                                toggleDropdown={() => setOpenDropdown(openDropdown === task.id ? null : task.id)}
-                            />
-                            <p>Assigned To: {task.assignedTo?.length > 0 ? task.assignedTo.join(", ") : "None"}</p>
-                        </div>
-                    </div>
+                    <TaskUI key={task.id} task={task} onTaskDelete={handleTaskDelete} />
                 ))}
 
                 <p className="text-xl font-bold m-4 mt-8">Remaining Tasks</p>
                 {tasks.filter(task => task.priorityStatus !== 3).map((task) => (
-                    <div key={task.id} className="p-4 mb-2 space-y-4 rounded-lg shadow-md">
-                        <div className="flex justify-between">
-                            <h3 className="font-bold text-lg">{task.taskTitle}</h3>
-                            <CompletedButton taskID={task.id} taskCompleted={task.completed} taskPriority={task.priorityStatus} />
-                        </div>
-                        <div className="flex flex-row-reverse justify-between">
-                            <AssigneeDropdown
-                                availableMembers={availableMembers}
-                                assignedMembers={task.assignedTo}
-                                onAssign={(newAssignees) => updateTaskAssignees(task.id, newAssignees)}
-                                isOpen={openDropdown === task.id}
-                                toggleDropdown={() => setOpenDropdown(openDropdown === task.id ? null : task.id)}
-                            />
-                            <p>Assigned To: {task.assignedTo?.length > 0 ? task.assignedTo.join(", ") : "None"}</p>
-                        </div>
-                    </div>
+                    <TaskUI key={task.id} task={task} onTaskDelete={handleTaskDelete} />
                 ))}
             </div>
 
