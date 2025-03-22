@@ -54,7 +54,7 @@ const Login = () => {
             task.style.top = `${posY}px`;
 
             //request the next frame
-            // requestAnimationFrame(move);
+            requestAnimationFrame(move);
         };
 
         //start the animation
