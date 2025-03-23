@@ -5,6 +5,7 @@ import java.util.Map;
 import com.backend.api.Model.User;
 import com.backend.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +52,7 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/register")
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
             System.out.println("Received User Data: " + user); // ✅ Debug received data
@@ -64,7 +65,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> loginUser(@RequestBody User loginRequest) {
         String username = loginRequest.getUsername();
         String password = loginRequest.getPasscode();
