@@ -91,4 +91,15 @@ public class TaskController {
         }
     }
 
+    @GetMapping("/filtered")
+    public ResponseEntity<?> getTasksForUser(@RequestParam("userId") Integer userId) {
+        try {
+            List<Task> tasks = taskService.getTasksForUser(userId);
+            return ResponseEntity.ok(tasks);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+
 }

@@ -1,14 +1,17 @@
 package com.backend.service;
 
 import com.backend.api.Model.Task;
+import com.backend.api.Model.User;
 import com.backend.api.Model.UserTask;
 import com.backend.api.Model.UserTaskId;
 import com.backend.repo.TaskRepository;
 import com.backend.repo.UserTaskRepository;
+import com.backend.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,11 +24,13 @@ public class TaskService {
     
     private TaskRepository taskRepository;
     private final UserTaskRepository userTaskRepository;
+    private final UserService userService;
     
     @Autowired
-    public TaskService(TaskRepository taskRepository, UserTaskRepository userTaskRepository) {
+    public TaskService(TaskRepository taskRepository, UserTaskRepository userTaskRepository, UserService userService) {
         this.taskRepository = taskRepository;
         this.userTaskRepository = userTaskRepository;
+        this.userService = userService;
     }
 
     // Method to get all tasks
@@ -84,6 +89,34 @@ public class TaskService {
             if (!newUserIdsSet.contains(userId)) {
                 userTaskRepository.deleteByIdTaskIdAndIdUserId(taskId, userId);
             }
+        }
+    }
+
+    /**
+     * Returns tasks for a given user.
+     * If the user is admin, all tasks are returned.
+     * Otherwise, only tasks that are assigned to that user are returned.
+     */
+    public List<Task> getTasksForUser(Integer userId) {
+        User user = userService.getUserById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+        // If user is admin, return all tasks
+        if ("admin".equalsIgnoreCase(user.getUserRole())) {
+            return taskRepository.findAll();
+        } else {
+            // Get UserTasks where the userId matches
+            List<UserTask> assignments = userTaskRepository.findByIdUserId(userId);
+            // Extract task IDs
+            Set<Integer> taskIds = assignments.stream()
+                    .map(ut -> ut.getId().getTaskId())
+                    .collect(Collectors.toSet());
+            // Query tasks by IDs. For simplicity, iterate over taskIds.
+            List<Task> userTasks = new ArrayList<>();
+            for (Integer id : taskIds) {
+                taskRepository.findById(id).ifPresent(userTasks::add);
+            }
+            return userTasks;
         }
     }
 
