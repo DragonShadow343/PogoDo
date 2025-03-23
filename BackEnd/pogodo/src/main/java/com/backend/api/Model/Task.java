@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +31,7 @@ public class Task {
 
 
     @ManyToMany(mappedBy = "tasks") //this references the set declared in User.java
+    @JsonBackReference
     private Set<User> users = new HashSet<>();    //holds the references to the user
 
     public Task() {}
