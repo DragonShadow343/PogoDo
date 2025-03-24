@@ -104,10 +104,10 @@ public class TaskService {
     public List<Task> getTasksForUser(Integer userId) {
         User user = userService.getUserById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-
-        // If user is admin, return all tasks
+    
+        List<Task> tasks;
         if ("admin".equalsIgnoreCase(user.getUserRole())) {
-            return taskRepository.findAll();
+            tasks = taskRepository.findAll();
         } else {
             // Get UserTasks where the userId matches
             List<UserTask> assignments = userTaskRepository.findByIdUserId(userId);
@@ -115,13 +115,24 @@ public class TaskService {
             Set<Integer> taskIds = assignments.stream()
                     .map(ut -> ut.getId().getTaskId())
                     .collect(Collectors.toSet());
-            // Query tasks by IDs. For simplicity, iterate over taskIds.
-            List<Task> userTasks = new ArrayList<>();
+            // Query tasks by IDs
+            tasks = new ArrayList<>();
             for (Integer id : taskIds) {
-                taskRepository.findById(id).ifPresent(userTasks::add);
+                taskRepository.findById(id).ifPresent(tasks::add);
             }
-            return userTasks;
         }
+        
+        // For every task retrieved, populate the transient 'assignedTo' field
+        for (Task task : tasks) {
+            List<UserTask> taskAssignments = userTaskRepository.findByIdTaskId(task.getId());
+            List<Integer> assignedUserIds = taskAssignments.stream()
+                    .map(ut -> ut.getId().getUserId())
+                    .collect(Collectors.toList());
+            task.setAssignedTo(assignedUserIds);
+        }
+        
+        return tasks;
     }
+    
 
 }

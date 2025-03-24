@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import java.util.List;
 
 @Entity
 @Table(name = "\"Tasks\"")
@@ -23,6 +25,8 @@ public class Task {
     private String taskDescription;
     private boolean completionStatus;
     private boolean lockStatus;
+    @Transient
+    private List<Integer> assignedTo;
 
     public Task() {}
 
@@ -108,6 +112,14 @@ public class Task {
 
     public boolean getLockStatus() {
         return lockStatus;
+    }
+
+    public List<Integer> getAssignedTo() {
+        return assignedTo;
+    }
+    
+    public void setAssignedTo(List<Integer> assignedTo) {
+        this.assignedTo = assignedTo;
     }
 
     @Override
