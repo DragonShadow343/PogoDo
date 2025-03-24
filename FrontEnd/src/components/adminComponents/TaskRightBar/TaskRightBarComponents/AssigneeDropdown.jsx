@@ -1,39 +1,46 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const AssigneeDropdown = ({ availableMembers, assignedMembers, onAssign, isOpen, toggleDropdown }) => {
-    const handleCheckboxChange = (member) => {
-        if (assignedMembers.includes(member)) {
-            onAssign(assignedMembers.filter((m) => m !== member)); // Remove member
+    const dropdownRef = useRef(null);
+    const buttonRef = useRef(null);
+    const [positionAbove, setPositionAbove] = useState(false);
+
+    useEffect(() => {
+        if (isOpen && dropdownRef.current && buttonRef.current) {
+            const dropdownRect = dropdownRef.current.getBoundingClientRect();
+            const buttonRect = buttonRef.current.getBoundingClientRect();
+            const spaceBelow = window.innerHeight - buttonRect.bottom;
+            const dropdownHeight = dropdownRect.height;
+            setPositionAbove(spaceBelow < dropdownHeight);
+        }
+    }, [isOpen]);
+
+    const handleCheckboxChange = (userId) => {
+        if (assignedMembers.includes(userId)) {
+            onAssign(assignedMembers.filter((id) => id !== userId)); // Remove userId
         } else {
-            onAssign([...assignedMembers, member]); // Add member
+            onAssign([...assignedMembers, userId]); // Add userId
         }
     };
 
     return (
         <div className="relative">
-            {/* Dropdown Button */}
-            <button
-                onClick={toggleDropdown}
-                className="bg-blue-500 text-white px-4 py-2 rounded-md"
-            >
+            <button ref={buttonRef} onClick={toggleDropdown} className="bg-blue-500 text-white px-4 py-2 rounded-md">
                 Assign Members ▼
             </button>
 
-            {/* Dropdown List */}
             {isOpen && (
-                <div className="absolute bg-white border mt-2 shadow-md w-48 rounded-md z-10">
+                <div ref={dropdownRef} className={`absolute bg-white border shadow-md w-48 rounded-md z-10 ${positionAbove ? "bottom-full mb-2" : "top-full mt-2"}`}>
                     {availableMembers.map((member) => (
-                        <label
-                            key={member}
-                            className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                        >
+                        <label key={member.userId} className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer">
                             <input
                                 type="checkbox"
-                                checked={assignedMembers.includes(member)}
-                                onChange={() => handleCheckboxChange(member)}
+                                value={member.userId}
+                                checked={assignedMembers.includes(member.userId)}
+                                onChange={() => handleCheckboxChange(member.userId)}
                                 className="mr-2"
                             />
-                            {member}
+                            {member.username}
                         </label>
                     ))}
                 </div>

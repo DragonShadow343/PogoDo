@@ -14,6 +14,7 @@ export const TaskProvider = ({ children }) => {
 
     // Fetch tasks from backend
     useEffect(() => {
+        if (!userId) return; // Don't fetch tasks if user isn't logged in
         const fetchTasks = async () => {
             try {
                 const response = await axios.get(`/Tasks/filtered?userId=${userId}`);
@@ -41,11 +42,22 @@ export const TaskProvider = ({ children }) => {
     }, []);
 
     // Assign users to a task
-    const assignUsersToTask = (taskId, assignedUsers) => {
-        setSelectedAssignees((prev) => ({
-            ...prev,
-            [taskId]: assignedUsers,
-        }));
+    const assignUsersToTask = async (taskId, assignedUsers) => {
+        try {
+            // Call the backend assignment endpoint
+            await axios.post(`/Tasks/${taskId}/assign`, assignedUsers, {
+                headers: { "Content-Type": "application/json" },
+                withCredentials: true,
+            });
+            // Update local state only if the call is successful
+            setSelectedAssignees((prev) => ({
+                ...prev,
+                [taskId]: assignedUsers,
+            }));
+            console.log(`Task ${taskId} assigned to users:`, assignedUsers);
+        } catch (error) {
+            console.error("Error assigning users:", error);
+        }
     };
 
     // Toggle task completion
