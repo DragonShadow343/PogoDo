@@ -9,7 +9,6 @@ const TaskForm = ({ updateTasks }) => {
     const [priorityStatus, setPriorityStatus] = useState(1);
     const [dueDate, setDueDate] = useState("");
     const [lockStatus, setLockStatus] = useState(false);
-    const { auth } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
