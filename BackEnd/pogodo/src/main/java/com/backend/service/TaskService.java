@@ -72,6 +72,8 @@ public class TaskService {
 
         // Remove duplicates from the incoming list
         Set<Integer> newUserIdsSet = new HashSet<>(newUserIds);
+        
+        System.out.println("Task " + taskId + " assigned to User(s) with Id: " );
 
         // Process additions: For each new user, add an assignment if it doesn't exist
         for (Integer userId : newUserIdsSet) {
@@ -80,6 +82,7 @@ public class TaskService {
                 // Extra safety: Check directly if the assignment exists in the repo
                 if (!userTaskRepository.existsById(newAssignmentId)) {
                     userTaskRepository.save(new UserTask(newAssignmentId));
+                    System.out.println(userId);
                 }
             }
         }
@@ -90,6 +93,7 @@ public class TaskService {
                 userTaskRepository.deleteByIdTaskIdAndIdUserId(taskId, userId);
             }
         }
+
     }
 
     /**

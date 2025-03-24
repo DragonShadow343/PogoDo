@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "./../../api/axios";
+import AuthContext from "./../../context/AuthProvider";
+
 
 const TaskForm = ({ updateTasks }) => {
     const [taskTitle, setTaskTitle] = useState("");
@@ -7,6 +9,7 @@ const TaskForm = ({ updateTasks }) => {
     const [priorityStatus, setPriorityStatus] = useState(1);
     const [dueDate, setDueDate] = useState("");
     const [lockStatus, setLockStatus] = useState(false);
+    const { auth } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,8 +26,20 @@ const TaskForm = ({ updateTasks }) => {
 
         try {
             const response = await axios.post("/Tasks/createtask", newTask, { withCredentials: true });
+            const createdTask = response.data
+            
+            updateTasks(createdTask); // Update parent component
 
-            updateTasks(response.data); // Update parent component
+            const assignmentResponse = await axios.post(`/Tasks/${createdTask.id}/assign`,
+                JSON.stringify([auth.id]),
+                {
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true,
+                }
+            );
+
+            console.log("Task created and assigned:", assignmentResponse.data);
+
             resetForm(); // Clear input fields
         } catch (error) {
             console.error("Error creating task:", error);
