@@ -1,12 +1,17 @@
 package com.backend.api.Model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import java.util.List;
@@ -27,6 +32,11 @@ public class Task {
     private boolean lockStatus;
     @Transient
     private List<Integer> assignedTo;
+
+
+    @ManyToMany(mappedBy = "tasks") //this references the set declared in User.java
+    @JsonBackReference
+    private Set<User> users = new HashSet<>();    //holds the references to the user
 
     public Task() {}
 
@@ -133,5 +143,17 @@ public class Task {
                ", completionStatus=" + completionStatus +
                ", lockStatus=" + lockStatus +
                '}';
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void addUser(User user){
+        this.users.add(user);
+    }
+
+    public void removeUser(User user){
+        this.users.remove(user);
     }
 }

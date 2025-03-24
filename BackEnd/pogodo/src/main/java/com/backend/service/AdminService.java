@@ -3,6 +3,7 @@ package com.backend.service;
 import com.backend.api.Model.Admin;
 import com.backend.repo.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,9 @@ public class AdminService {
 
     @Autowired
     private AdminRepository adminRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Get an admin by ID
     public Optional<Admin> getAdmin(Integer id) {
@@ -36,8 +40,18 @@ public class AdminService {
 
     // Save an admin
     public Admin saveAdmin(Admin admin) {
+        
+        String rawPasscode = admin.getPasscode();  
+      
+        String hashed = passwordEncoder.encode(rawPasscode);
+    
+       
+        admin.setPasscode(hashed);
+    
+     
         return adminRepository.save(admin);
     }
+    
 
     // Delete an admin by ID
     public void deleteAdmin(Integer id) {

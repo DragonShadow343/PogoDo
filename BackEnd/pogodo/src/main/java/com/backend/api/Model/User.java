@@ -1,6 +1,12 @@
 package com.backend.api.Model;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import com.backend.api.Model.Interfaces.Account;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
 
@@ -13,22 +19,39 @@ public class User implements Account{
     private Integer userId;
 
     @Column(name = "firstName", nullable = false)
+    @JsonProperty("firstName")
     private String firstName;
 
+    @JsonProperty("lastName")
     @Column(name = "lastName", nullable = false)
     private String lastName;
 
+    @JsonProperty("email")
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @JsonProperty("username")
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
+    @JsonProperty("passcode")
     @Column(name = "passcode", nullable = false)
     private String passcode;
 
+    @JsonProperty("userRole")
     @Column(name = "userRole", nullable = false)
     private String userRole;
+
+    //Join Table for the Many to Many Relationship between Users and Tasks: allows for task assignment
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "\"UserTasks\"",
+        joinColumns = @JoinColumn(name = "userId"),
+        inverseJoinColumns = @JoinColumn(name = "taskId")
+    )
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonManagedReference
+    private Set<Task> tasks = new HashSet<>();        // this Set holds the tasks associated with the user
 
     // Constructors
     public User(String firstName, String lastName, String email, String username, String passcode, String userRole) {
@@ -135,4 +158,20 @@ public class User implements Account{
                 ", userRole='" + userRole + '\'' +
                 '}';
     }
+
+
+    //methods to handle user/task assignment
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void addTask(Task task){
+        this.tasks.add(task);
+    }
+
+    public void removeTask(Task task){
+        this.tasks.remove(task);
+    }
+
 }

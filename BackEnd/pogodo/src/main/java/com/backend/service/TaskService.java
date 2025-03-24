@@ -38,7 +38,7 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    // Method to save a new task
+    // Method to save a new task            
     public Task saveTask(Task task) {
         return taskRepository.save(task);
     }
@@ -134,5 +134,11 @@ public class TaskService {
         return tasks;
     }
     
+    //Method to get a task by Title
+    public Optional<Task> getTaskByTitle(String taskTitle){
+        return taskRepository.findByTaskTitle(taskTitle);
+    }
+
+    //TODO Add method to add taskId and UserId to UserTasks table - references taskRepository
 
 }

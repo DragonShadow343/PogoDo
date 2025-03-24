@@ -2,8 +2,8 @@ import { useState, useContext } from "react";
 import axios from "./../../api/axios";
 import AuthContext from "./../../context/AuthProvider";
 
-
 const TaskForm = ({ updateTasks }) => {
+    const { auth } = useContext(AuthContext);
     const [taskTitle, setTaskTitle] = useState("");
     const [taskDescription, setTaskDescription] = useState("");
     const [priorityStatus, setPriorityStatus] = useState(1);
@@ -14,6 +14,11 @@ const TaskForm = ({ updateTasks }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!taskTitle.trim()) return;
+        console.log(auth.username);
+        if (!auth || !auth.username) {
+            console.error("User is not authenticated or does not have a username.");
+            return; 
+        }
 
         const newTask = {
             taskTitle: taskTitle,
@@ -23,6 +28,7 @@ const TaskForm = ({ updateTasks }) => {
             completionStatus: false, // Default to false
             lockStatus,
         };
+
 
         try {
             const response = await axios.post("/Tasks/createtask", newTask, { withCredentials: true });
@@ -39,7 +45,6 @@ const TaskForm = ({ updateTasks }) => {
             );
 
             console.log("Task created and assigned:", assignmentResponse.data);
-
             resetForm(); // Clear input fields
         } catch (error) {
             console.error("Error creating task:", error);
