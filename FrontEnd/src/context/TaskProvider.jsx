@@ -1,16 +1,22 @@
-import { createContext, useState, useEffect } from "react";
-import axios from "./../api/axios"
+import { createContext, useState, useEffect, useContext } from "react";
+import AuthContext from '../context/AuthProvider';
+import axios from "./../api/axios";
 
 const TaskContext = createContext({});
 
 export const TaskProvider = ({ children }) => {
     const [tasks, setTasks] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [selectedAssignees, setSelectedAssignees] = useState({}); // Tracks assigned users per task
+    const { auth } = useContext(AuthContext);
+    console.log(auth);
+    const userId = auth?.id;
 
     // Fetch tasks from backend
     useEffect(() => {
         const fetchTasks = async () => {
             try {
-                const response = await axios.get("/Tasks"); // Fetch all tasks
+                const response = await axios.get(`/Tasks/filtered?userId=${userId}`);
                 setTasks(response.data); // Update state with fetched tasks
             } catch (error) {
                 console.error("Error fetching tasks:", error);
@@ -18,7 +24,29 @@ export const TaskProvider = ({ children }) => {
         };
 
         fetchTasks();
+    }, [userId]);
+
+    // Fetch users from backend
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await axios.get("/Users"); // Adjust endpoint as needed
+                setUsers(response.data);
+            } catch (error) {
+                console.error("Error fetching users:", error);
+            }
+        };
+
+        fetchUsers();
     }, []);
+
+    // Assign users to a task
+    const assignUsersToTask = (taskId, assignedUsers) => {
+        setSelectedAssignees((prev) => ({
+            ...prev,
+            [taskId]: assignedUsers,
+        }));
+    };
 
     // Toggle task completion
     const toggleTaskCompletion = async (taskId, currentStatus) => {
@@ -36,8 +64,8 @@ export const TaskProvider = ({ children }) => {
         try {
             // ✅ Send the full task object
             await axios.put(`/Tasks/${taskId}`, {
-                ...taskToUpdate, // Keep all fields
-                completed: !currentStatus, // Only toggle completed
+                ...taskToUpdate,
+                completed: !currentStatus,
             });
     
             console.log("Task updated successfully!");
@@ -55,6 +83,7 @@ export const TaskProvider = ({ children }) => {
         }
     };
 
+    // Toggle task lock status
     const toggleLockCompletion = async (taskId, currentStatus) => {
         // Find the full task object
         const taskToUpdate = tasks.find(task => task.id === taskId);
@@ -70,8 +99,8 @@ export const TaskProvider = ({ children }) => {
         try {
             // ✅ Send the full task object
             await axios.put(`/Tasks/${taskId}`, {
-                ...taskToUpdate, // Keep all fields
-                lockStatus: !currentStatus, // Only toggle lock
+                ...taskToUpdate,
+                lockStatus: !currentStatus,
             });
     
             console.log("Task updated successfully!");
@@ -91,7 +120,7 @@ export const TaskProvider = ({ children }) => {
 
 
     return (
-        <TaskContext.Provider value={{ tasks, setTasks, toggleTaskCompletion, toggleLockCompletion }}>
+        <TaskContext.Provider value={{ tasks, setTasks, users, selectedAssignees, assignUsersToTask, toggleTaskCompletion, toggleLockCompletion }}>
             {children}
         </TaskContext.Provider>
     );

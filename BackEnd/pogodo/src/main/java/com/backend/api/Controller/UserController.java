@@ -76,6 +76,7 @@ public class UserController {
             if (user.getPasscode().equals(password)) { // ✅ Direct string comparison
                 return ResponseEntity.ok().body(Map.of(
                     "message", "Login successful",
+                    "id", user.getUserId(),
                     "username", user.getUsername(),
                     "role", user.getUserRole()
                     // "accessToken", accessToken
