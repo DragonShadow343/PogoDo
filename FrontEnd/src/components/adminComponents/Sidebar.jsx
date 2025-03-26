@@ -4,6 +4,7 @@ import { FaHome, FaTasks, FaUsers, FaCog, FaComments } from "react-icons/fa"; //
 import "./Sidebar.css";
 import AuthContext from "../../context/AuthProvider";
 import Chat from "../universalComponents/WebSocket(CHAT)/Chat"; // Import the Chat component
+import NotificationCentre from "../universalComponents/NotificationComponent/NotificationCentre";
 
 const Sidebar = () => {
   const { auth } = useContext(AuthContext);
@@ -53,6 +54,11 @@ const Sidebar = () => {
             <span>Chat</span>
           </li>
         </ul>
+
+        <h4 className="text-gray-400 font-bold text-sm">Notifications</h4>
+        <div className="">
+          <NotificationCentre />
+        </div>
       </div>
 
       {/* Chat Sidebar */}

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { FaHome, FaTasks, FaUsers, FaCog } from "react-icons/fa"; // Importing icons
 import AuthContext from "./../../context/AuthProvider";
+import NotificationCentre from "../universalComponents/NotificationComponent/NotificationCentre";
 import "./Sidebar.css";
 
 const Sidebar = () => {
@@ -37,6 +38,11 @@ const Sidebar = () => {
             <Link to="/admin/settings">Settings</Link>
           </li>
         </ul>
+
+        <h4 className="text-gray-400 font-bold text-sm">Notifications</h4>
+        <div className="">
+          <NotificationCentre />
+        </div>
       </div>
     </div>
   );
