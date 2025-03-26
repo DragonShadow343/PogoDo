@@ -8,9 +8,7 @@ import CompletedButton from "../../universalComponents/UIComponents/CompletedBut
 import TaskUI from "./../../universalComponents/UIComponents/TaskUI"
 
 const TaskRightBar = () => {
-    const { tasks, setTasks, toggleTaskCompletion } = useContext(TaskContext);
-    const availableMembers = ["Alice", "Bob", "Charlie", "David"];
-    const [openDropdown, setOpenDropdown] = useState(null);
+    const { tasks, setTasks } = useContext(TaskContext);
     const [isModalOpen, setIsModalOpen] = useState(false); // State for modal
 
     const updateTaskAssignees = (taskId, newAssignees) => {
