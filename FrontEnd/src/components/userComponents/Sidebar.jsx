@@ -41,7 +41,7 @@ const Sidebar = () => {
 
         <h4 className="text-gray-400 font-bold text-sm">Notifications</h4>
         <div className="">
-          <NotificationCentre />
+          <NotificationCentre userId={auth?.id} />
         </div>
       </div>
     </div>
