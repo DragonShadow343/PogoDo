@@ -30,11 +30,11 @@ public class NotificationService {
         String priorityText = convertPriorityToText(priorityStatus);
         String messageContent = "You’ve been assigned a new " + priorityText + " priority task, " + taskTitle + "!";
 
-        // Save to database
+        // database saving
         Notification notification = new Notification(messageContent, recipientId);
         notificationRepository.save(notification);
 
-        // Build full response for WebSocket broadcast
+        // for websocket response (real time notification)
         NotificationResponse response = new NotificationResponse(
                 notification.getId(),
                 messageContent,
@@ -44,7 +44,7 @@ public class NotificationService {
                 recipientId
         );
 
-        // Send to WebSocket topic
+        
         messagingTemplate.convertAndSend("/topic/notifications", response);
     }
 
