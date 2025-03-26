@@ -95,13 +95,13 @@ const Login = () => {
             ).then(response => {
                 console.log("Full response from backend:", response);
 
-                const { username, role } = response?.data || {};
+                const { username, role, id } = response?.data || {};
 
                 
                 sessionStorage.setItem("loggedInUser", JSON.stringify({ username, role }));
 
                 
-                setAuth({ username, role });
+                setAuth({ username, role, id });
 
                 
                 setUser('');

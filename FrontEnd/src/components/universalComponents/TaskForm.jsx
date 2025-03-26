@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
+import { useState, useContext } from "react";
 import axios from "./../../api/axios";
-import AuthContext from '../../context/AuthProvider';
+import AuthContext from "./../../context/AuthProvider";
 
 const TaskForm = ({ updateTasks }) => {
     const { auth } = useContext(AuthContext);
@@ -30,32 +30,20 @@ const TaskForm = ({ updateTasks }) => {
 
 
         try {
-            const response = await axios.post("/Tasks/createtask", newTask ,{ withCredentials: true }); //passes username from AuthContext so we can retrieve userId in backend
-
-            const createdTask = response.data;
-
-            console.log("Assigning task with username: ", auth.username);
-            console.log("Assigning task with taskTitle: ", createdTask.taskTitle);
-
-            //pushes username and created task Id to backend to store assignment in UserTasks
-            try {
-              await axios.post("/Tasks/addAssignment", null, {
-                params:{
-                    username: auth.username,
-                    taskTitle: createdTask.taskTitle
-                },
-                withCredentials:true
-            });
-            } catch (error) {
-                console.error("Error assigning task.")
-           } 
+            const response = await axios.post("/Tasks/createtask", newTask, { withCredentials: true });
+            const createdTask = response.data
             
+            updateTasks(createdTask); // Update parent component
 
+            const assignmentResponse = await axios.post(`/Tasks/${createdTask.id}/assign`,
+                JSON.stringify([auth.id]),
+                {
+                    headers: { "Content-Type": "application/json" },
+                    withCredentials: true,
+                }
+            );
 
-            updateTasks(response.data); // Update parent component
-
-
-
+            console.log("Task created and assigned:", assignmentResponse.data);
             resetForm(); // Clear input fields
         } catch (error) {
             console.error("Error creating task:", error);

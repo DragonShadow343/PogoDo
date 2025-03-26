@@ -13,6 +13,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import java.util.List;
 
 @Entity
 @Table(name = "\"Tasks\"")
@@ -28,6 +30,8 @@ public class Task {
     private String taskDescription;
     private boolean completionStatus;
     private boolean lockStatus;
+    @Transient
+    private List<Integer> assignedTo;
 
 
     @ManyToMany(mappedBy = "tasks") //this references the set declared in User.java
@@ -118,6 +122,14 @@ public class Task {
 
     public boolean getLockStatus() {
         return lockStatus;
+    }
+
+    public List<Integer> getAssignedTo() {
+        return assignedTo;
+    }
+    
+    public void setAssignedTo(List<Integer> assignedTo) {
+        this.assignedTo = assignedTo;
     }
 
     @Override

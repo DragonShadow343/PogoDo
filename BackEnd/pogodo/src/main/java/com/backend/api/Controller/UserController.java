@@ -78,6 +78,7 @@ public class UserController {
             if (passwordEncoder.matches(password, user.getPasscode())) { 
                 return ResponseEntity.ok().body(Map.of(
                     "message", "Login successful",
+                    "id", user.getUserId(),
                     "username", user.getUsername(),
                     "role", user.getUserRole()
                 ));

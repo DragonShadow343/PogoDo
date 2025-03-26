@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -133,5 +134,27 @@ public class TaskController {
         }
     }
 
+    // Expects a JSON payload with an array of user IDs, e.g.: [1, 2, 3]
+    @PostMapping("/{id}/assign")
+    public ResponseEntity<?> assignUsersToTask(@PathVariable Integer id, @RequestBody List<Integer> userIds) {
+        try {
+            taskService.updateTaskAssignments(id, userIds);
+            return ResponseEntity.ok(Map.of("status", "success", "taskId", id, "assignedUsers", userIds));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/filtered")
+    public ResponseEntity<?> getTasksForUser(@RequestParam("userId") Integer userId) {
+        try {
+            List<Task> tasks = taskService.getTasksForUser(userId);
+            return ResponseEntity.ok(tasks);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
 
 }
