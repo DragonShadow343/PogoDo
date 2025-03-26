@@ -33,7 +33,7 @@ const TaskUI = ({ task, onTaskDelete }) => {
                     assignedMembers={assignedMembers} // Array of user IDs
                     onAssign={updateTaskAssignees}
                     isOpen={openDropdown === task.id}
-                    toggleDropdown={() => setOpenDropdown(openDropdown === task.id ? null : task.id)}
+                    toggleDropdown={() => setOpenDropdown( task.lockStatus ? alert("This task is locked and cannot be assigned.") : (openDropdown === task.id ? null : task.id))}
                 />
                 {/* <p>
                     Assigned To:{" "}
