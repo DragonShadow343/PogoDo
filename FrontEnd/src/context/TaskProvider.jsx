@@ -76,7 +76,6 @@ export const TaskProvider = ({ children }) => {
         try {
             // ✅ Send the full task object
             await axios.put(`/Tasks/${taskId}`, {
-                ...taskToUpdate,
                 completed: !currentStatus,
             });
     
@@ -111,7 +110,6 @@ export const TaskProvider = ({ children }) => {
         try {
             // ✅ Send the full task object
             await axios.put(`/Tasks/${taskId}`, {
-                ...taskToUpdate,
                 lockStatus: !currentStatus,
             });
     
