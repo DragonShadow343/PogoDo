@@ -4,10 +4,12 @@ import TaskContext from "../../../context/TaskProvider";
 import "./TaskRightBar.css";
 import TaskForm from "../../universalComponents/TaskForm";
 import TaskUI from "./../../universalComponents/UIComponents/TaskUI"
+import AuthContext from "../../../context/AuthProvider";
 
 const TaskRightBar = () => {
     const { tasks, setTasks } = useContext(TaskContext);
     const [isModalOpen, setIsModalOpen] = useState(false); // State for modal
+    const { auth } = useContext(AuthContext);
 
     const handleNewTask = (newTask) => {
         setTasks((prevTasks) => [...prevTasks, newTask]); // Add new task to state
@@ -23,11 +25,11 @@ const TaskRightBar = () => {
             <div className="flex justify-between items-center">
                 <strong className="text-xl font-bold ml-4">Task Board</strong>
                 {/* + Button to Open Modal */}
-                <button 
+                {auth.role == "admin" && <button 
                     onClick={() => setIsModalOpen(true)}
                     className="p-2 mr-4 rounded-full bg-blue-500 hover:bg-blue-600 text-white shadow-md transition duration-200">
                     <FiPlus size={24} />
-                </button>
+                </button>}
             </div>
 
             <div className="p-4 overflow-hidden grid grid-cols-3 gap-4">

@@ -4,6 +4,7 @@ import { FaHome, FaTasks, FaUsers, FaCog } from "react-icons/fa"; // Importing i
 import AuthContext from "./../../context/AuthProvider";
 import NotificationCentre from "../universalComponents/NotificationComponent/NotificationCentre";
 import "./Sidebar.css";
+import LogoutBtn from "./../universalComponents/UIComponents/LogoutBtn";
 
 const Sidebar = () => {
 
@@ -20,22 +21,27 @@ const Sidebar = () => {
 
           <li className="liContainer flex items-center gap-2 p-2 hover:bg-gray-700 rounded-md">
             <FaHome className="text-lg" />
-            <Link to="/admin/home">Home</Link>
+            <Link to="/user/home">Home</Link>
           </li>
 
           <li className="liContainer flex items-center gap-2 p-2 hover:bg-gray-700 rounded-md">
             <FaTasks className="text-lg" />
-            <Link to="/admin/tasks">Daily Task</Link>
+            <Link to="/user/tasks">Daily Task</Link>
           </li>
 
           <li className="liContainer flex items-center gap-2 p-2 hover:bg-gray-700 rounded-md">
             <FaUsers className="text-lg" />
-            <Link to="/admin/team-members">Team Members</Link>
+            <Link to="/user/team-members">Team Members</Link>
           </li>
 
           <li className="liContainer flex items-center gap-2 p-2 hover:bg-gray-700 rounded-md">
             <FaCog className="text-lg" />
-            <Link to="/admin/settings">Settings</Link>
+            <Link to="/user/settings">Settings</Link>
+          </li>
+
+          {/* Logout Button */}
+          <li className="liContainer flex hover:bg-gray-700 rounded-md">
+            <LogoutBtn />
           </li>
         </ul>
 

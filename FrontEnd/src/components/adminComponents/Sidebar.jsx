@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { FaHome, FaTasks, FaUsers, FaCog, FaComments } from "react-icons/fa";
 import "./Sidebar.css";
 import AuthContext from "../../context/AuthProvider";
-import Chat from "../universalComponents/WebSocket(CHAT)/Chat";
+import Chat from "../universalComponents/WebSocket(CHAT)/Chat"; // Import the Chat component
+import LogoutBtn from "../universalComponents/UIComponents/LogoutBtn";
 import NotificationCentre from "../universalComponents/NotificationComponent/NotificationCentre";
+
 
 const Sidebar = () => {
   const { auth } = useContext(AuthContext);
@@ -52,6 +54,11 @@ const Sidebar = () => {
           >
             <FaComments className="text-lg" />
             <span>Chat</span>
+          </li>
+
+          {/* Logout Button */}
+          <li className="liContainer flex hover:bg-gray-700 rounded-md">
+            <LogoutBtn />
           </li>
         </ul>
 
