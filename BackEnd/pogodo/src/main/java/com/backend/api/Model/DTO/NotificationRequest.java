@@ -2,7 +2,7 @@ package com.backend.api.Model.DTO;
 
 public class NotificationRequest {
     private String taskTitle;
-    private int priorityStatus; // 1: Low, 2: Medium, 3: High
+    private int priorityStatus;
     private Long taskId;
     private Integer recipientId;
 

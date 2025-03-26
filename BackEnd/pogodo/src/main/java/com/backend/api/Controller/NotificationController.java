@@ -13,13 +13,13 @@ public class NotificationController {
     @Autowired
     private NotificationService notificationService;
 
-    // GET endpoint to fetch notifications for a specific user
+    // GET endpoint 
     @GetMapping("/{userId}")
     public List<Notification> getNotifications(@PathVariable Integer userId) {
         return notificationService.getNotificationsByRecipient(userId);
     }
 
-    // DELETE endpoint to remove a notification for a specific user
+    // DELETE endpoint
     @DeleteMapping("/{userId}/{notificationId}")
     public void deleteNotification(@PathVariable Integer userId, @PathVariable Long notificationId) {
         notificationService.deleteNotification(notificationId, userId);

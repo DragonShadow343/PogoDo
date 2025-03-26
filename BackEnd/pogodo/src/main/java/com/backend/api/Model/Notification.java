@@ -13,14 +13,14 @@ public class Notification {
     
     private String content;
     private LocalDateTime createdAt;
+
     
-    // New field to store the recipient's user ID
     private Integer recipientId;
 
-    // REQUIRED: Empty constructor for JPA/Hibernate
+    
     public Notification() {}
 
-    // Convenience constructor with recipientId
+
     public Notification(String content, Integer recipientId) {
         this.content = content;
         this.recipientId = recipientId;
