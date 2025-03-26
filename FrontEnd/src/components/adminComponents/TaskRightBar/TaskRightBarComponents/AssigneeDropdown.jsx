@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { FiUser } from "react-icons/fi"; // Import the plus icon
+import { FiUserPlus } from "react-icons/fi"; // Import the plus icon
 
 
 const AssigneeDropdown = ({ availableMembers, assignedMembers, onAssign, isOpen, toggleDropdown }) => {
@@ -47,7 +47,7 @@ const AssigneeDropdown = ({ availableMembers, assignedMembers, onAssign, isOpen,
     return (
         <div className="relative">
             <button ref={buttonRef} onClick={toggleDropdown} className="px-2 py-1 rounded hover:cursor-pointer transition-bg duration-75 hover:bg-[rgba(0,0,0,0.1)]">
-                <FiUser />
+                <FiUserPlus />
             </button>
 
             {isOpen && (

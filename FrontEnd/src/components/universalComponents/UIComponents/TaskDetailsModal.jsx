@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import AssigneeDropdown from "../../adminComponents/TaskRightBar/TaskRightBarComponents/AssigneeDropdown";
 import LockButton from "./LockButton";
 import DeleteTaskButton from "./DeleteTaskButton";
 import CompletedButton from "./CompletedButton";
+import AuthContext from "../../../context/AuthProvider";
 
 const TaskDetailsModal = ({
   task,
@@ -15,6 +16,9 @@ const TaskDetailsModal = ({
   openDropdown,
   toggleDropdown,
 }) => {
+
+    const { auth } = useContext(AuthContext);
+    const userRole = auth.role;
 
     function daysUntilDue(dueDateInput) {
         // Ensure dueDateInput is a Date object
@@ -43,25 +47,25 @@ const TaskDetailsModal = ({
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">Task Details</h2>
                 <div className="flex items-center space-x-2">
-                    <DeleteTaskButton
+                    {userRole == "admin" && <DeleteTaskButton
                         taskID={task.id}
                         taskLocked={task.lockStatus}
                         taskPriority={task.priorityStatus}
                         onTaskDelete={onTaskDelete}
-                    />
-                    <LockButton
+                    />}
+                    {userRole == "admin" && <LockButton
                         taskID={task.id}
                         taskLocked={task.lockStatus}
                         taskPriority={task.priorityStatus}
-                    />
-                    <div className="flex flex-row-reverse justify-between">
-                    <AssigneeDropdown
-                        availableMembers={users}
-                        assignedMembers={assignedMembers}
-                        onAssign={updateTaskAssignees}
-                        isOpen={openDropdown === task.id}
-                        toggleDropdown={toggleDropdown}
-                    />
+                    />}
+                    <div className={`flex flex-row-reverse justify-between`}>
+                        {userRole == "admin" && <AssigneeDropdown
+                            availableMembers={users}
+                            assignedMembers={assignedMembers}
+                            onAssign={updateTaskAssignees}
+                            isOpen={openDropdown === task.id}
+                            toggleDropdown={toggleDropdown}
+                        />}
                     </div>
                     <CompletedButton taskID={task.id} taskCompleted={task.completed} taskPriority={task.priorityStatus}/>
                 </div>

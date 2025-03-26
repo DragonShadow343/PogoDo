@@ -1,25 +1,13 @@
 import React, { useContext, useState } from "react";
 import { FiPlus, FiX } from "react-icons/fi"; // Import the plus icon
 import TaskContext from "../../../context/TaskProvider";
-import AssigneeDropdown from "./TaskRightBarComponents/AssigneeDropdown";
 import "./TaskRightBar.css";
 import TaskForm from "../../universalComponents/TaskForm";
-import CompletedButton from "../../universalComponents/UIComponents/CompletedButton";
 import TaskUI from "./../../universalComponents/UIComponents/TaskUI"
 
 const TaskRightBar = () => {
-    const { tasks, setTasks, toggleTaskCompletion } = useContext(TaskContext);
-    const availableMembers = ["Alice", "Bob", "Charlie", "David"];
-    const [openDropdown, setOpenDropdown] = useState(null);
+    const { tasks, setTasks } = useContext(TaskContext);
     const [isModalOpen, setIsModalOpen] = useState(false); // State for modal
-
-    const updateTaskAssignees = (taskId, newAssignees) => {
-        setTasks((prevTasks) =>
-            prevTasks.map((task) =>
-                task.id === taskId ? { ...task, assignedTo: newAssignees } : task
-            )
-        );
-    };
 
     const handleNewTask = (newTask) => {
         setTasks((prevTasks) => [...prevTasks, newTask]); // Add new task to state
@@ -44,7 +32,7 @@ const TaskRightBar = () => {
 
             <div className="p-4 overflow-hidden grid grid-cols-3 gap-4">
                 <div>
-                    <p className="text-xl text-red-400 font-bold m-4">High Priority</p>
+                    <p className="text-xl text-red-400 font-bold m-4 mt-8">High Priority</p>
                     {tasks.filter(task => task.priorityStatus === 3).map((task) => (
                         <TaskUI key={task.id} task={task} onTaskDelete={handleTaskDelete} />
                     ))}
