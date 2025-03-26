@@ -1,35 +1,82 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FiX } from "react-icons/fi";
 import axios from "axios";
+import SockJS from "sockjs-client"; 
+import { Client } from "@stomp/stompjs";
 
 const NotificationCentre = ({ userId }) => {
   const [notifications, setNotifications] = useState([]);
+  const stompClientRef = useRef(null);
 
+  // Fetch from backend on load
   useEffect(() => {
     if (!userId) {
-      console.error("userId is undefined. Cannot fetch notifications.");
+      console.error("❌ userId is undefined. Cannot fetch notifications.");
       return;
     }
 
-    // Make a GET request to the backend on port 3500.
     axios.get(`http://localhost:3500/Notifications/${userId}`)
       .then(response => {
-        console.log("Raw notifications:", response.data);
-        // Transform the backend response (expected as an array of objects)
-        // Each backend object should have: { id, content, createdAt, recipientId }
         const transformed = response.data.map(item => ({
           id: item.id,
-          taskId: item.taskId || null,         // Use null if not provided
-          taskTitle: item.taskTitle || "",       // Use an empty string if not provided
-          message: item.content,                 // Rename 'content' to 'message'
+          taskId: item.taskId || null,
+          taskTitle: item.taskTitle || "",
+          message: item.content,
           recipientIds: item.recipientId ? [item.recipientId] : [],
           createdAt: item.createdAt,
         }));
         setNotifications(transformed);
       })
-      .catch(error => console.error("Error fetching notifications", error));
+      .catch(error => console.error("❌ Error fetching notifications", error));
   }, [userId]);
 
+  // Real-time WebSocket listener
+  useEffect(() => {
+    if (!userId) return;
+
+    const socket = new SockJS("http://localhost:3500/websocket");
+    const client = new Client({
+      webSocketFactory: () => socket,
+      reconnectDelay: 5000,
+      onConnect: () => {
+        console.log("🟢 WebSocket connected to /topic/notifications");
+
+        client.subscribe("/topic/notifications", message => {
+          const data = JSON.parse(message.body);
+          console.log("📬 New notification via WebSocket:", data);
+
+          // Only push notification if it's meant for this user
+          if (data.recipientId === userId) {
+            setNotifications(prev => [
+              {
+                id: data.id || Date.now(),
+                taskId: data.taskId || null,
+                taskTitle: data.taskTitle || "",
+                message: data.content || data.message,
+                recipientIds: [data.recipientId],
+                createdAt: data.timestamp || new Date().toISOString()
+              },
+              ...prev,
+            ]);
+          }
+        });
+      },
+      onStompError: error => {
+        console.error("WebSocket error", error);
+      }
+    });
+
+    client.activate();
+    stompClientRef.current = client;
+
+    return () => {
+      if (stompClientRef.current) {
+        stompClientRef.current.deactivate();
+      }
+    };
+  }, [userId]);
+
+  // Delete a notification
   const handleClose = async (notificationId) => {
     try {
       await axios.delete(`http://localhost:3500/Notifications/${userId}/${notificationId}`);
