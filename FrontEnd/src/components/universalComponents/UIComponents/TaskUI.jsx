@@ -21,15 +21,22 @@ const TaskUI = ({ task, onTaskDelete }) => {
         setOpenDropdown(openDropdown === task.id ? null : task.id);
     };
 
+    const truncateText = (text, maxLength) => {
+        return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+    };
+
     return (
-    <div key={task.id} className={`flex justify-between p-4 mb-2 space-y-4 rounded-lg ${task.priorityStatus === 3 ? "bg-red-50" : "bg-[#FFFCF9]"} shadow-md`}>
-        <p className="font-bold text-lg h-fit flex my-auto justify-start items-center w-[70%]">{task.taskTitle}</p>
-        <div className="flex flex-row items-center space-x-4">
-            <CompletedButton taskID={task.id} taskCompleted={task.completed} taskPriority={task.priorityStatus}/>
-            <button className="text-gray-500 hover:text-gray-700" onClick={() => setShowModal(true)}>
-                &#8942;
-            </button>
+    <div key={task.id} className={`flex flex-col justify-between max-h-42 p-4 mb-2 space-y-4 rounded-lg ${task.priorityStatus === 3 ? "bg-red-50" : "bg-[#FFFCF9]"} shadow-md`}>
+        <div className="flex justify-between items-center w-full">
+            <p className="font-bold text-lg h-fit flex my-auto justify-start items-center w-[70%]">{task.taskTitle}</p>
+            <div className="flex flex-row items-center space-x-4">
+                <CompletedButton taskID={task.id} taskCompleted={task.completed} taskPriority={task.priorityStatus}/>
+                <button className="text-gray-500 hover:text-gray-700" onClick={() => setShowModal(true)}>
+                    &#8942;
+                </button>
+            </div>
         </div>
+        <p className="font-light text-gray-500 text-md h-fit flex my-auto justify-start items-center w-[70%]">{truncateText(task.taskDescription, 70)}</p>
         {showModal && (
             <TaskDetailsModal
                 task={task}
