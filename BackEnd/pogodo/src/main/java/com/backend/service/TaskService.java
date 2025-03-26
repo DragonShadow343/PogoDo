@@ -27,11 +27,17 @@ public class TaskService {
     private final UserService userService;
     
     @Autowired
-    public TaskService(TaskRepository taskRepository, UserTaskRepository userTaskRepository, UserService userService) {
-        this.taskRepository = taskRepository;
-        this.userTaskRepository = userTaskRepository;
-        this.userService = userService;
+    private final NotificationService notificationService;
+
+    @Autowired
+    public TaskService(TaskRepository taskRepository, UserTaskRepository userTaskRepository, 
+        UserService userService, NotificationService notificationService) {
+    this.taskRepository = taskRepository;
+    this.userTaskRepository = userTaskRepository;
+    this.userService = userService;
+    this.notificationService = notificationService;
     }
+
 
     // Method to get all tasks
     public List<Task> getAllTasks() {
@@ -59,42 +65,74 @@ public class TaskService {
      * @param newUserIds List of user IDs to assign.
      */
     @Transactional
-    public void updateTaskAssignments(Integer taskId, List<Integer> newUserIds) {
-        // Ensure the task exists
-        Task task = taskRepository.findById(taskId)
-                .orElseThrow(() -> new RuntimeException("Task not found with id: " + taskId));
+public void updateTaskAssignments(Integer taskId, List<Integer> newUserIds) {
+    // Ensure the task exists
+    Task task = taskRepository.findById(taskId)
+            .orElseThrow(() -> new RuntimeException("Task not found with id: " + taskId));
 
-        // Retrieve current assignments for this task
-        List<UserTask> currentAssignments = userTaskRepository.findByIdTaskId(taskId);
-        Set<Integer> currentUserIds = currentAssignments.stream()
-                .map(ut -> ut.getId().getUserId())
-                .collect(Collectors.toSet());
+    // Retrieve current assignments for this task
+    List<UserTask> currentAssignments = userTaskRepository.findByIdTaskId(taskId);
+    Set<Integer> currentUserIds = currentAssignments.stream()
+            .map(ut -> ut.getId().getUserId())
+            .collect(Collectors.toSet());
 
-        // Remove duplicates from the incoming list
-        Set<Integer> newUserIdsSet = new HashSet<>(newUserIds);
-        
-        System.out.println("Task " + taskId + " assigned to User(s) with Id: " );
+    // Remove duplicates from the incoming list
+    Set<Integer> newUserIdsSet = new HashSet<>(newUserIds);
 
-        // Process additions: For each new user, add an assignment if it doesn't exist
-        for (Integer userId : newUserIdsSet) {
-            if (!currentUserIds.contains(userId)) {
-                UserTaskId newAssignmentId = new UserTaskId(taskId, userId);
-                // Extra safety: Check directly if the assignment exists in the repo
-                if (!userTaskRepository.existsById(newAssignmentId)) {
-                    userTaskRepository.save(new UserTask(newAssignmentId));
-                    System.out.println(userId);
-                }
+    System.out.println("Task " + taskId + " assigned to User(s) with Id: " + newUserIdsSet);
+
+    // Process each user in the new assignment list
+    for (Integer userId : newUserIdsSet) {
+        // Add the assignment if the user isn't already assigned
+        if (!currentUserIds.contains(userId)) {
+            UserTaskId newAssignmentId = new UserTaskId(taskId, userId);
+            if (!userTaskRepository.existsById(newAssignmentId)) {
+                userTaskRepository.save(new UserTask(newAssignmentId));
+                System.out.println("New assignment added for user " + userId);
             }
         }
+        // Always send notification regardless of whether the user was already assigned
+        notificationService.sendNotification(
+            task.getTaskTitle(),      // Task title
+            task.getPriorityStatus(), // Priority status (1,2,3)
+            (long) task.getId(),      // Task ID
+            userId                  // Recipient user ID
+        );
+    }
 
+    // Process removals: Remove assignments that are not in the new list
+    for (Integer userId : currentUserIds) {
+        if (!newUserIdsSet.contains(userId)) {
+            userTaskRepository.deleteByIdTaskIdAndIdUserId(taskId, userId);
+        }
+    }
+
+        
+    
         // Process removals: Remove assignments that are not in the new list
         for (Integer userId : currentUserIds) {
             if (!newUserIdsSet.contains(userId)) {
                 userTaskRepository.deleteByIdTaskIdAndIdUserId(taskId, userId);
             }
         }
+    
 
+    // Process removals: Remove assignments that are not in the new list
+    for (Integer userId : currentUserIds) {
+        if (!newUserIdsSet.contains(userId)) {
+            userTaskRepository.deleteByIdTaskIdAndIdUserId(taskId, userId);
+        }
     }
+
+
+    // Process removals: Remove assignments that are not in the new list
+    for (Integer userId : currentUserIds) {
+        if (!newUserIdsSet.contains(userId)) {
+            userTaskRepository.deleteByIdTaskIdAndIdUserId(taskId, userId);
+        }
+    }
+}
+
 
     /**
      * Returns tasks for a given user.
