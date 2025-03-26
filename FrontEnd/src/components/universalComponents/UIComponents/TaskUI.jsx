@@ -35,7 +35,7 @@ const TaskUI = ({ task, onTaskDelete }) => {
                     isOpen={openDropdown === task.id}
                     toggleDropdown={() => setOpenDropdown(openDropdown === task.id ? null : task.id)}
                 />
-                <p>
+                {/* <p>
                     Assigned To:{" "}
                     {assignedMembers.length > 0 
                         ? assignedMembers
@@ -46,7 +46,7 @@ const TaskUI = ({ task, onTaskDelete }) => {
                               })
                               .join(", ")
                         : "None"}
-                </p>
+                </p> */}
             </div>
         </div>
     );
