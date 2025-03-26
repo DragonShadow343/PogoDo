@@ -75,9 +75,7 @@ export const TaskProvider = ({ children }) => {
     
         try {
             // ✅ Send the full task object
-            await axios.put(`/Tasks/${taskId}`, {
-                completed: !currentStatus,
-            });
+            await axios.put(`/Tasks/${taskId}/toggleComplete`);
     
             console.log("Task updated successfully!");
         } catch (error) {
@@ -109,9 +107,7 @@ export const TaskProvider = ({ children }) => {
     
         try {
             // ✅ Send the full task object
-            await axios.put(`/Tasks/${taskId}`, {
-                lockStatus: !currentStatus,
-            });
+            await axios.put(`/Tasks/${taskId}/toggleLock`);
     
             console.log("Task updated successfully!");
         } catch (error) {
