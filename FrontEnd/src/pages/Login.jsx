@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import { useRef as useLoginRef, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AuthContext from '../context/AuthProvider';
 import './Register.css';
 import axios from '../api/axios';
@@ -151,7 +153,7 @@ const Login = () => {
             </div>
 
             {success ? (
-                //show this if login is successful
+                //show this if login is successful as a fallback
                 <section>
                     <h1>You are logged in</h1>
                     <br />
@@ -169,11 +171,11 @@ const Login = () => {
                     >
                         {errMsg}
                     </p>
-                    <h1 className='text-4xl font-bold mb-6 text-center'>Sign In</h1>
-                    <form onSubmit={handleSubmit} className='flex flex-col space-y-4'>
-                        <label htmlFor="username" className='text-sm font-medium'>Username:</label>
+                    <Link to="/home" className='text-gray-400 p-2 rounded-lg hover:bg-gray-700 duration-100'><FontAwesomeIcon icon={faHouse} /></Link>
+                    <h1 className='text-4xl text-gray-200 font-bold mb-6 text-center'>Sign In</h1>
+                    <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
                         <input
-                            className='bg-white text-gray-800 rounded p-2 focus:outline-none focus:ring-2 focus:ring-[#4ECDC4]'
+                            className='text-gray-400 w-80 p-2 border-b-2 focus:outline-none focus:border-b-[#4ECDC4] transition duration-300'
                             type="text"
                             id="username"
                             ref={userRef}
@@ -181,28 +183,25 @@ const Login = () => {
                             onChange={(e) => setUser(e.target.value)}
                             value={user}
                             required
+                            placeholder='Username'
                         />
-                        <label htmlFor="password" className='text-sm font-medium'>Password:</label>
                         <input
-                            className='bg-white text-gray-800 rounded p-2 focus:outline-none focus:ring-2 focus:ring-[#4ECDC4]'
+                            className='text-gray-400 w-80 p-2 border-b-2 focus:outline-none focus:border-b-[#4ECDC4] transition duration-300'
                             type="password"
                             id="password"
                             onChange={(e) => setPwd(e.target.value)}
                             value={pwd}
                             required
+                            placeholder='Password'
                         />
                         <button
-                            className='bg-[#4ECDC4] text-white rounded p-2 mt-4 hover:bg-[#3BB4AC] transition duration-300'
+                            className='bg-[#4ECDC4] text-white rounded p-2 my-4 hover:bg-[#3BB4AC] hover:cursor-pointer transition duration-300'
                         >
                             Sign In
                         </button>
                     </form>
-                    <p className='mt-4 text-center'>
-                        Need an account? <br />
-                        <span className='flex justify-between'>
-                            <Link to="/register" className='underline underline-offset-1'>Sign up</Link>
-                            <Link to="/home" className='underline underline-offset-1'>Go back to Home</Link>
-                        </span>
+                    <p className='text-gray-400'>
+                        Need an Account? <Link to='/register' className='underline underline-offset-1 hover:text-gray-300 duration-100'>Sign up</Link>
                     </p>
                 </section>
             )}

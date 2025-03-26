@@ -27,6 +27,7 @@ function App() {
           {/* Protected routes */}
           <Route path="/admin/*" element={<AdminRoutes />} />
           <Route path="/user/*" element={<UserRoutes />} />
+          
           {/* Chat route */}
           <Route path="/chat" element={<Chat />} />
       </Routes>
