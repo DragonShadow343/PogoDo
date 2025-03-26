@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from "react";
+import { FiUser } from "react-icons/fi"; // Import the plus icon
+
 
 const AssigneeDropdown = ({ availableMembers, assignedMembers, onAssign, isOpen, toggleDropdown }) => {
     const dropdownRef = useRef(null);
@@ -26,7 +28,7 @@ const AssigneeDropdown = ({ availableMembers, assignedMembers, onAssign, isOpen,
     return (
         <div className="relative">
             <button ref={buttonRef} onClick={toggleDropdown} className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                Assign Members ▼
+                <FiUser />
             </button>
 
             {isOpen && (

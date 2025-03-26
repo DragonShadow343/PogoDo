@@ -42,16 +42,27 @@ const TaskRightBar = () => {
                 </button>
             </div>
 
-            <div className="p-4 overflow-hidden gap-4">
-                <p className="text-xl text-red-400 font-bold m-4">High Priority</p>
-                {tasks.filter(task => task.priorityStatus === 3).map((task) => (
-                    <TaskUI key={task.id} task={task} onTaskDelete={handleTaskDelete} />
-                ))}
+            <div className="p-4 overflow-hidden grid grid-cols-3 gap-4">
+                <div>
+                    <p className="text-xl text-red-400 font-bold m-4">High Priority</p>
+                    {tasks.filter(task => task.priorityStatus === 3).map((task) => (
+                        <TaskUI key={task.id} task={task} onTaskDelete={handleTaskDelete} />
+                    ))}
+                </div>
 
-                <p className="text-xl font-bold m-4 mt-8">Remaining Tasks</p>
-                {tasks.filter(task => task.priorityStatus !== 3).map((task) => (
+                <div>
+                    <p className="text-xl font-bold m-4 mt-8">Medium Priority</p>
+                    {tasks.filter(task => task.priorityStatus === 2).map((task) => (
+                        <TaskUI key={task.id} task={task} onTaskDelete={handleTaskDelete} />
+                    ))}
+                </div>
+
+                <div>
+                <p className="text-xl font-bold m-4 mt-8">Low Priority</p>
+                {tasks.filter(task => task.priorityStatus === 1).map((task) => (
                     <TaskUI key={task.id} task={task} onTaskDelete={handleTaskDelete} />
                 ))}
+                </div>
             </div>
 
             {/* Modal for Adding New Task */}
