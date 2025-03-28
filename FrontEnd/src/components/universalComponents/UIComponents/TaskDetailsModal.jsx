@@ -19,6 +19,9 @@ const TaskDetailsModal = ({
 
     const { auth } = useContext(AuthContext);
     const userRole = auth.role;
+    const deleteTasksAccess = auth.deleteTasksAccess || false;
+    const assignTasksAccess = auth.assignTasksAccess || false;
+    const lockTasksAccess = (auth.lockTasksAccess || false) && (deleteTasksAccess || assignTasksAccess);
 
     function daysUntilDue(dueDateInput) {
         // Ensure dueDateInput is a Date object
@@ -47,19 +50,19 @@ const TaskDetailsModal = ({
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-bold">Task Details</h2>
                 <div className="flex items-center space-x-2">
-                    {userRole == "admin" && <DeleteTaskButton
+                    {(userRole == "admin" || deleteTasksAccess) && <DeleteTaskButton
                         taskID={task.id}
                         taskLocked={task.lockStatus}
                         taskPriority={task.priorityStatus}
                         onTaskDelete={onTaskDelete}
                     />}
-                    {userRole == "admin" && <LockButton
+                    {(userRole == "admin" || lockTasksAccess) && <LockButton
                         taskID={task.id}
                         taskLocked={task.lockStatus}
                         taskPriority={task.priorityStatus}
                     />}
                     <div className={`flex flex-row-reverse justify-between`}>
-                        {userRole == "admin" && <AssigneeDropdown
+                        {(userRole == "admin" || assignTasksAccess) && <AssigneeDropdown
                             availableMembers={users}
                             assignedMembers={assignedMembers}
                             onAssign={updateTaskAssignees}
