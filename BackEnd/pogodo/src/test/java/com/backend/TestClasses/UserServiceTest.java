@@ -28,13 +28,12 @@ class UserServiceTest {
 
     @AfterEach
     void tearDown() {
-        // Clean up the in-memory DB after each test
+        
         userRepository.deleteAll();
     }
 
     @Test
     void testSaveUser_withPlainTextPassword_hashesSuccessfully() {
-        //  create a new user with a plain-text passcode
         User user = new User();
         user.setFirstName("Alice");
         user.setLastName("Smith");
@@ -46,12 +45,10 @@ class UserServiceTest {
        
         User savedUser = userService.saveUser(user);
 
-        // verify the DB passcode is hashed, not plain text
         assertNotNull(savedUser.getUserId(), "User should have been assigned an ID");
         assertNotEquals("myPlaintext123", savedUser.getPasscode(),
                 "Expected passcode to be hashed, not stored in plain text!");
 
-        //  verify that the hashed password can be matched by the encoder:
         assertTrue(
                 passwordEncoder.matches("myPlaintext123", savedUser.getPasscode()),
                 "Stored hash should match the original plain-text password when using PasswordEncoder.matches()"

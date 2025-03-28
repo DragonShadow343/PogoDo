@@ -6,7 +6,6 @@ import com.backend.api.Model.UserTask;
 import com.backend.api.Model.UserTaskId;
 import com.backend.repo.TaskRepository;
 import com.backend.repo.UserTaskRepository;
-import com.backend.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,6 @@ public class TaskService {
     @Autowired
     private final NotificationService notificationService;
 
-    @Autowired
     public TaskService(TaskRepository taskRepository, UserTaskRepository userTaskRepository, 
         UserService userService, NotificationService notificationService) {
     this.taskRepository = taskRepository;
@@ -39,22 +37,22 @@ public class TaskService {
     }
 
 
-    // Method to get all tasks
+    
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
 
-    // Method to save a new task            
+               
     public Task saveTask(Task task) {
         return taskRepository.save(task);
     }
 
-    // Method to get a task by ID
+    
     public Optional<Task> getTaskById(Integer id) {
         return taskRepository.findById(id);
     }
 
-    // Method to delete a task by ID
+    
     public void deleteTask(Integer id) {
         taskRepository.deleteById(id);
     }
@@ -66,24 +64,24 @@ public class TaskService {
      */
     @Transactional
 public void updateTaskAssignments(Integer taskId, List<Integer> newUserIds) {
-    // Ensure the task exists
+    
     Task task = taskRepository.findById(taskId)
             .orElseThrow(() -> new RuntimeException("Task not found with id: " + taskId));
 
-    // Retrieve current assignments for this task
+    
     List<UserTask> currentAssignments = userTaskRepository.findByIdTaskId(taskId);
     Set<Integer> currentUserIds = currentAssignments.stream()
             .map(ut -> ut.getId().getUserId())
             .collect(Collectors.toSet());
 
-    // Remove duplicates from the incoming list
+    
     Set<Integer> newUserIdsSet = new HashSet<>(newUserIds);
 
     System.out.println("Task " + taskId + " assigned to User(s) with Id: " + newUserIdsSet);
 
-    // Process each user in the new assignment list
+    
     for (Integer userId : newUserIdsSet) {
-        // Add the assignment if the user isn't already assigned
+        
         if (!currentUserIds.contains(userId)) {
             UserTaskId newAssignmentId = new UserTaskId(taskId, userId);
             if (!userTaskRepository.existsById(newAssignmentId)) {
@@ -91,16 +89,16 @@ public void updateTaskAssignments(Integer taskId, List<Integer> newUserIds) {
                 System.out.println("New assignment added for user " + userId);
             }
         }
-        // Always send notification regardless of whether the user was already assigned
+        
         notificationService.sendNotification(
-            task.getTaskTitle(),      // Task title
-            task.getPriorityStatus(), // Priority status (1,2,3)
-            (long) task.getId(),      // Task ID
-            userId                  // Recipient user ID
+            task.getTaskTitle(),      
+            task.getPriorityStatus(), 
+            (long) task.getId(),      
+            userId                  
         );
     }
 
-    // Process removals: Remove assignments that are not in the new list
+    
     for (Integer userId : currentUserIds) {
         if (!newUserIdsSet.contains(userId)) {
             userTaskRepository.deleteByIdTaskIdAndIdUserId(taskId, userId);
@@ -109,7 +107,7 @@ public void updateTaskAssignments(Integer taskId, List<Integer> newUserIds) {
 
         
     
-        // Process removals: Remove assignments that are not in the new list
+        
         for (Integer userId : currentUserIds) {
             if (!newUserIdsSet.contains(userId)) {
                 userTaskRepository.deleteByIdTaskIdAndIdUserId(taskId, userId);
@@ -117,7 +115,7 @@ public void updateTaskAssignments(Integer taskId, List<Integer> newUserIds) {
         }
     
 
-    // Process removals: Remove assignments that are not in the new list
+    
     for (Integer userId : currentUserIds) {
         if (!newUserIdsSet.contains(userId)) {
             userTaskRepository.deleteByIdTaskIdAndIdUserId(taskId, userId);
@@ -125,7 +123,7 @@ public void updateTaskAssignments(Integer taskId, List<Integer> newUserIds) {
     }
 
 
-    // Process removals: Remove assignments that are not in the new list
+    
     for (Integer userId : currentUserIds) {
         if (!newUserIdsSet.contains(userId)) {
             userTaskRepository.deleteByIdTaskIdAndIdUserId(taskId, userId);
@@ -134,11 +132,7 @@ public void updateTaskAssignments(Integer taskId, List<Integer> newUserIds) {
 }
 
 
-    /**
-     * Returns tasks for a given user.
-     * If the user is admin, all tasks are returned.
-     * Otherwise, only tasks that are assigned to that user are returned.
-     */
+    
     public List<Task> getTasksForUser(Integer userId) {
         User user = userService.getUserById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
@@ -147,20 +141,19 @@ public void updateTaskAssignments(Integer taskId, List<Integer> newUserIds) {
         if ("admin".equalsIgnoreCase(user.getUserRole())) {
             tasks = taskRepository.findAll();
         } else {
-            // Get UserTasks where the userId matches
             List<UserTask> assignments = userTaskRepository.findByIdUserId(userId);
-            // Extract task IDs
+            
             Set<Integer> taskIds = assignments.stream()
                     .map(ut -> ut.getId().getTaskId())
                     .collect(Collectors.toSet());
-            // Query tasks by IDs
+            
             tasks = new ArrayList<>();
             for (Integer id : taskIds) {
                 taskRepository.findById(id).ifPresent(tasks::add);
             }
         }
         
-        // For every task retrieved, populate the transient 'assignedTo' field
+        
         for (Task task : tasks) {
             List<UserTask> taskAssignments = userTaskRepository.findByIdTaskId(task.getId());
             List<Integer> assignedUserIds = taskAssignments.stream()
@@ -172,7 +165,7 @@ public void updateTaskAssignments(Integer taskId, List<Integer> newUserIds) {
         return tasks;
     }
     
-    //Method to get a task by Title
+    
     public Optional<Task> getTaskByTitle(String taskTitle){
         return taskRepository.findByTaskTitle(taskTitle);
     }

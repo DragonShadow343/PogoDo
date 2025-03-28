@@ -3,8 +3,6 @@ package com.backend.TestClasses;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.apache.tomcat.util.log.UserDataHelper;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +26,7 @@ public class UserTest {
 
     public void testAddTask(){
         user.getTasks().add(task);
-        assertEquals(1, user.getTasks().size());  //the size of the users hashSet storing their tasks should be 1
+        assertEquals(1, user.getTasks().size()); 
         assertTrue(user.getTasks().contains(task));
     }
 
@@ -36,6 +34,6 @@ public class UserTest {
     public void testRemoveTask(){
         user.getTasks().add(task);
         user.getTasks().remove(task);
-        assertEquals(0, user.getTasks().size()); //the size of the users hashSet storing their tasks should be 0 after removal
+        assertEquals(0, user.getTasks().size()); 
     }
 }

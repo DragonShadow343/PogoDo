@@ -31,7 +31,7 @@ public class NotificationIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        notificationRepository.deleteAll(); // Clean before each test
+        notificationRepository.deleteAll(); 
     }
 
     @Test
