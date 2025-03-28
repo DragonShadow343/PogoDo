@@ -42,6 +42,17 @@ public class User implements Account{
     @Column(name = "userRole", nullable = false)
     private String userRole;
 
+    @JsonProperty("lockTasks")
+    @Column(name = "lockTasks", nullable = true)
+    private boolean lockTasks;
+
+    @JsonProperty
+    @Column(name = "deleteTasks", nullable = true)
+    private boolean deleteTasks;
+
+    @Column(name = "assignTasks", nullable = true)
+    private boolean assignTasks;
+
     //Join Table for the Many to Many Relationship between Users and Tasks: allows for task assignment
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -143,6 +154,30 @@ public class User implements Account{
             throw new IllegalArgumentException("User role cannot be empty");
         }
         this.userRole = userRole;
+    }
+
+    public void setLockTasks(boolean lockTasks){
+        this.lockTasks = lockTasks;
+    }
+
+    public boolean getLockTasks(){
+        return lockTasks;
+    }
+
+    public void setDeleteTasks(boolean deleteTasks){
+        this.deleteTasks = deleteTasks;
+    }
+
+    public boolean getDeleteTasks(){
+        return deleteTasks;
+    }
+
+    public void setAssignTasks(boolean assignTasks){
+        this.assignTasks = assignTasks;
+    }
+
+    public boolean getAssignTasks(){
+        return assignTasks;
     }
 
     // toString Method

@@ -36,6 +36,14 @@ public class UserService {
         
         user.setPasscode(hashed);
 
+        //before saving user, set deleteTasks, lockTasks, assignTasks to true for admins
+
+        if("admin".equals(user.getUserRole())){
+            user.setLockTasks(true);
+            user.setAssignTasks(true);
+            user.setDeleteTasks(true);
+        }
+
         return userRepository.save(user);
     }
 
