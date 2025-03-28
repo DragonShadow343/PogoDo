@@ -87,14 +87,14 @@ const NotificationCentre = ({ userId }) => {
   };
 
   return (
-    <div className="w-full bg-gray-800 text-white p-2">
+    <div className="w-full bg-gray-800 text-white p-2 my-2 h-104 overflow-x-clip overflow-scroll no-scrollbar">
       {notifications.length === 0 ? (
         <p>No new notifications</p>
       ) : (
         notifications.map(n => (
           <div 
             key={n.id} 
-            className="relative w-full bg-gray-700 p-2 mb-2 rounded flex justify-between"
+            className="relative w-full bg-gray-700 p-2 mb-3 rounded flex justify-between"
           >
             <div>
               <div className="flex flex-col-reverse">
@@ -108,7 +108,7 @@ const NotificationCentre = ({ userId }) => {
             </div>
             <button 
               onClick={() => handleClose(n.id)}
-              className="absolute top-0 right-0 translate-1/2 flex justify-center items-center text-white bg-gray-800 rounded-full h-6 w-6 cursor-pointer hover:bg-gray-600 hover:text-red-400 duration-100"
+              className="absolute top-1 right-1 flex justify-center items-center text-white bg-gray-800 rounded-full h-6 w-6 cursor-pointer hover:bg-gray-600 hover:text-red-400 duration-100"
             >
               <FiX />
             </button>
