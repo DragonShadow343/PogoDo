@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import TaskContext from "../../../../context/TaskProvider";
-import CompletedButton from "../../../universalComponents/UIComponents/CompletedButton";
+import CompletedButton from "../CompletedButton";
 
-const AllTasks = () => {
+const Tasks = () => {
   const { tasks } = useContext(TaskContext);
 
   return (
@@ -20,4 +20,4 @@ const AllTasks = () => {
   );
 };
 
-export default AllTasks;
+export default Tasks;
