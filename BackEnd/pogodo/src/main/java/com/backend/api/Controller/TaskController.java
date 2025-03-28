@@ -121,6 +121,34 @@ public class TaskController {
         }
     }
 
+    // Toggle Completion Status
+    @PutMapping("/{id}/toggleComplete")
+    public ResponseEntity<Task> toggleComplete(@PathVariable Integer id) {
+        Optional<Task> optionalTask = taskService.getTaskById(id);
+        if (optionalTask.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        Task task = optionalTask.get();
+        // Toggle the current completion status
+        task.setCompleted(!task.getCompleted());
+        Task updatedTask = taskService.saveTask(task);
+        return ResponseEntity.ok(updatedTask);
+    }
+
+    // Toggle Lock Status
+    @PutMapping("/{id}/toggleLock")
+    public ResponseEntity<Task> toggleLock(@PathVariable Integer id) {
+        Optional<Task> optionalTask = taskService.getTaskById(id);
+        if (optionalTask.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        Task task = optionalTask.get();
+        // Toggle the current lock status
+        task.setLockStatus(!task.getLockStatus());
+        Task updatedTask = taskService.saveTask(task);
+        return ResponseEntity.ok(updatedTask);
+    }
+
 
     // Delete a task
     @DeleteMapping("/{id}")

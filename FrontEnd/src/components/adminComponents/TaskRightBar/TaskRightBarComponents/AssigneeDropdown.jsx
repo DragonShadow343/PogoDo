@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { FiUser } from "react-icons/fi"; // Import the plus icon
+import { FiUserPlus } from "react-icons/fi"; // Import the plus icon
 
 
 const AssigneeDropdown = ({ availableMembers, assignedMembers, onAssign, isOpen, toggleDropdown }) => {
@@ -17,6 +17,25 @@ const AssigneeDropdown = ({ availableMembers, assignedMembers, onAssign, isOpen,
         }
     }, [isOpen]);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                isOpen &&
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(event.target)
+            ) {
+                toggleDropdown();
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isOpen, toggleDropdown]);
+
     const handleCheckboxChange = (userId) => {
         if (assignedMembers.includes(userId)) {
             onAssign(assignedMembers.filter((id) => id !== userId)); // Remove userId
@@ -27,12 +46,12 @@ const AssigneeDropdown = ({ availableMembers, assignedMembers, onAssign, isOpen,
 
     return (
         <div className="relative">
-            <button ref={buttonRef} onClick={toggleDropdown} className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                <FiUser />
+            <button ref={buttonRef} onClick={toggleDropdown} className="px-2 py-1 rounded hover:cursor-pointer transition-bg duration-75 hover:bg-[rgba(0,0,0,0.1)]">
+                <FiUserPlus />
             </button>
 
             {isOpen && (
-                <div ref={dropdownRef} className={`absolute bg-white border shadow-md w-48 rounded-md z-10 ${positionAbove ? "bottom-full mb-2" : "top-full mt-2"}`}>
+                <div ref={dropdownRef} className={`absolute bg-white border shadow-md w-56 rounded-md z-10 h-64 overflow-scroll ${positionAbove ? "bottom-full mb-2" : "top-full mt-2"}`}>
                     {availableMembers.map((member) => (
                         <label key={member.userId} className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer">
                             <input

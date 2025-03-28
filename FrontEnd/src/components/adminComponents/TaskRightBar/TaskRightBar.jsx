@@ -3,13 +3,14 @@ import { FiPlus, FiX } from "react-icons/fi";
 import TaskContext from "../../../context/TaskProvider";
 import TaskForm from "../../universalComponents/TaskForm";
 import TaskUI from "../../universalComponents/UIComponents/TaskUI";
-import "./TaskRightBar.css";
+// Remove duplicate imports
 
 const TaskRightBar = () => {
     const { tasks, setTasks, users } = useContext(TaskContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [filterOption, setFilterOption] = useState("All");
+// Remove duplicate imports and fix the function definition
 
     const handleNewTask = (newTask) => {
         setTasks((prevTasks) => [...prevTasks, newTask]);
