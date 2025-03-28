@@ -2,7 +2,6 @@ package com.backend.api.Controller;
 
 import com.backend.api.Model.Task;
 import com.backend.api.Model.User;
-import com.backend.repo.UserRepository;
 import com.backend.service.TaskService;
 import com.backend.service.UserService;
 
@@ -20,10 +19,10 @@ import java.util.Optional;
 public class TaskController {
 
     private final TaskService taskService;
+
     @Autowired
     private UserService userService;
 
-    
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
@@ -38,87 +37,61 @@ public class TaskController {
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTask(@PathVariable Integer id) {
         Optional<Task> task = taskService.getTaskById(id);
-        if (task.isPresent()) {
-            return ResponseEntity.ok(task.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        return task.map(ResponseEntity::ok)
+                   .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     // Create a new task
     @PostMapping("/createtask")
-    public ResponseEntity<Task> createTask(@RequestBody Task task) { 
-        System.out.println("Received with username: " + task.toString());
-        
-        //saves task to database
+    public ResponseEntity<Task> createTask(@RequestBody Task task) {
+        System.out.println("Received with taskTitle: " + task.toString());
         Task createdTask = taskService.saveTask(task);
-        int userId;
-        //use username to retrieve userId
-          //  Optional<User> userOptional = userService.getUserByUsername(username);
-      //  if(userOptional.isPresent()){
-       //     User user = userOptional.get();
-       //     userId = user.getUserId();
-      //  }else{System.out.println("User not found");}
-
-
-        //TODO: Insert method that saves Userid and taskId to UserTasks - references taskService.java
-
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
     }
 
-    //Add userId and taskId to UserTasks table
+    // Add userId and taskId to UserTasks table
     @PostMapping("/addAssignment")
-    public ResponseEntity<String> addAssignment(@RequestParam String username, @RequestParam String taskTitle){
-        
-        if(username==null || taskTitle ==null){
-            return ResponseEntity.badRequest().body("Username or taskId is missing.");
+    public ResponseEntity<String> addAssignment(@RequestParam String username, @RequestParam String taskTitle) {
+        if (username == null || taskTitle == null) {
+            return ResponseEntity.badRequest().body("Username or taskTitle is missing.");
         }
-        
-        System.out.println("Received username: " + username);
-        System.out.println("Received taskTitle: " + taskTitle);
 
-        //get userId from username and taskId from taskTitle
         Optional<User> userOptional = userService.getUserByUsername(username);
         Optional<Task> taskOptional = taskService.getTaskByTitle(taskTitle);
-       
-        if(userOptional.isPresent() && taskOptional.isPresent()){
+
+        if (userOptional.isPresent() && taskOptional.isPresent()) {
             User user = userOptional.get();
-            int userId = user.getUserId();
             Task task = taskOptional.get();
-            int taskId = task.getId();
-
-            System.out.println("Received userId: " + userId);
-            System.out.println("Received taskId: " + taskId);
-
-            //add userId and taskId relationship to UserTasks table
 
             user.getTasks().add(task);
             task.getUsers().add(user);
 
-            userService.saveUser(user);
+            userService.updateUser(user);  // ✅ Safe update
             taskService.saveTask(task);
+
+            return ResponseEntity.status(HttpStatus.OK).body("Task assigned successfully to user.");
         }
-        return ResponseEntity.status(HttpStatus.OK).body("Task assigned successfully to user.");
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User or Task not found.");
     }
 
     // Update an existing task
     @PutMapping("/{id}")
-        public ResponseEntity<Task> updateTask(@PathVariable Integer id, @RequestBody Task updatedTask) {
+    public ResponseEntity<Task> updateTask(@PathVariable Integer id, @RequestBody Task updatedTask) {
         Optional<Task> existingTaskOptional = taskService.getTaskById(id);
-        
+
         if (existingTaskOptional.isPresent()) {
             Task existingTask = existingTaskOptional.get();
-            
-            // ✅ Preserve other fields, only update completed
-            if (Boolean.TRUE.equals(updatedTask.getCompleted())) {
+
+            if (updatedTask.getCompleted() != existingTask.getCompleted()) {
                 existingTask.setCompleted(updatedTask.getCompleted());
             }
-            
+
             Task savedTask = taskService.saveTask(existingTask);
             return ResponseEntity.ok(savedTask);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     // Toggle Completion Status
@@ -129,7 +102,6 @@ public class TaskController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         Task task = optionalTask.get();
-        // Toggle the current completion status
         task.setCompleted(!task.getCompleted());
         Task updatedTask = taskService.saveTask(task);
         return ResponseEntity.ok(updatedTask);
@@ -143,12 +115,10 @@ public class TaskController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         Task task = optionalTask.get();
-        // Toggle the current lock status
         task.setLockStatus(!task.getLockStatus());
         Task updatedTask = taskService.saveTask(task);
         return ResponseEntity.ok(updatedTask);
     }
-
 
     // Delete a task
     @DeleteMapping("/{id}")
@@ -157,12 +127,11 @@ public class TaskController {
         if (existingTask.isPresent()) {
             taskService.deleteTask(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    // Expects a JSON payload with an array of user IDs, e.g.: [1, 2, 3]
+    // Assign users to a task
     @PostMapping("/{id}/assign")
     public ResponseEntity<?> assignUsersToTask(@PathVariable Integer id, @RequestBody List<Integer> userIds) {
         try {
@@ -170,10 +139,11 @@ public class TaskController {
             return ResponseEntity.ok(Map.of("status", "success", "taskId", id, "assignedUsers", userIds));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", e.getMessage()));
+                                 .body(Map.of("error", e.getMessage()));
         }
     }
 
+    // Filtered tasks for logged-in user
     @GetMapping("/filtered")
     public ResponseEntity<?> getTasksForUser(@RequestParam("userId") Integer userId) {
         try {
@@ -181,8 +151,7 @@ public class TaskController {
             return ResponseEntity.ok(tasks);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("error", e.getMessage()));
+                                 .body(Map.of("error", e.getMessage()));
         }
     }
-
 }
