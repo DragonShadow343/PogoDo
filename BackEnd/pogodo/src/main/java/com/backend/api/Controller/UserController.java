@@ -89,4 +89,40 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "User not found"));
         }
     }
+
+    @PutMapping("/{userId}/permissions/{permissionKey}")
+    public ResponseEntity<User> updateUserPermission(@PathVariable Integer userId, @PathVariable String permissionKey, @RequestBody Map<String, Boolean> permission){
+        
+        Optional<User> userOptional = userService.getUserById(userId);
+        
+        if (userOptional.isPresent()){
+            User user = userOptional.get();
+            boolean value = permission.get(permissionKey); //retrieves value from Map
+
+            //based on the permission key, update the corresponding attribute
+            switch(permissionKey){
+                case "lockTasks":
+                    user.setLockTasks(value);
+                    break;
+                case "deleteTasks":
+                    user.setDeleteTasks(value);
+                    break;
+                case "assignTasks":
+                    user.setAssignTasks(value);
+                    break;
+                default:
+                    return ResponseEntity.badRequest().build();
+            }
+
+            userService.saveUser(user); //update user permissions in database
+
+            return ResponseEntity.ok(user);
+
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        
+    }
+
+    
 }
