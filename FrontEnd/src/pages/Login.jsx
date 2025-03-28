@@ -199,7 +199,12 @@ const Login = () => {
                         >
                             Sign In
                         </button>
+
+
                     </form>
+                    <p className='text-gray-400 mb-2'>
+                    <Link to='/forgot-password' className='underline underline-offset-1 hover:text-gray-300 duration-100'>Forgot Password?</Link>
+                    </p>
                     <p className='text-gray-400'>
                         Need an Account? <Link to='/register' className='underline underline-offset-1 hover:text-gray-300 duration-100'>Sign up</Link>
                     </p>
