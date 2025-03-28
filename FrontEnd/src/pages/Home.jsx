@@ -89,7 +89,7 @@ const Home = () => {
             </div>
 
             {/* Header Section */}
-            <header className="flex justify-between items-center mb-12 relative z-20">
+            <header className="flex justify-between items-center relative z-20">
                 {/* Logo */}
                 <div className="flex items-center">
                     <img src={logo} alt="PogoDo Logo" className="h-16 w-16 mr-4" /> {/* Increased logo size */}
@@ -114,7 +114,7 @@ const Home = () => {
 
             {/* Main Content Section */}
             <section className="flex flex-col items-center justify-center h-full relative z-10">
-            <h2 className="text-6xl font-bold text-[#1E293B] font-poppins bg-gradient-to-r from-[#4ECDC4] to-[#2563EB] bg-clip-text text-transparent leading-tight -mt-4">
+            <h2 className="text-6xl font-bold font-poppins h-20 bg-gradient-to-r from-[#4ECDC4] to-[#2563EB] bg-clip-text text-transparent leading-tight -mt-4">
                       Welcome to PogoDo
                 </h2>
                 <p className="text-2xl text-[#64748B] mb-8 font-poppins">
