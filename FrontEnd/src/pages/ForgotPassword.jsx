@@ -81,7 +81,7 @@ const ForgotPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+        setErrMsg('');
         //check if passwords match
         if (newPassword !== confirmPassword) {
             setErrMsg('Passwords do not match');
