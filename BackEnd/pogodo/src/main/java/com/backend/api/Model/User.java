@@ -1,7 +1,6 @@
 package com.backend.api.Model;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.backend.api.Model.Interfaces.Account;
@@ -11,10 +10,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "\"Users\"") // Map to the "Users" table in the database
+@Table(name = "\"Users\"") 
 public class User implements Account{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generate ID
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "userId", nullable = false)
     private Integer userId;
 
@@ -51,9 +50,9 @@ public class User implements Account{
     )
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonManagedReference
-    private Set<Task> tasks = new HashSet<>();        // this Set holds the tasks associated with the user
+    private Set<Task> tasks = new HashSet<>();        
 
-    // Constructors
+    
     public User(String firstName, String lastName, String email, String username, String passcode, String userRole) {
         
         this.firstName = firstName;
@@ -145,7 +144,6 @@ public class User implements Account{
         this.userRole = userRole;
     }
 
-    // toString Method
     @Override
     public String toString() {
         return "User{" +
@@ -159,8 +157,6 @@ public class User implements Account{
                 '}';
     }
 
-
-    //methods to handle user/task assignment
 
     public Set<Task> getTasks() {
         return tasks;

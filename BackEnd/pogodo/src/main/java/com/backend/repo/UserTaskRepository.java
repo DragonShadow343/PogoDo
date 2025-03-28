@@ -12,9 +12,9 @@ public interface UserTaskRepository extends JpaRepository<UserTask, UserTaskId> 
 
     List<UserTask> findByIdTaskId(Integer taskId);
 
-    // Custom deletion method for bulk removal
+    
     void deleteByIdTaskIdAndIdUserId(Integer taskId, Integer userId);
 
-    // Custom query to find all tasks assigned to a user
+   
     List<UserTask> findByIdUserId(Integer userId);
 }

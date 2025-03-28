@@ -14,7 +14,6 @@ public class ChatController {
     @MessageMapping("/chat")
     @SendTo("/topic/chat")
     public ChatMessage sendMessage(ChatMessage message, SimpMessageHeaderAccessor headerAccessor) {
-        // Add logic to process the message if needed
         return message;
     }
 }
