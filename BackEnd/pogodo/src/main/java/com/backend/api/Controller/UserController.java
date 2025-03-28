@@ -55,7 +55,9 @@ public class UserController {
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
-            System.out.println("Received User Data: " + user); //debug received data
+
+            System.out.println("Received User Data: " + user); 
+
             User savedUser = userService.saveUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
 

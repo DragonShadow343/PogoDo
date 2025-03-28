@@ -24,7 +24,7 @@ public class AdminServiceTest {
     private AdminRepository adminRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder; // Injected PasswordEncoder bean
+    private PasswordEncoder passwordEncoder; 
 
     @AfterEach
     public void tearDown() {
@@ -33,26 +33,26 @@ public class AdminServiceTest {
 
     @Test
     public void testSaveAdmin_withPlainTextPassword_hashesSuccessfully() {
-        // Arrange
+        
         Admin admin = new Admin();
         admin.setFirstName("AdminFirst");
         admin.setLastName("AdminLast");
         admin.setEmail("admin@example.com");
         admin.setUsername("adminUser");
-        admin.setPasscode("plainText123");  // Must match what you test later
+        admin.setPasscode("plainText123"); 
         admin.setUserRole("ADMIN");
     
       
         Admin savedAdmin = adminService.saveAdmin(admin);
     
-        // Assert: ID is assigned
+        
         assertNotNull(savedAdmin.getUserId(), "Admin should have been assigned an ID");
     
-        // Assert that DB password is not the same plain text
+        
         assertNotEquals("plainText123", savedAdmin.getPasscode(),
             "Expected the password to be hashed, not stored as plain text!");
     
-        // Verify that the hashed password still matches the original plain text
+        
         assertTrue(
             passwordEncoder.matches("plainText123", savedAdmin.getPasscode()),
             "Stored hash should match the original password when checked with PasswordEncoder.matches()"

@@ -3,11 +3,9 @@ package com.backend.service;
 import com.backend.repo.NotificationRepository;
 import com.backend.api.Model.Notification;
 import com.backend.api.Model.DTO.NotificationResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,7 +14,6 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final SimpMessagingTemplate messagingTemplate;
 
-    @Autowired
     public NotificationService(NotificationRepository notificationRepository,
                                SimpMessagingTemplate messagingTemplate) {
         this.notificationRepository = notificationRepository;
@@ -30,11 +27,11 @@ public class NotificationService {
         String priorityText = convertPriorityToText(priorityStatus);
         String messageContent = "You’ve been assigned a new " + priorityText + " priority task, " + taskTitle + "!";
 
-        // database saving
+        
         Notification notification = new Notification(messageContent, recipientId);
         notificationRepository.save(notification);
 
-        // for websocket response (real time notification)
+        
         NotificationResponse response = new NotificationResponse(
                 notification.getId(),
                 messageContent,

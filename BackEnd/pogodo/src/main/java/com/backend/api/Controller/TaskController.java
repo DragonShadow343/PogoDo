@@ -2,7 +2,6 @@ package com.backend.api.Controller;
 
 import com.backend.api.Model.Task;
 import com.backend.api.Model.User;
-import com.backend.repo.UserRepository;
 import com.backend.service.TaskService;
 import com.backend.service.UserService;
 
@@ -28,13 +27,13 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    // Get all tasks
+    
     @GetMapping
     public List<Task> getAllTasks() {
         return taskService.getAllTasks();
     }
 
-    // Get task by ID
+    
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTask(@PathVariable Integer id) {
         Optional<Task> task = taskService.getTaskById(id);
@@ -45,14 +44,14 @@ public class TaskController {
         }
     }
 
-    // Create a new task
+    
     @PostMapping("/createtask")
     public ResponseEntity<Task> createTask(@RequestBody Task task) { 
         System.out.println("Received with username: " + task.toString());
         
         //saves task to database
         Task createdTask = taskService.saveTask(task);
-        int userId;
+        //int userId;
         //use username to retrieve userId
           //  Optional<User> userOptional = userService.getUserByUsername(username);
       //  if(userOptional.isPresent()){
@@ -66,7 +65,7 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
     }
 
-    //Add userId and taskId to UserTasks table
+    
     @PostMapping("/addAssignment")
     public ResponseEntity<String> addAssignment(@RequestParam String username, @RequestParam String taskTitle){
         
@@ -77,7 +76,7 @@ public class TaskController {
         System.out.println("Received username: " + username);
         System.out.println("Received taskTitle: " + taskTitle);
 
-        //get userId from username and taskId from taskTitle
+        
         Optional<User> userOptional = userService.getUserByUsername(username);
         Optional<Task> taskOptional = taskService.getTaskByTitle(taskTitle);
        
@@ -90,7 +89,7 @@ public class TaskController {
             System.out.println("Received userId: " + userId);
             System.out.println("Received taskId: " + taskId);
 
-            //add userId and taskId relationship to UserTasks table
+            
 
             user.getTasks().add(task);
             task.getUsers().add(user);
@@ -101,7 +100,7 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.OK).body("Task assigned successfully to user.");
     }
 
-    // Update an existing task
+    
     @PutMapping("/{id}")
         public ResponseEntity<Task> updateTask(@PathVariable Integer id, @RequestBody Task updatedTask) {
         Optional<Task> existingTaskOptional = taskService.getTaskById(id);
@@ -109,7 +108,7 @@ public class TaskController {
         if (existingTaskOptional.isPresent()) {
             Task existingTask = existingTaskOptional.get();
             
-            // ✅ Preserve other fields, only update completed
+    
             if (Boolean.TRUE.equals(updatedTask.getCompleted())) {
                 existingTask.setCompleted(updatedTask.getCompleted());
             }
@@ -121,7 +120,7 @@ public class TaskController {
         }
     }
 
-    // Toggle Completion Status
+    
     @PutMapping("/{id}/toggleComplete")
     public ResponseEntity<Task> toggleComplete(@PathVariable Integer id) {
         Optional<Task> optionalTask = taskService.getTaskById(id);
@@ -129,13 +128,13 @@ public class TaskController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         Task task = optionalTask.get();
-        // Toggle the current completion status
+        
         task.setCompleted(!task.getCompleted());
         Task updatedTask = taskService.saveTask(task);
         return ResponseEntity.ok(updatedTask);
     }
 
-    // Toggle Lock Status
+    
     @PutMapping("/{id}/toggleLock")
     public ResponseEntity<Task> toggleLock(@PathVariable Integer id) {
         Optional<Task> optionalTask = taskService.getTaskById(id);
@@ -143,14 +142,14 @@ public class TaskController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         Task task = optionalTask.get();
-        // Toggle the current lock status
+        
         task.setLockStatus(!task.getLockStatus());
         Task updatedTask = taskService.saveTask(task);
         return ResponseEntity.ok(updatedTask);
     }
 
 
-    // Delete a task
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Integer id) {
         Optional<Task> existingTask = taskService.getTaskById(id);
@@ -162,7 +161,7 @@ public class TaskController {
         }
     }
 
-    // Expects a JSON payload with an array of user IDs, e.g.: [1, 2, 3]
+    
     @PostMapping("/{id}/assign")
     public ResponseEntity<?> assignUsersToTask(@PathVariable Integer id, @RequestBody List<Integer> userIds) {
         try {

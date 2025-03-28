@@ -20,8 +20,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -58,7 +56,7 @@ public class TaskControllerIntegrationTest {
 
     @Test
 public void testCreateTask() throws Exception {
-    String uniqueTaskTitle = "Test Task " + System.currentTimeMillis(); // Unique task name
+    String uniqueTaskTitle = "Test Task " + System.currentTimeMillis(); 
 
     Task task = new Task();
     task.setTaskTitle(uniqueTaskTitle);
@@ -83,7 +81,7 @@ public void testCreateTask() throws Exception {
 
     @Test
     public void testGetTaskById() throws Exception {
-        // Create and save a task
+        
         Task task = new Task();
         task.setTaskTitle("Test Task");
         task.setTaskDescription("This is a test task");
@@ -93,7 +91,7 @@ public void testCreateTask() throws Exception {
         task.setLockStatus(false);
         taskRepository.save(task);
 
-        // Send a GET request to fetch the task by ID
+        
         mockMvc.perform(get("/Tasks/{id}", task.getId()))
                 .andExpect(status().isOk()) // Expect HTTP 200 OK
                 .andExpect(jsonPath("$.taskTitle").value("Test Task")) // Validate the response
@@ -102,7 +100,7 @@ public void testCreateTask() throws Exception {
 
     @Test
     public void testUpdateTask() throws Exception {
-        // Create and save a task
+        
         Task task = new Task();
         task.setTaskTitle("Test Task");
         task.setTaskDescription("This is a test task");
@@ -112,23 +110,23 @@ public void testCreateTask() throws Exception {
         task.setLockStatus(false);
         taskRepository.save(task);
 
-        // Update the task
+        
         task.setTaskDescription("Updated description");
 
-        // Convert the updated task object to JSON
+        
         String taskJson = objectMapper.writeValueAsString(task);
 
-        // Send a PUT request to update the task
+        
         mockMvc.perform(put("/Tasks/{id}", task.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(taskJson))
-                .andExpect(status().isOk()) // Expect HTTP 200 OK
-                .andExpect(jsonPath("$.taskDescription").value("This is a test task")); // Validate the response
+                .andExpect(status().isOk()) 
+                .andExpect(jsonPath("$.taskDescription").value("This is a test task")); 
     }
 
     @Test
     public void testDeleteTask() throws Exception {
-        // Create and save a task
+        
         Task task = new Task();
         task.setTaskTitle("Test Task");
         task.setTaskDescription("This is a test task");
@@ -138,11 +136,10 @@ public void testCreateTask() throws Exception {
         task.setLockStatus(false);
         taskRepository.save(task);
 
-        // Send a DELETE request to delete the task
         mockMvc.perform(delete("/Tasks/{id}", task.getId()))
                 .andExpect(status().isNoContent()); // Expect HTTP 204 No Content
 
-        // Verify that the task was deleted
+       
         Task deletedTask = taskRepository.findById(task.getId()).orElse(null);
         assertNull(deletedTask);
     }
@@ -154,7 +151,7 @@ public void testCreateTask() throws Exception {
         String username = "testUser";
         String taskTitle = "Test Task";
        
-        //Create and save user
+        
         User user = new User();
         user.setUserId(99);
         user.setFirstName("testFirstName");
@@ -165,7 +162,7 @@ public void testCreateTask() throws Exception {
         user.setUserRole("User");
         userRepository.save(user);
 
-        //Create and save task
+        
         Task task = new Task();
         task.setId(100);
         task.setTaskTitle("Test Task");
@@ -178,25 +175,24 @@ public void testCreateTask() throws Exception {
 
 
         
-        //Add the userId and taskId relationship
+        
         mockMvc.perform(post("/Tasks/addAssignment")
             .param("username", username)
             .param("taskTitle", taskTitle)
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk()) //Expect HTTP 200 OK
+            .andExpect(status().isOk()) 
             .andExpect(content().string("Task assigned successfully to user."));
 
-        //Verify the task has been correctly assigned to the user
+        
 
         Optional<User> optionalUser = userRepository.findByUsername(username);
         assertNotNull(optionalUser);
         User userUpdate = optionalUser.get();
         userUpdate.getTasks().size();
 
-        assertEquals(1, userUpdate.getTasks().size()); //Ensures the user has one task assigned
+        assertEquals(1, userUpdate.getTasks().size()); 
         assertTrue(userUpdate.getTasks().stream().anyMatch(t -> t.getTaskTitle().equals(taskTitle)));
 
-        //remove associations: otherwise the other tests will fail due to violation of referential integrity
         
         userUpdate.getTasks().clear();
         userRepository.save(userUpdate);

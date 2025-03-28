@@ -11,19 +11,15 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
 	@Override
 	public void handleMessage(@NonNull WebSocketSession session, @NonNull WebSocketMessage<?> message) throws Exception {
-		// Handle incoming messages here
 		String receivedMessage = (String) message.getPayload();
-		// Process the message and send a response if needed
 		session.sendMessage(new TextMessage("Received: " + receivedMessage));
 	}
 
 	@Override
 	public void afterConnectionEstablished(@NonNull WebSocketSession session) throws Exception {
-		// Perform actions when a new WebSocket connection is established
 	}
 
 	@Override
 	public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus status) throws Exception {
-		// Perform actions when a WebSocket connection is closed
 	}
 }
