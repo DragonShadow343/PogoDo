@@ -3,7 +3,7 @@ import "./HomeRightBar.css"
 import PersonalInfo from '../../universalComponents/PersonalInfo'
 import MyTasks from './HomeRightBarWidgets/MyTasks'
 import MyPriorityTasks from './HomeRightBarWidgets/MyPriorityTasks'
-import MyProgressBar from './HomeRightBarWidgets/MyProgressBar'
+import ProgressBar from '../../universalComponents/UIComponents/Widgets/ProgressBar'
 
 const HomeRightBar = () => {
   return (
@@ -13,7 +13,7 @@ const HomeRightBar = () => {
         <div className="col-span-2"><PersonalInfo /></div>
         <div className="col-span-2 row-span-4 max-h-[90vh]"><MyTasks /></div>
         <div className="col-span-2"><MyPriorityTasks /></div>
-        <div className="col-span-2"><MyProgressBar /></div>
+        <div className="col-span-2"><ProgressBar /></div>
         {/* <div className="border-2 col-span-2"></div> */}
       </div>
     </section>

@@ -4,7 +4,7 @@ import PersonalInfo from './../../universalComponents/PersonalInfo'
 import AllTasks from './HomeRightBarWidgets/AllTasks'
 import PriorityTasks from './HomeRightBarWidgets/PriorityTasks'
 import TeamMembers from './HomeRightBarWidgets/TeamMembers'
-import ProgressBar from './HomeRightBarWidgets/ProgressBar'
+import ProgressBar from './../../universalComponents/UIComponents/Widgets/ProgressBar'
 
 const HomeRightBar = () => {
   return (

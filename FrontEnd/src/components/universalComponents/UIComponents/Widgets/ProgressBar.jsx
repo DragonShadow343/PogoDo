@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import TaskContext from "../../../../context/TaskProvider";
 
 const ProgressBar = () => {
-  const { tasks, toggleTaskCompletion } = useContext(TaskContext);
+  const { tasks } = useContext(TaskContext);
 
   const taskLength = tasks.length;
   const completedTasks = tasks.filter(task => task.completed).length;
@@ -14,10 +14,15 @@ const ProgressBar = () => {
       <div className="flex justify-between">
         <h2 className="py-1 font-bold text-lg">My Progress</h2>
       </div>
-      <div className="w-full bg-gray-200 rounded-full h-4 mt-2">
-        <div className={`${(progress != 100) ? "bg-blue-600" : "bg-[#06D6A0]"} h-4 rounded-full transition-all duration-500`} style={{ width: `${progress}%`}}></div>
+      <div>
+        <div className="w-full bg-gray-200 rounded-full h-4 mt-2">
+          <div className={`${(progress != 100) ? "bg-blue-600" : "bg-[#06D6A0]"} h-4 rounded-full transition-all duration-500`} style={{ width: `${progress || 0}%`}}></div>
+        </div>
+        {progress 
+        ? (<p className="text-sm text-gray-600 mt-2">{progress}% completed</p>)
+        : (<p className="text-sm text-gray-600 mt-2">No Tasks Assigned</p>)
+        }
       </div>
-      <p className="text-sm text-gray-600 mt-2">{progress}% completed</p>
     </div>
   );
 };
