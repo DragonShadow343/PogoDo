@@ -39,9 +39,9 @@ public class UserService {
         //before saving user, set deleteTasks, lockTasks, assignTasks to true for admins
 
         if("admin".equals(user.getUserRole())){
-            user.setLockTasks(true);
-            user.setAssignTasks(true);
-            user.setDeleteTasks(true);
+           if(user.getLockTasks() == false) {user.setLockTasks(true);}
+           if(user.getAssignTasks() == false) {user.setAssignTasks(true);}
+           if(user.getDeleteTasks() == false) {user.setDeleteTasks(true);}
         }
 
         return userRepository.save(user);
