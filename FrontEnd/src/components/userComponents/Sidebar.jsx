@@ -30,11 +30,6 @@ const Sidebar = () => {
           </li>
 
           <li className="liContainer flex items-center gap-2 p-2 hover:bg-gray-700 rounded-md">
-            <FaUsers className="text-lg" />
-            <Link to="/user/team-members">Team Members</Link>
-          </li>
-
-          <li className="liContainer flex items-center gap-2 p-2 hover:bg-gray-700 rounded-md">
             <FaCog className="text-lg" />
             <Link to="/user/settings">Settings</Link>
           </li>
