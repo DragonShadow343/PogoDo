@@ -67,7 +67,7 @@ const PermissionRightBar = () => {
               <label className='flex items-center gap-1'>
                 <input
                   type="checkbox"
-                  checked={user.assignedTasks}
+                  checked={user.assignTasks}
                   onChange={(e) => handleCheckboxChange(user.userId, 'assignTasks', e)}
                 />
                 Assign Tasks
