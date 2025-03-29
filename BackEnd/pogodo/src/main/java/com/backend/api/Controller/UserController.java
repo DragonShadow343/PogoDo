@@ -87,20 +87,8 @@ public class UserController {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
 
-
-            if (passwordEncoder.matches(password, user.getPasscode())) {
-                return ResponseEntity.ok().body(Map.of(
-                    "message", "Login successful",
-                    "id", user.getUserId(),
-                    "username", user.getUsername(),
-                    "role", user.getUserRole()
-                ));
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid password"));
-            }
-
             user.setPasscode(newPassword); //this is where the password is hashed when saved
-            userService.saveUser(user);
+            userService.registerUser(user);
             return ResponseEntity.ok()
                 .body(Map.of("message", "Password updated successfully"));
 
@@ -156,7 +144,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-}
 
         @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
         public ResponseEntity<?> loginUser(@RequestBody User loginRequest) {
