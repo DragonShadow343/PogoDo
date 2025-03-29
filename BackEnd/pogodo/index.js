@@ -14,5 +14,5 @@ app.get("/getData", (req, res) => {
 });
 
 
-const PORT = 3501; // Changed to 3501
+const PORT = 3501; 
 app.listen(PORT, () => console.log("App is running on port 3501"));
