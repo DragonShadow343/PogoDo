@@ -42,6 +42,21 @@ public class UserControllerIntegrationTest {
         userRepository.deleteAll();
     }
 
+    private User createUniqueUser() {
+        String uniqueUsername = "johndoe_" + System.currentTimeMillis();
+        String uniqueEmail = "john.doe_" + System.currentTimeMillis() + "@example2.com";
+
+        User user = new User();
+        user.setFirstName("John");
+        user.setLastName("Doe");
+        user.setEmail(uniqueEmail); 
+        user.setUsername(uniqueUsername); 
+        user.setPasscode("password123");
+        user.setUserRole("USER");
+        
+        return user;
+    }
+
     @Test
     public void testDatabaseConnection() {
         assertNotNull(userRepository);
@@ -82,17 +97,7 @@ public class UserControllerIntegrationTest {
 
     @Test
 public void testUpdateUserPermissionAssignTasks() throws Exception {
-    // Create unique username and email
-    String uniqueUsername = "johndoe_" + System.currentTimeMillis();
-    String uniqueEmail = "john.doe_" + System.currentTimeMillis() + "@example2.com";
-
-    User user = new User();
-    user.setFirstName("John");
-    user.setLastName("Doe");
-    user.setEmail(uniqueEmail);
-    user.setUsername(uniqueUsername);
-    user.setPasscode("password123");
-    user.setUserRole("USER");
+    User user = createUniqueUser();
 
     // Save the user to the repository
     userRepository.save(user);
@@ -120,17 +125,7 @@ public void testUpdateUserPermissionAssignTasks() throws Exception {
 
 @Test
 public void testUpdateUserPermissionDeleteTasks() throws Exception {
-    // Create unique username and email
-    String uniqueUsername = "johndoe_" + System.currentTimeMillis();
-    String uniqueEmail = "john.doe_" + System.currentTimeMillis() + "@example2.com";
-
-    User user = new User();
-    user.setFirstName("John");
-    user.setLastName("Doe");
-    user.setEmail(uniqueEmail);
-    user.setUsername(uniqueUsername);
-    user.setPasscode("password123");
-    user.setUserRole("USER");
+    User user = createUniqueUser();
 
     // Save the user to the repository
     userRepository.save(user);
@@ -158,17 +153,7 @@ public void testUpdateUserPermissionDeleteTasks() throws Exception {
 
 @Test
 public void testUpdateUserPermissionLockTasks() throws Exception {
-    // Create unique username and email
-    String uniqueUsername = "johndoe_" + System.currentTimeMillis();
-    String uniqueEmail = "john.doe_" + System.currentTimeMillis() + "@example2.com";
-
-    User user = new User();
-    user.setFirstName("John");
-    user.setLastName("Doe");
-    user.setEmail(uniqueEmail);
-    user.setUsername(uniqueUsername);
-    user.setPasscode("password123");
-    user.setUserRole("USER");
+    User user = createUniqueUser();
 
     // Save the user to the repository
     userRepository.save(user);

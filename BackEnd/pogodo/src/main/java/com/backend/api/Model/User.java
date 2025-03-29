@@ -180,22 +180,6 @@ public class User implements Account{
         return assignTasks;
     }
 
-    // toString Method
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
-                ", passcode='" + passcode + '\'' +
-                ", userRole='" + userRole + '\'' +
-                '}';
-    }
-
-
     public Set<Task> getTasks() {
         return tasks;
     }
