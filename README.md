@@ -41,14 +41,14 @@ Currently, in the frontend (React), we have a functional prototype with the foll
 * The Spring Boot application leverages SpringData JPA to manage connections with the backend services.
 * The database tables are designed according to the relational model, allowing for efficient management of entity relationships
 
-##### Future Implementation:
+#### Future Implementation:
 * Logic modification and addition
 * Advanced Task Features: Tagging, multi-assignee support.
 * Team Linking: Admins linking team members under projects.
 * Tasks can be "tagged"
 * Team members can comment on tasks
 
-##### Known bugs and plans to address them:
+#### Known bugs and plans to address them:
 Notifications:
 * Notifications are sent to the whole array, even if they have already received one.
 * Description: when a user is assigned a task, the notification is sent to the array of assigned users. It can be fixed with a set or checking if users have already been sent a notification.
