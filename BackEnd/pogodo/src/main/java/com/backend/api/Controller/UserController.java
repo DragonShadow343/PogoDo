@@ -89,6 +89,21 @@ public class UserController {
         }
     }
 
+    @GetMapping("/{id}/permissions")
+    public ResponseEntity<Map<String, Boolean>> getUserPermissions(@PathVariable Integer id) {
+        return userService.getUserById(id)
+            .map(user -> {
+                Map<String, Boolean> permissions = Map.of(
+                    "lockTasks", user.getLockTasks(),
+                    "deleteTasks", user.getDeleteTasks(),
+                    "assignTasks", user.getAssignTasks()
+                );
+                return ResponseEntity.ok(permissions);
+            })
+            .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
     @PutMapping("/{userId}/permissions/{permissionKey}")
     public ResponseEntity<User> updateUserPermission(@PathVariable Integer userId, @PathVariable String permissionKey, @RequestBody Map<String, Boolean> permission) {
 

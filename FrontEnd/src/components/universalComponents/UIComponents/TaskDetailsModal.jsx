@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import ReactDOM from "react-dom";
 import AssigneeDropdown from "../../adminComponents/TaskRightBar/TaskRightBarComponents/AssigneeDropdown";
 import LockButton from "./LockButton";
 import DeleteTaskButton from "./DeleteTaskButton";
 import CompletedButton from "./CompletedButton";
 import AuthContext from "../../../context/AuthProvider";
+import axios from "../../../api/axios";
 
 const TaskDetailsModal = ({
   task,
@@ -19,9 +20,26 @@ const TaskDetailsModal = ({
 
     const { auth } = useContext(AuthContext);
     const userRole = auth.role;
-    const deleteTasksAccess = auth.deleteTasksAccess || false;
-    const assignTasksAccess = auth.assignTasksAccess || false;
-    const lockTasksAccess = (auth.lockTasksAccess || false) && (deleteTasksAccess || assignTasksAccess);
+
+    const storedPermissions = JSON.parse(sessionStorage.getItem("userPermissions")) || {};
+    const deleteTasksAccess = storedPermissions.deleteTasks || false;
+    const assignTasksAccess = storedPermissions.assignTasks || false;
+    const lockTasksAccess = (storedPermissions.lockTasks || false) && (deleteTasksAccess || assignTasksAccess);
+
+
+    // Fetch updated permissions on mount
+    useEffect(() => {
+        if (auth && auth.id) {
+            axios.get(`http://localhost:3500/Users/${auth.id}/permissions`)
+            .then(response => {
+                // Merge new permissions into the existing auth object
+                sessionStorage.setItem("userPermissions", JSON.stringify(response.data));
+            })
+            .catch(err => {
+                console.error("Error fetching user permissions:", err);
+            });
+        }
+    }, [auth && auth.id]);
 
     function daysUntilDue(dueDateInput) {
         // Ensure dueDateInput is a Date object
