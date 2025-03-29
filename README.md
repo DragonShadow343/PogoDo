@@ -49,7 +49,7 @@ Currently, in the frontend (React), we have a functional prototype with the foll
 * Team members can comment on tasks
 
 ##### Known bugs and plans to address them:
-* Notifications:
+Notifications:
 * Notifications are sent to the whole array, even if they have already received one.
 * Description: when a user is assigned a task, the notification is sent to the array of assigned users. It can be fixed with a set or checking if users have already been sent a notification.
 * Steps to reproduce: assign a user to a task and the notification will be sent to that user and the other users in the array.
@@ -57,7 +57,7 @@ Currently, in the frontend (React), we have a functional prototype with the foll
 * Severity level: low
 * How we will address it: Use a set instead of an array for the assigned users. The set can check whether the new value is already in the set, if it's not, then it will send a notification. If it is already apart of the set, it will not send a notification.
 
-* Search Bar:
+Search Bar:
 * “No results found” feedback for the search bar 
 * Description: When no tasks match the search or filter, the UI is empty without any message.
 * Steps to Reproduce: Type an invalid search term(e.g., omg), All task sections appear empty without any context
