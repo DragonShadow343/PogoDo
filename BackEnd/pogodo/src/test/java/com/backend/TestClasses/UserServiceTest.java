@@ -13,7 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@ActiveProfiles("h2") // Use in-memory H2 DB profile
+@ActiveProfiles("h2") 
 class UserServiceTest {
 
     @Autowired
@@ -34,7 +34,7 @@ class UserServiceTest {
     @Test
 
     void testRegisterUser_withPlainTextPassword_hashesSuccessfully() {
-        // Arrange: create a user with a plain-text password
+       
 
         User user = new User();
         user.setFirstName("Alice");
@@ -45,10 +45,10 @@ class UserServiceTest {
         user.setUserRole("USER");
 
 
-        // Act: Register the user (hashes the password)
+    
         User savedUser = userService.registerUser(user);
 
-        // Assert: Ensure password is hashed
+       
         assertNotNull(savedUser.getUserId(), "User should have an ID after being saved");
         assertNotEquals("myPlaintext123", savedUser.getPasscode(), "Password should be hashed");
 

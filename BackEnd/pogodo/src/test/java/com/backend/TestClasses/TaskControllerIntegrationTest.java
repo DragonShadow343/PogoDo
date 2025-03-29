@@ -26,8 +26,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("h2") //SWITCH the profile to mysql if want to run on mySQL, use h2 if testing without database manipulation
-@Transactional(propagation = Propagation.NOT_SUPPORTED) // Disable rollback for all tests
+@ActiveProfiles("h2") 
+@Transactional(propagation = Propagation.NOT_SUPPORTED) 
 public class TaskControllerIntegrationTest {
 
     @Autowired
@@ -40,7 +40,7 @@ public class TaskControllerIntegrationTest {
     private UserRepository userRepository;
 
     @Autowired
-    private ObjectMapper objectMapper; // For converting objects to JSON
+    private ObjectMapper objectMapper; 
 
     @AfterEach
     public void tearDown() {
@@ -51,7 +51,7 @@ public class TaskControllerIntegrationTest {
     public void testDatabaseConnection() {
         assertNotNull(taskRepository);
         long countBefore = taskRepository.count();
-        System.out.println("Number of tasks before test: " + countBefore);
+       
     }
 
     @Test
@@ -93,8 +93,8 @@ public void testCreateTask() throws Exception {
 
         
         mockMvc.perform(get("/Tasks/{id}", task.getId()))
-                .andExpect(status().isOk()) // Expect HTTP 200 OK
-                .andExpect(jsonPath("$.taskTitle").value("Test Task")) // Validate the response
+                .andExpect(status().isOk()) 
+                .andExpect(jsonPath("$.taskTitle").value("Test Task")) 
                 .andExpect(jsonPath("$.taskDescription").value("This is a test task"));
     }
 
@@ -137,7 +137,7 @@ public void testCreateTask() throws Exception {
         taskRepository.save(task);
 
         mockMvc.perform(delete("/Tasks/{id}", task.getId()))
-                .andExpect(status().isNoContent()); // Expect HTTP 204 No Content
+                .andExpect(status().isNoContent()); 
 
        
         Task deletedTask = taskRepository.findById(task.getId()).orElse(null);
