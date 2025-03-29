@@ -30,7 +30,7 @@ public class Admin implements Account {
     @Column(name = "userRole", nullable = false)
     private String userRole;
 
-    // Constructors
+    
     public Admin() {}
 
     public Admin(String firstName, String lastName, String email, String username, String passcode, String userRole) {
@@ -124,7 +124,7 @@ public class Admin implements Account {
         this.userRole = userRole;
     }
 
-    // toString Method
+    
     @Override
     public String toString() {
         return "Admin{" +

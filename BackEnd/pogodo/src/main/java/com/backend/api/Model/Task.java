@@ -36,7 +36,7 @@ public class Task {
 
     @ManyToMany(mappedBy = "tasks") //this references the set declared in User.java
     @JsonBackReference
-    private Set<User> users = new HashSet<>();    //holds the references to the user
+    private Set<User> users = new HashSet<>();
 
     public Task() {}
 

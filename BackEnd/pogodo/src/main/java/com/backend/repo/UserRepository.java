@@ -10,18 +10,17 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    //if you want to test in postman, try GET and paste this:
-    // http://localhost:3500/Users/61
+    
    
-    Optional<User> findByUserId(Integer userId); // Find by user id
+    Optional<User> findByUserId(Integer userId); 
 
     Optional<User> findByUsername(String username);
 
-    Optional<User> findByEmail(String email); // Find by email
+    Optional<User> findByEmail(String email); 
 
-    boolean existsByEmail(String email); // Check if a user exists by email
+    boolean existsByEmail(String email); 
 
-    boolean existsByUsername(String username); // Check if a user exists by username
+    boolean existsByUsername(String username); 
 
-    List<User> findByUserRole(String userRole); // Find users by role
+    List<User> findByUserRole(String userRole); 
 }

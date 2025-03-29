@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("h2") //SWITCH the profile to mysql if want to run on mySQL, use h2 if testing without database manipulation
-@Transactional(propagation = Propagation.NOT_SUPPORTED) // Disable rollback for all tests
+@Transactional(propagation = Propagation.NOT_SUPPORTED) 
 public class UserControllerIntegrationTest {
 
     @Autowired
@@ -35,7 +35,7 @@ public class UserControllerIntegrationTest {
     private UserRepository userRepository;
 
     @Autowired
-    private ObjectMapper objectMapper; // For converting objects to JSON
+    private ObjectMapper objectMapper; 
 
     @AfterEach
     public void tearDown() {
@@ -51,31 +51,30 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void testCreateUser() throws Exception {
-        // Generate a unique username and email
+        
         String uniqueUsername = "johndoe_" + System.currentTimeMillis();
         String uniqueEmail = "john.doe_" + System.currentTimeMillis() + "@example2.com";
 
-        // Create a new user with unique data
+        
         User user = new User();
         user.setFirstName("John");
         user.setLastName("Doe");
-        user.setEmail(uniqueEmail); // Use a unique email
-        user.setUsername(uniqueUsername); // Use a unique username
+        user.setEmail(uniqueEmail); 
+        user.setUsername(uniqueUsername); 
         user.setPasscode("password123");
         user.setUserRole("USER");
 
-        // Convert the user object to JSON
+        
         String userJson = objectMapper.writeValueAsString(user);
 
-        // Send a POST request to create the user
-        mockMvc.perform(post("/Users") // Match the endpoint in your controller
+        
+        mockMvc.perform(post("/Users") 
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(userJson))
-                .andExpect(status().isCreated()) // Expect HTTP 201 Created
-                .andExpect(jsonPath("$.username").value(uniqueUsername)) // Validate the response
+                .andExpect(status().isCreated()) 
+                .andExpect(jsonPath("$.username").value(uniqueUsername)) 
                 .andExpect(jsonPath("$.email").value(uniqueEmail));
 
-        // Verify that the user was saved in the database
         User savedUser = userRepository.findByUsername(uniqueUsername).orElse(null);
         assertNotNull(savedUser);
         assertEquals(uniqueEmail, savedUser.getEmail());

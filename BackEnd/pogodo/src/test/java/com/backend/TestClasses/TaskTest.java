@@ -27,7 +27,7 @@ public class TaskTest {
     @Test
     public void testTask() {
 
-        // Tests that should pass
+        
         Assertions.assertEquals(1, task.getId());
         Assertions.assertEquals(1, task.getPriorityStatus());
         Assertions.assertEquals(LocalDate.of(2021,12,31), task.getDueDate());
@@ -47,7 +47,7 @@ public class TaskTest {
     @Test
     public void testRemoveUser(){
         task.getUsers().add(user);
-        assertEquals(1, task.getUsers().size()); //ensures the user was added before removing
+        assertEquals(1, task.getUsers().size()); 
         task.getUsers().remove(user);
         assertEquals(0, task.getUsers().size());
     }

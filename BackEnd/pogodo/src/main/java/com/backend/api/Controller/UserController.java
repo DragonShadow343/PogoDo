@@ -19,10 +19,12 @@ public class UserController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
+
     public UserController(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Integer id) {
@@ -39,9 +41,11 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
+
         User savedUser = userService.registerUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
@@ -57,22 +61,32 @@ public class UserController {
         try {
             System.out.println("Received User Data: " + user);
             User savedUser = userService.registerUser(user);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed: " + e.getMessage());
         }
     }
-
-    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> loginUser(@RequestBody User loginRequest) {
-        String username = loginRequest.getUsername();
-        String password = loginRequest.getPasscode();
+    @RequestMapping(
+        value = "/reset-password",
+        method = RequestMethod.POST,
+        consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
+        String username = request.get("username");
+        String newPassword = request.get("newPassword");
+        
+        if (username == null || username.isEmpty() || newPassword == null || newPassword.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("error", "Username and new password are required"));
+        }
 
         Optional<User> userOptional = userService.getUserByUsername(username);
-
+        
         if (userOptional.isPresent()) {
             User user = userOptional.get();
+
 
             if (passwordEncoder.matches(password, user.getPasscode())) {
                 return ResponseEntity.ok().body(Map.of(
@@ -84,10 +98,18 @@ public class UserController {
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid password"));
             }
+
+            user.setPasscode(newPassword); //this is where the password is hashed when saved
+            userService.saveUser(user);
+            return ResponseEntity.ok()
+                .body(Map.of("message", "Password updated successfully"));
+
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "User not found"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", "User not found"));
         }
     }
+
 
     @GetMapping("/{id}/permissions")
     public ResponseEntity<Map<String, Boolean>> getUserPermissions(@PathVariable Integer id) {
@@ -135,3 +157,33 @@ public class UserController {
         }
     }
 }
+
+        @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+        public ResponseEntity<?> loginUser(@RequestBody User loginRequest) {
+            String username = loginRequest.getUsername();
+            String password = loginRequest.getPasscode();
+
+            Optional<User> userOptional = userService.getUserByUsername(username);
+
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                
+                //verify the password matches the hashed version
+                if (passwordEncoder.matches(password, user.getPasscode())) { 
+                    return ResponseEntity.ok().body(Map.of(
+                        "message", "Login successful",
+                        "id", user.getUserId(),
+                        "username", user.getUsername(),
+                        "role", user.getUserRole()
+                    ));
+                } else {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("error", "Invalid password"));
+                }
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "User not found"));
+            }
+        } 
+} 
+
