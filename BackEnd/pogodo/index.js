@@ -8,11 +8,11 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Define the /getData route
+
 app.get("/getData", (req, res) => {
   res.json({ message: "Hello World" });
 });
 
-// Start the server
+
 const PORT = 3501; // Changed to 3501
 app.listen(PORT, () => console.log("App is running on port 3501"));
