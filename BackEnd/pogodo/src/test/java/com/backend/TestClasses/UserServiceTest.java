@@ -12,9 +12,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 @SpringBootTest
-@ActiveProfiles("h2") // or "test" profile, whichever is set up for your in-memory DB
+@ActiveProfiles("h2") // Use in-memory H2 DB profile
 class UserServiceTest {
 
     @Autowired
@@ -33,7 +32,10 @@ class UserServiceTest {
     }
 
     @Test
-    void testSaveUser_withPlainTextPassword_hashesSuccessfully() {
+
+    void testRegisterUser_withPlainTextPassword_hashesSuccessfully() {
+        // Arrange: create a user with a plain-text password
+
         User user = new User();
         user.setFirstName("Alice");
         user.setLastName("Smith");
@@ -42,19 +44,17 @@ class UserServiceTest {
         user.setPasscode("myPlaintext123");
         user.setUserRole("USER");
 
-       
-        User savedUser = userService.saveUser(user);
 
-        assertNotNull(savedUser.getUserId(), "User should have been assigned an ID");
-        assertNotEquals("myPlaintext123", savedUser.getPasscode(),
-                "Expected passcode to be hashed, not stored in plain text!");
+        // Act: Register the user (hashes the password)
+        User savedUser = userService.registerUser(user);
+
+        // Assert: Ensure password is hashed
+        assertNotNull(savedUser.getUserId(), "User should have an ID after being saved");
+        assertNotEquals("myPlaintext123", savedUser.getPasscode(), "Password should be hashed");
 
         assertTrue(
                 passwordEncoder.matches("myPlaintext123", savedUser.getPasscode()),
-                "Stored hash should match the original plain-text password when using PasswordEncoder.matches()"
+                "PasswordEncoder should match original password with the stored hash"
         );
     }
-
-  
-
 }

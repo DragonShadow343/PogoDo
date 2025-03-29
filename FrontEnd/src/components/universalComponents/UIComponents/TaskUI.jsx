@@ -18,6 +18,10 @@ const TaskUI = ({ task, onTaskDelete }) => {
     };
 
     const toggleDropdown = () => {
+        if (task.lockStatus) {
+            alert("Task is locked. It cannot be assigned.");
+            return;
+        }
         setOpenDropdown(openDropdown === task.id ? null : task.id);
     };
 

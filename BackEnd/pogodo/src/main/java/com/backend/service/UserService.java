@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class UserService {
-    
+
     @Autowired
     private UserRepository userRepository;
 
@@ -30,12 +30,23 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User saveUser(User user) {
-        
+    // For registration - includes hashing
+    public User registerUser(User user) {
         String hashed = passwordEncoder.encode(user.getPasscode());
-        
         user.setPasscode(hashed);
 
+        // Default admin permissions
+        if ("admin".equals(user.getUserRole())) {
+            if (!user.getLockTasks()) user.setLockTasks(true);
+            if (!user.getAssignTasks()) user.setAssignTasks(true);
+            if (!user.getDeleteTasks()) user.setDeleteTasks(true);
+        }
+
+        return userRepository.save(user);
+    }
+
+    // For general updates (permissions, task assignment, etc.)
+    public User updateUser(User user) {
         return userRepository.save(user);
     }
 

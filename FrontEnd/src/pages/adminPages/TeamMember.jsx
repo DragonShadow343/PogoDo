@@ -1,10 +1,13 @@
 import React from 'react'
+import Sidebar from "./../../components/adminComponents/Sidebar"
+import PermissionRightBar from '../../components/adminComponents/PermissionRightBar/PermissionRightBar'
 
 const TeamMember = () => {
   return (
-    <div>
-      Admin Team Members
-    </div>
+    <section className='flex'>
+      <Sidebar />
+      <PermissionRightBar />
+    </section>
   )
 }
 

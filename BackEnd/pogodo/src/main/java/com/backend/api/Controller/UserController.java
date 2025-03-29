@@ -13,16 +13,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Users") 
+@RequestMapping("/Users")
 public class UserController {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    
- public UserController(UserService userService, PasswordEncoder passwordEncoder) {
-    this.userService = userService;
-    this.passwordEncoder = passwordEncoder;
-}
+
+
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Integer id) {
@@ -39,9 +41,11 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-    User savedUser = userService.saveUser(user);
-    return ResponseEntity.status(HttpStatus.CREATED).body(savedUser); //return 201 Created
-}
+
+        User savedUser = userService.registerUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
@@ -55,12 +59,10 @@ public class UserController {
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
+            System.out.println("Received User Data: " + user);
+            User savedUser = userService.registerUser(user);
 
-            System.out.println("Received User Data: " + user); 
-
-            User savedUser = userService.saveUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
-
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed: " + e.getMessage());
@@ -84,13 +86,62 @@ public class UserController {
         
         if (userOptional.isPresent()) {
             User user = userOptional.get();
+
             user.setPasscode(newPassword); //this is where the password is hashed when saved
-            userService.saveUser(user);
+            userService.registerUser(user);
             return ResponseEntity.ok()
                 .body(Map.of("message", "Password updated successfully"));
+
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Map.of("error", "User not found"));
+        }
+    }
+
+
+    @GetMapping("/{id}/permissions")
+    public ResponseEntity<Map<String, Boolean>> getUserPermissions(@PathVariable Integer id) {
+        return userService.getUserById(id)
+            .map(user -> {
+                Map<String, Boolean> permissions = Map.of(
+                    "lockTasks", user.getLockTasks(),
+                    "deleteTasks", user.getDeleteTasks(),
+                    "assignTasks", user.getAssignTasks()
+                );
+                return ResponseEntity.ok(permissions);
+            })
+            .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
+    @PutMapping("/{userId}/permissions/{permissionKey}")
+    public ResponseEntity<User> updateUserPermission(@PathVariable Integer userId, @PathVariable String permissionKey, @RequestBody Map<String, Boolean> permission) {
+
+        Optional<User> userOptional = userService.getUserById(userId);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            boolean value = permission.get(permissionKey); // retrieves value from Map
+
+            switch (permissionKey) {
+                case "lockTasks":
+                    user.setLockTasks(value);
+                    break;
+                case "deleteTasks":
+                    user.setDeleteTasks(value);
+                    break;
+                case "assignTasks":
+                    user.setAssignTasks(value);
+                    break;
+                default:
+                    return ResponseEntity.badRequest().build();
+            }
+
+            User updatedUser = userService.updateUser(user); // ✅ Use updateUser here
+            return ResponseEntity.ok(updatedUser);
+
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
@@ -122,3 +173,4 @@ public class UserController {
             }
         } 
 } 
+
