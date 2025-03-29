@@ -3,7 +3,6 @@ package com.backend.api.Model;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.backend.api.Model.Interfaces.Account;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -11,7 +10,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "\"Users\"") 
-public class User implements Account{
+public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     @Column(name = "userId", nullable = false)
