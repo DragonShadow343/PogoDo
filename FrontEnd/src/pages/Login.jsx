@@ -184,6 +184,7 @@ const Login = () => {
                             value={user}
                             required
                             placeholder='Username'
+                            aria-label='username'
                         />
                         <input
                             className='text-gray-400 w-80 p-2 border-b-2 focus:outline-none focus:border-b-[#4ECDC4] transition duration-300'
@@ -193,6 +194,7 @@ const Login = () => {
                             value={pwd}
                             required
                             placeholder='Password'
+                            aria-label='password'
                         />
                         <button
                             className='bg-[#4ECDC4] text-white rounded p-2 my-4 hover:bg-[#3BB4AC] hover:cursor-pointer transition duration-300'

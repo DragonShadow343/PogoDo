@@ -54,9 +54,22 @@ describe('Login Component', () => {
         expect(errorMsg).toBeInTheDocument();
     });
 
-    test("redirects on successful login", async () => {
+    test("redirects on successful login for admin", async () => {
         axios.post.mockResolvedValueOnce({
-            data: { accessToken: "fakeToken", roles: ["admin"] },
+            data: { username: "testadmin", role: "admin", id: "12345" },
+        });
+
+        fireEvent.change(screen.getByLabelText(/username/i), { target: { value: "testadmin" } });
+        fireEvent.change(screen.getByLabelText(/password/i), { target: { value: "testpass" } });
+        fireEvent.click(screen.getByRole("button", { name: /sign in/i }));
+
+        await waitFor(() => expect(mockSetAuth).toHaveBeenCalled()); // ✅ Ensure setAuth is called
+        await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/admin/home")); // ✅ Ensure navigation happens
+    });
+
+    test("redirects on successful login for user", async () => {
+        axios.post.mockResolvedValueOnce({
+            data: { username: "testuser", role: "user", id: "12345" },
         });
 
         fireEvent.change(screen.getByLabelText(/username/i), { target: { value: "testuser" } });
@@ -64,6 +77,6 @@ describe('Login Component', () => {
         fireEvent.click(screen.getByRole("button", { name: /sign in/i }));
 
         await waitFor(() => expect(mockSetAuth).toHaveBeenCalled()); // ✅ Ensure setAuth is called
-        await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/admin")); // ✅ Ensure navigation happens
+        await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith("/user/home")); // ✅ Ensure navigation happens
     });
 });
