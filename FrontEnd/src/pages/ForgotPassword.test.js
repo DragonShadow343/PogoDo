@@ -4,6 +4,7 @@ import '@testing-library/jest-dom';
 import ForgotPassword from './ForgotPassword';
 import axios from '../api/axios';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { act } from 'react';
 
 jest.mock('../api/axios');
 
@@ -60,34 +61,33 @@ describe('ForgotPassword Component', () => {
   });
 
 
+
   test('submits the form with valid data', async () => {
-    axios.post.mockResolvedValueOnce({ data: {} });
-    render(
-      <Router>
-        <ForgotPassword />
-      </Router>
-    );
-    fireEvent.change(screen.getByPlaceholderText('Username'), { 
-      target: { value: 'testuser' } 
-    });
-    fireEvent.change(screen.getByPlaceholderText('New Password'), { 
-      target: { value: 'StrongPass1!' } 
-    });
-    fireEvent.change(screen.getByPlaceholderText('Confirm New Password'), { 
-      target: { value: 'StrongPass1!' } 
-    });
-
-    fireEvent.click(screen.getByRole('button', { name: /reset password/i }));
-    expect(axios.post).toHaveBeenCalledWith(
-      '/Users/reset-password',
-      JSON.stringify({ username: 'testuser', newPassword: 'StrongPass1!' }),
-      {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true
-      }
-    );
+      axios.post.mockResolvedValueOnce({ data: {} });
+      render(
+        <Router>
+          <ForgotPassword />
+        </Router>
+      );
+  
+      fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: 'testuser' } });
+      fireEvent.change(screen.getByPlaceholderText('New Password'), { target: { value: 'StrongPass1!' } });
+      fireEvent.change(screen.getByPlaceholderText('Confirm New Password'), { target: { value: 'StrongPass1!' } });
+  
+      await act(async () => {
+          fireEvent.click(screen.getByRole('button', { name: /reset password/i }));
+      });
+  
+      expect(axios.post).toHaveBeenCalledWith(
+        '/Users/reset-password',
+        JSON.stringify({ username: 'testuser', newPassword: 'StrongPass1!' }),
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        }
+      );
   });
-
+  
 
   
 });
