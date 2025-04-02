@@ -12,7 +12,7 @@ import com.backend.repo.UserRepository;
 
 
 @DataJpaTest
-@ActiveProfiles("h2") //SWITCH the profile to mysql if want to run on mySQL, or h2 if testing without database manipulation
+@ActiveProfiles("h2")
 public class UserRepositoryTest {
 
     @Autowired

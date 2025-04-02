@@ -3,14 +3,13 @@ import { FiPlus, FiX } from "react-icons/fi";
 import TaskContext from "../../../context/TaskProvider";
 import TaskForm from "../../universalComponents/TaskForm";
 import TaskUI from "../../universalComponents/UIComponents/TaskUI";
-// Remove duplicate imports
 
 const TaskRightBar = () => {
     const { tasks, setTasks, users } = useContext(TaskContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [filterOption, setFilterOption] = useState("All");
-// Remove duplicate imports and fix the function definition
+
 
     const handleNewTask = (newTask) => {
         setTasks((prevTasks) => [...prevTasks, newTask]);
@@ -21,11 +20,11 @@ const TaskRightBar = () => {
         setTasks(tasks.filter(task => task.id !== taskID));
     };
 
-    // Filter and search logic
+   
     const filteredTasks = useMemo(() => {
         let filtered = [...tasks];
 
-        // Filter by dropdown
+
         if (filterOption === "Nearest Date") {
             filtered.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
         } else if (filterOption === "Farthest Date") {
@@ -34,7 +33,7 @@ const TaskRightBar = () => {
             filtered = filtered.filter(task => task.assignedTo && task.assignedTo.length > 0);
         }
 
-        // Filter by search (username or task title)
+    
         if (searchQuery.trim() !== "") {
             filtered = filtered.filter(task => {
                 const taskTitleMatch = task.taskTitle.toLowerCase().includes(searchQuery.toLowerCase());
