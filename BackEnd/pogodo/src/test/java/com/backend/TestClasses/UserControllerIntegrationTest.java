@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("h2") //SWITCH the profile to mysql if want to run on mySQL, use h2 if testing without database manipulation
+@ActiveProfiles("h2") 
 @Transactional(propagation = Propagation.NOT_SUPPORTED) 
 public class UserControllerIntegrationTest {
 
@@ -61,7 +61,7 @@ public class UserControllerIntegrationTest {
     public void testDatabaseConnection() {
         assertNotNull(userRepository);
         long countBefore = userRepository.count();
-        System.out.println("Number of users before test: " + countBefore);
+        
     }
 
     @Test
@@ -99,25 +99,25 @@ public class UserControllerIntegrationTest {
 public void testUpdateUserPermissionAssignTasks() throws Exception {
     User user = createUniqueUser();
 
-    // Save the user to the repository
+    
     userRepository.save(user);
 
-    // Initialize mocked permission keys
+    
     String permissionKey = "assignTasks";
     boolean newAssignTasksValue = true;
 
-    // Create the JSON payload for the permission update
+    
     Map<String, Boolean> permissionPayload = new HashMap<>();
     permissionPayload.put(permissionKey, newAssignTasksValue);
 
-    // Perform the PUT request to update the user permission
+    
     mockMvc.perform(put("/Users/{userId}/permissions/{permissionKey}", user.getUserId(), permissionKey)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(permissionPayload)))
-            .andExpect(status().isOk()) // Expect HTTP 200 OK
-            .andExpect(jsonPath("$.assignTasks").value(newAssignTasksValue)); // Validate the response
+            .andExpect(status().isOk()) 
+            .andExpect(jsonPath("$.assignTasks").value(newAssignTasksValue)); 
 
-    // Retrieve the user again and check if the permission was updated
+    
     User updatedUser = userRepository.findById(user.getUserId()).orElse(null);
     assertNotNull(updatedUser);
     assertEquals(newAssignTasksValue, updatedUser.getAssignTasks());
@@ -127,25 +127,25 @@ public void testUpdateUserPermissionAssignTasks() throws Exception {
 public void testUpdateUserPermissionDeleteTasks() throws Exception {
     User user = createUniqueUser();
 
-    // Save the user to the repository
+   
     userRepository.save(user);
 
-    // Initialize mocked permission keys
+   
     String permissionKey = "deleteTasks";
     boolean newDeleteTasksValue = true;
 
-    // Create the JSON payload for the permission update
+   
     Map<String, Boolean> permissionPayload = new HashMap<>();
     permissionPayload.put(permissionKey, newDeleteTasksValue);
 
-    // Perform the PUT request to update the user permission
+   
     mockMvc.perform(put("/Users/{userId}/permissions/{permissionKey}", user.getUserId(), permissionKey)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(permissionPayload)))
-            .andExpect(status().isOk()) // Expect HTTP 200 OK
-            .andExpect(jsonPath("$.deleteTasks").value(newDeleteTasksValue)); // Validate the response
+            .andExpect(status().isOk()) 
+            .andExpect(jsonPath("$.deleteTasks").value(newDeleteTasksValue)); 
 
-    // Retrieve the user again and check if the permission was updated
+   
     User updatedUser = userRepository.findById(user.getUserId()).orElse(null);
     assertNotNull(updatedUser);
     assertEquals(newDeleteTasksValue, updatedUser.getDeleteTasks());
@@ -155,25 +155,25 @@ public void testUpdateUserPermissionDeleteTasks() throws Exception {
 public void testUpdateUserPermissionLockTasks() throws Exception {
     User user = createUniqueUser();
 
-    // Save the user to the repository
+  
     userRepository.save(user);
 
-    // Initialize mocked permission keys
+   
     String permissionKey = "lockTasks";
     boolean newLockTasksValue = true;
 
-    // Create the JSON payload for the permission update
+    
     Map<String, Boolean> permissionPayload = new HashMap<>();
     permissionPayload.put(permissionKey, newLockTasksValue);
 
-    // Perform the PUT request to update the user permission
+    
     mockMvc.perform(put("/Users/{userId}/permissions/{permissionKey}", user.getUserId(), permissionKey)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(permissionPayload)))
-            .andExpect(status().isOk()) // Expect HTTP 200 OK
-            .andExpect(jsonPath("$.lockTasks").value(newLockTasksValue)); // Validate the response
+            .andExpect(status().isOk()) 
+            .andExpect(jsonPath("$.lockTasks").value(newLockTasksValue));
 
-    // Retrieve the user again and check if the permission was updated
+    
     User updatedUser = userRepository.findById(user.getUserId()).orElse(null);
     assertNotNull(updatedUser);
     assertEquals(newLockTasksValue, updatedUser.getLockTasks());
