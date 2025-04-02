@@ -1,9 +1,8 @@
-// Desc: Main App component
+
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useState, useEffect, useContext } from 'react'
 import AuthContext from './context/AuthProvider'
-// import axios from 'axios' not needed atm
 import Home from './pages/Home'
 import Login from './pages/Login';
 import Register from './pages/Register'

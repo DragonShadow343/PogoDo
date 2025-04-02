@@ -12,7 +12,7 @@ import com.backend.repo.UserRepository;
 
 
 @DataJpaTest
-@ActiveProfiles("h2") 
+@ActiveProfiles("h2")
 public class UserRepositoryTest {
 
     @Autowired
